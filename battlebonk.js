@@ -56,16 +56,35 @@ var randomMsg = {
 				'howtobonk',
 				'Clonk']
 };
+
+var nameList = [];
 	
 function getRandomInt(min,max){
 	var rando = Math.floor(Math.random() * (max - min +1)) + min;
 	return rando;
 }
 
+
 bot.addListener("join", function(channel, who, message){
 	if(who == "Battlebonk"){
 		bot.say(config.channels[0],"Battlebonk Online.... Prepare for Battlebonk (For cmd's use howtobonk)");
+	}else{
+		nameList.push(who);
 	}
+});
+
+bot.addListener("names",function(channel, names){
+	for (var key in names) {
+		nameList.push(key);
+	}
+});
+
+
+bot.addListener("quit",function(name, reason, channels, message){
+	console.log(nameList);
+	var removedUser = nameList.indexOf(name);
+	nameList.splice(removedUser,1);
+	console.log(removedUser, nameList);
 });
 
 bot.addListener("message", function(from, to, text, message) {
@@ -85,6 +104,7 @@ bot.addListener("message", function(from, to, text, message) {
 	if(howPattern.test(text)){
 		bot.say(config.channels[0],"Sending list of commands your way, " + from);
 		bot.say(from, "To initiate battlebonk use command: .battlebonk <target>");
+		bot.say(from, "Make sure <target> is someone currently in the chat. Otherwise you could bonk yourself");
 	}
 	
 	if (bonkPattern.test(text)){
