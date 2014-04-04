@@ -6,11 +6,14 @@ var config = {
 
 // Get the lib
 var irc = require("irc");
+var _ = require('lodash-node');
 
 // Create the bot name
 var bot = new irc.Client(config.server, config.botName, {
 	channels: config.channels
 });
+
+var clonkometer = 0;
 
 var randomMsg = {
 	attacker:	['Armada',
@@ -58,10 +61,39 @@ var randomMsg = {
 };
 
 var nameList = [];
+var nameCorrect = false;
 	
 function getRandomInt(min,max){
 	var rando = Math.floor(Math.random() * (max - min +1)) + min;
 	return rando;
+}
+
+function checkNameList(array)
+{
+  var object = {};
+  for(var i=0;i<array.length;i++)
+  {
+    object[array[i]]=1;
+  }
+  return object;
+}
+
+function timeToBonk(from, to, target)
+{
+	var calc = getRandomInt(0,100);
+	var result = getRandomInt(0,randomMsg.result.length -1);
+	var attacker = getRandomInt(0,randomMsg.attacker.length -1);
+	var calcMsg = calc.toString() + "% of ";
+	var resultMsg = randomMsg.result[result];
+	var attackerMsg = randomMsg.attacker[attacker];
+	
+	clonk = irc.colors.wrap("orange", "Battlebonk results: " + calcMsg + target+"'s clonkers " + resultMsg + " by " + from+"'s " + attackerMsg);
+	bot.say(config.channels[0], clonk);
+	var recalcColor = Math.round((calc * (randomMsg.colors.length - 1)) /100);
+	var recalcAssess = Math.round((calc *(randomMsg.assess.length - 1)) /100);
+	assessment = irc.colors.wrap(randomMsg.colors[recalcColor],randomMsg.assess[recalcAssess]);
+	bot.say(config.channels[0], "Battlebonk Status: " + assessment);
+
 }
 
 
@@ -77,15 +109,23 @@ bot.addListener("names",function(channel, names){
 	for (var key in names) {
 		nameList.push(key);
 	}
+	
+	console.log(nameList);
 });
 
+bot.addListener("nick",function(oldname, newname, channel, message){
+		var removedUser = nameList.indexOf(oldname);
+		nameList.splice(removedUser,1);
+		nameList.push(newname);
+		console.log(nameList);
+});
 
 bot.addListener("quit",function(name, reason, channels, message){
-	console.log(nameList);
 	var removedUser = nameList.indexOf(name);
 	nameList.splice(removedUser,1);
-	console.log(removedUser, nameList);
+	console.log(nameList);
 });
+
 
 bot.addListener("message", function(from, to, text, message) {
 
@@ -109,23 +149,22 @@ bot.addListener("message", function(from, to, text, message) {
 	
 	if (bonkPattern.test(text)){
 
-		var calc = getRandomInt(0,100);
-		var result = getRandomInt(0,randomMsg.result.length -1);
-		var attacker = getRandomInt(0,randomMsg.attacker.length -1);
-
-		var calcMsg = calc.toString() + "% of";
-		var resultMsg = randomMsg.result[result];
-		var attackerMsg = randomMsg.attacker[attacker];
-		
-		clonk = irc.colors.wrap("orange", "Battlebonk results: " + calcMsg + bonkMatch[1]+"'s clonkers " + resultMsg + " by " + from+"'s " + attackerMsg);
-		bot.say(config.channels[0], clonk);
-
-		var recalcColor = Math.round((calc * (randomMsg.colors.length - 1)) /100);
-		var recalcAssess = Math.round((calc *(randomMsg.assess.length - 1)) /100);
-
-		assessment = irc.colors.wrap(randomMsg.colors[recalcColor],randomMsg.assess[recalcAssess]);
-		bot.say(config.channels[0], "Battlebonk Status: " + assessment);
-
+		console.log(bonkMatch[1], checkNameList(nameList));
+		var givenName = bonkMatch[1];
+		var listOfNames = checkNameList(nameList);
+		if (givenName in listOfNames){
+			timeToBonk(from, to, givenName);	
+		}else {
+			if (clonkometer === 0){
+				clonkometer++;
+				bot.say(config.channels[0], "Please enter the name of someone in the chat. You're dangerously close to bonking yourself, " + from);
+			} else if (clonkometer === 1){
+				clonkometer++;
+				bot.say(config.channels[0], "Next person to fuck this up, you're gonna get bonked.");
+			} else if (clonkometer > 1){
+				timeToBonk(from, to, from);
+			}
+		}
 	}
 
 	if(clonkPattern.test(text)){
