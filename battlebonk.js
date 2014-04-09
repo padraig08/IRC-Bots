@@ -49,6 +49,7 @@ var randomMsg = {
 				'Get Bonked',
 				'Samurai Bonk',
 				'Bonk Around the Clock',
+				'Great Bonks of Fire',
 				'Rebonkulous',
 				'UNBONKINGBELIEVABLE'],
 	colors:		['light_blue',
@@ -61,21 +62,21 @@ var randomMsg = {
 };
 
 var nameList = [];
-var nameCorrect = false;
+var stripOP = '^[@&#+$~%!*?](.*)$';
 	
 function getRandomInt(min,max){
 	var rando = Math.floor(Math.random() * (max - min +1)) + min;
 	return rando;
 }
 
-function checkNameList(array)
-{
-  var object = {};
-  for(var i=0;i<array.length;i++)
-  {
-    object[array[i]]=1;
-  }
-  return object;
+function checkOP(name){
+	
+	var opPattern = new RegExp(stripOP);
+	if (opPattern.test(name)){
+		name = name.slice(1);
+	}
+	var newName = { 'name': name };
+	nameList.push(newName);
 }
 
 function timeToBonk(from, to, target)
@@ -101,29 +102,26 @@ bot.addListener("join", function(channel, who, message){
 	if(who == "Battlebonk"){
 		bot.say(config.channels[0],"Battlebonk Online.... Prepare for Battlebonk (For cmd's use howtobonk)");
 	}else{
-		nameList.push(who);
+		checkOP(who);
 	}
 });
 
 bot.addListener("names",function(channel, names){
 	for (var key in names) {
-		nameList.push(key);
+		checkOP(key);
 	}
-	
-	console.log(nameList);
 });
 
-bot.addListener("nick",function(oldname, newname, channel, message){
+/*bot.addListener("nick",function(oldname, newname, channel, message){
 		var removedUser = nameList.indexOf(oldname);
 		nameList.splice(removedUser,1);
 		nameList.push(newname);
 		console.log(nameList);
-});
+});*/
 
 bot.addListener("quit",function(name, reason, channels, message){
-	var removedUser = nameList.indexOf(name);
-	nameList.splice(removedUser,1);
-	console.log(nameList);
+	var removeName = _.where(nameList, {'name': name});
+	nameList = _.without(nameList, removeName[0]);
 });
 
 
@@ -132,7 +130,7 @@ bot.addListener("message", function(from, to, text, message) {
 	var commands = {
 		battlebonk: '^.'+randomMsg.commands[0]+'(.*)$',
 		howtobonk:	'^.'+randomMsg.commands[1]+'(.*)$',
-		clonk:		'^.'+randomMsg.commands[2]+'(.*)$' };
+		clonk:		'^.'+randomMsg.commands[2]+'(.*)$'};
 	var bonkPattern = new RegExp(commands.battlebonk);
 	var howPattern = new RegExp(commands.howtobonk);
 	var clonkPattern = new RegExp(commands.clonk);
@@ -149,10 +147,15 @@ bot.addListener("message", function(from, to, text, message) {
 	
 	if (bonkPattern.test(text)){
 
-		console.log(bonkMatch[1], checkNameList(nameList));
-		var givenName = bonkMatch[1];
-		var listOfNames = checkNameList(nameList);
-		if (givenName in listOfNames){
+		var givenName = bonkMatch[1].trim();
+		var selectedName = _.some(nameList, {'name': givenName});
+		
+		//console.log('========================================');
+		//console.log('givenName: ', givenName);
+		//console.log('nameList: ', nameList);
+		//console.log('Selected Name: ', selectedName);
+
+		if (selectedName){
 			timeToBonk(from, to, givenName);	
 		}else {
 			if (clonkometer === 0){
