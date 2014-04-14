@@ -1,6 +1,6 @@
 var config = {
 	channels: ["#tsd"],
-	server: "localhost",
+	server: "irc.teamschoolyd.org",
 	botName: "Battlebonk"
 };
 
@@ -100,7 +100,7 @@ function timeToBonk(from, to, target)
 
 bot.addListener("join", function(channel, who, message){
 	if(who == "Battlebonk"){
-		bot.say(config.channels[0],"Battlebonk Online.... Prepare for Battlebonk (For cmd's use howtobonk)");
+		bot.say(config.channels[0],"Battlebonk Online.... Prepare for Battlebonk (For cmd's use .howtobonk)");
 	}else{
 		checkOP(who);
 	}
