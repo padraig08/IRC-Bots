@@ -1,6 +1,6 @@
 var config = {
 	channels: ["#tsd"],
-	server: "irc.teamschoolyd.org",
+	server: "localhost",
 	botName: "Battlebonk"
 };
 
