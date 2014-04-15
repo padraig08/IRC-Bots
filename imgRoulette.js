@@ -25,22 +25,33 @@ function getRandomInt(min,max){
 function randImg(kind){
 		var subreddit = getRandomInt(0, kind.length-1);
 		var urlBuild = urls.reddit + kind[subreddit] +'/random/.json';
-	
-			request(urlBuild, function (error, response, body) {
-				if (!error && response.statusCode == 200) {
-					var redditData = JSON.parse(body);
-					var dataUrl = redditData[0].data.children[0].data;
-					//econsole.log(dataUrl);
-				bot.say(config.channels[0], dataUrl.title +" from r/"+ dataUrl.subreddit +" --- "+ dataUrl.url);
-			}
-		});
+		subSelect(urlBuild);
 }
 
 function randoSub(sub){
-	var urlBuild = urls.reddit + sub + '/random/.json';
+	//console.log("sub is:"+"|"+sub+"|", sub.length);
+	var urlBuild = '';
+	if (!sub.length || sub.length === 0 || sub === ""){
+		var urlRand = urls.reddit + 'random/';
+		request(urlRand, function (error, response, body){
+			urlBuild = response.request.uri.href + "random/.json";
+			console.log(urlBuild);
+			subSelect(urlBuild);
+		});
+
+	} else {
+
+		urlBuild = urls.reddit + sub + '/random/.json';
+		subSelect(urlBuild);
+		
+	}
+
+}
+
+function subSelect(urlBuild){
 
 	request(urlBuild, function (error, response, body) {
-			var invalidSub = response.request.uri.search;
+		var invalidSub = response.request.uri.search;
 			if (!error && response.statusCode == 200 && invalidSub === null) {
 				var redditData = JSON.parse(body);
 				var dataUrl = redditData[0].data.children[0].data;
@@ -51,9 +62,9 @@ function randoSub(sub){
 				}
 				bot.say(config.channels[0], dataUrl.title +" from r/"+ dataUrl.subreddit +" --- "+ dataUrl.url);
 				
-				} else if (invalidSub !== null){
+			} else if (invalidSub !== null){
 					bot.say(config.channels[0],'The listed subreddit is not usable, please try another one.');
-				}
+			}
 		}
 	);
 }
@@ -91,6 +102,7 @@ bot.addListener("message", function(from, to, text, message) {
 		bot.say(from, "To get a random image or gif use: #img or #gif");
 		bot.say(from, "Note: Gifs may still come up in image randomizer.");
 		bot.say(from, "To get a random post from any subreddit, use #rando <target>");
+		bot.say(from, "If no target is specified, a random subreddit will be selected for you.");
 		bot.say(from, "Warning: Not all random posts will be images or gifs and the sfw value depends on the subreddit.");
 	}
 	
