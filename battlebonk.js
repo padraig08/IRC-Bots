@@ -42,6 +42,7 @@ var randomMsg = {
 				'were completely decimated',
 				'have lived up to the name "live by the bonk, die by the bonk"'],
 	assess:		['#cantbonkthis',
+				'Whadda ya gonna do, drop a bonk on me?',
 				'About Bonking Time',
 				'Clonkers are still in the fight',
 				'Holding on by the skin of your clonkers',
