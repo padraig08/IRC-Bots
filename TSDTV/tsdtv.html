@@ -1,0 +1,94 @@
+
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+
+<style>
+@font-face{
+	font-family: TSD;
+	src:url('spyagency3.ttf');
+}
+body {
+	color: #A4A4A4;
+	font-family: Arial, Helvetica, sans-serif;
+	background:#030027;
+}
+a {
+	color: #CECEF6;
+}
+a:visited {
+	color: #F5A9BC;
+}
+.tsd-title{
+	font-family: TSD, sans-serif;
+	font-size: 50px;
+	width: 200px;
+}
+.tsd-subtitle{
+	font-family: "Arial Black", Gadget, sans-serif;
+	width:20px;
+}
+.tsd-tv-content{
+	width: 667px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.tsd-tv-container{
+	padding-top:15px;
+}
+.tsd-note-button{
+	color: #6262B6;
+}
+.tsd-note{
+	visibility: hidden;
+}
+.tsd-header{
+	border-bottom: solid 3px #A4A4A4;
+}
+.tsd-note-container{
+	width: 500px;
+}
+
+</style>
+</head>
+<body>
+	<div class="tsd-header">
+	<span class="tsd-title">TSDTV</span><span class="tsd-subtitle">Home of the Fighting Robots</span>
+	</div>
+	<div class="tsd-note-container">
+
+	<span class="tsd-note-button">NOTE</span><span class="tsd-note">
+		: You must have <a href="http://139.102.78.11/vlc_help.htm">the VLC browser plugin</a> installed to watch
+	</span>
+	</div>
+	<div class="tsd-tv-container">
+		<div class="tsd-tv-content">
+			<embed autoplay="yes" loop="true" name="VLC" target="http://irc.teamschoolyd.org:8090/premium.flv" type="application/x-vlc-plugin" volume="100" height="576" width="720" id="vlc">
+		</div>
+		<p>
+			If you were linked here recently and nothing is playing, refresh a few times.<br/>
+			If your connection can't handle this girth, try visiting our <a href="tsdtv-poverty.html">poverty stream</a> for miscreants.
+		</p>
+	</div>
+</body>
+
+<script type="text/javascript">
+	
+
+$('.tsd-note-container').hover(
+  	function() {
+    	$('.tsd-note').css('visibility','visible');
+  	}, function() {
+    	$('.tsd-note').css('visibility','hidden');
+  	}
+);
+
+
+
+var vlc_size = $('#vlc');
+console.log(vlc_size);
+
+
+
+</script>
+</html>
