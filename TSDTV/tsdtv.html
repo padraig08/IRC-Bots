@@ -48,12 +48,45 @@ a:visited {
 .tsd-note-container{
 	width: 500px;
 }
+#lights{
+	position:absolute; 
+	top:0; 
+	left:0; 
+	width:100%; 
+	z-index:100;
+	background:#000; 
+	background: rgba(0,0,0,0.5);
+}
+.light-switch{ 
+	top:0; 
+	float:right;
+	width:100px;
+	height:100px; 
+}
+#light-svg{
+	fill:#030027;
+}
+
+#bg-svg{
+	fill:#A4A4A4;
+}
+#bg-svg:hover{
+	fill:#000;
+}
 
 </style>
 </head>
 <body>
 	<div class="tsd-header">
-	<span class="tsd-title">TSDTV</span><span class="tsd-subtitle">Home of the Fighting Robots</span>
+		<span class="tsd-title">TSDTV</span><span class="tsd-subtitle">Home of the Fighting Robots</span>
+		<div class="light-switch">
+				<svg class="light-bulb-svg" width="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 10">
+ 				<g>
+  				<circle id="bg-svg" r="291.43326" cy="300" cx="298" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" stroke="#000000" fill="#7a7a7a"/>
+  				<path fill="black" id="light-svg" d="m364,468c0,8.84399 -7.15601,16 -16,16h-96c-8.84399,0 -16,-7.15601 -16,-16s7.15601,-16 16,-16h96c8.84399,0 16,7.20001 16,16zm-16,32h-96c-8.84399,0 -16,7.15601 -16,16s7.15601,16 16,16c0,17.70001 14.30002,32 32,32h32c17.68799,0 32,-14.31299 32,-32c8.84399,0 16,-7.15601 16,-16s-7.15601,-16 -16,-16zm-48,-416c70.59399,0 128,57.40001 128,128c0,45.625 -23.96899,86.81299 -64.09399,110.15601l-15.90601,9.25v18.40601v54.18799h-96v-54.18799v-18.375l-15.90601,-9.28101c-40.15599,-23.35602 -64.09398,-64.556 -64.09398,-110.15601c0,-70.59999 57.39998,-128 127.99998,-128m0,-32c-88.37503,0 -159.99998,71.60001 -159.99998,160c0,59.10001 32.39998,110.10001 80.00002,137.81299v54.18701c0,17.70001 14.29999,32 32,32h95.99997c17.65601,0 32,-14.31299 32,-32v-54.18799c47.625,-27.71902 80,-78.75003 80,-137.81302c0,-88.39897 -71.60001,-159.99899 -160,-159.99899l0,0z"/>
+  				</g>
+			</svg>
+		</div>	
 	</div>
 	<div class="tsd-note-container">
 
@@ -73,14 +106,25 @@ a:visited {
 </body>
 
 <script type="text/javascript">
-	
+
+$(document).ready(function(){
+
+   //Adjust height of overlay to fill screen when page loads
+   $("#lights").css("height", $(document).height());
+
+   //When the link that triggers the message is clicked fade in overlay/msgbox
+   $(".light-switch").click(function(){
+      $("#lights").toggle();
+      return false;
+   });
+});	
 
 $('.tsd-note-container').hover(
-  	function() {
-    	$('.tsd-note').css('visibility','visible');
-  	}, function() {
-    	$('.tsd-note').css('visibility','hidden');
-  	}
+	function() {
+		$('.tsd-note').css('visibility','visible');
+	}, function() {
+		$('.tsd-note').css('visibility','hidden');
+	}
 );
 
 
@@ -88,7 +132,10 @@ $('.tsd-note-container').hover(
 var vlc_size = $('#vlc');
 console.log(vlc_size);
 
+$(window).bind("resize", function(){
+   $("#lights").css("height", $(window).height());
 
+});
 
 </script>
 </html>
