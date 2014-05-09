@@ -101,13 +101,46 @@ a:visited {
 			If your connection can't handle this girth, try visiting our <a href="tsdtv-poverty.html">poverty stream</a> for miscreants.
 		</p>
 	</div>
+
+<script>
+    $(document).ready(function() {
+        var tsdRight = document.createElement('audio');
+        tsdRight.setAttribute('src', 'right.mp3');
+        var tsdEntry = document.createElement('audio');
+        tsdEntry.setAttribute('src', 'tsd.mp3');
+        tsdEntry.setAttribute('autoplay', 'autoplay');
+        var tsdAgain = document.createElement('audio');
+        tsdAgain.setAttribute('src', 'again.mp3');
+        //audioElement.setAttribute('autoplay', 'autoplay');
+        //audioElement.load()
+
+        $.get();
+
+        tsdEntry.addEventListener("load", function() {
+            tsdEntry.play();
+        }, true);
+
+        /*$('.play-right').click(function() {
+            tsdRight.play();
+        });
+        $('.play-again').click(function() {
+            tsdAgain.play();
+        });*/
+    });
+</script>
 </body>
 
 <script type="text/javascript">
 
 $(document).ready(function(){
+	var vlc = $('#vlc');
+	var originalWidth = vlc.width();
+	var orginalHeight = vlc.height();
+	var aspectRatio = originalWidth/orginalHeight;
+
 
    $('#vlc').allofthelights();
+
 
 });	
 
@@ -127,9 +160,6 @@ $(".light-switch").hover(
     $('#light-svg').css('fill','#030027');
     $('#bg-svg').css('fill','#A4A4A4');
 });
-
-
-
 
 var vlc_size = $('#vlc');
 console.log(vlc_size);
