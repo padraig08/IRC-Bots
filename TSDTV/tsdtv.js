@@ -6,13 +6,13 @@ $(document).ready(function(){
 	vlc.allofthelights();
 });	
 
-$('.tsd-note-container').hover(
+/*$('.tsd-note-container').hover(
 	function() {
 		$('.tsd-note').css('visibility','visible');
 	}, function() {
 		$('.tsd-note').css('visibility','hidden');
 	}
-);
+);*/
 
 $(".light-switch").hover(
   function() {
