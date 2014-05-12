@@ -31,9 +31,15 @@ a:visited {
 	width:20px;
 }
 .tsd-tv-content{
-	width: 667px;
+	width: 720px;
 	margin-left: auto;
 	margin-right: auto;
+	max-width:1000px;
+	max-height: 667px;
+}
+#vlc{
+	max-width: 1000px;
+	max-height: 667px;
 }
 .tsd-tv-container{
 	padding-top:15px;
@@ -129,45 +135,5 @@ a:visited {
     });
 </script>
 </body>
-
-<script type="text/javascript">
-
-$(document).ready(function(){
-	var vlc = $('#vlc');
-	var originalWidth = vlc.width();
-	var orginalHeight = vlc.height();
-	var aspectRatio = originalWidth/orginalHeight;
-
-
-   $('#vlc').allofthelights();
-
-
-});	
-
-$('.tsd-note-container').hover(
-	function() {
-		$('.tsd-note').css('visibility','visible');
-	}, function() {
-		$('.tsd-note').css('visibility','hidden');
-	}
-);
-
-$(".light-switch").hover(
-  function() {
-    $('#light-svg').css('fill','#FFF');
-    $('#bg-svg').css('fill','rgb(85,85,85)');
-  }, function() {
-    $('#light-svg').css('fill','#030027');
-    $('#bg-svg').css('fill','#A4A4A4');
-});
-
-var vlc_size = $('#vlc');
-console.log(vlc_size);
-
-$(window).bind("resize", function(){
-   
-
-});
-
-</script>
+<script type="text/javascript" src="tsdtv.js"></script>
 </html>
