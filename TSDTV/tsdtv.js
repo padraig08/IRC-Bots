@@ -34,7 +34,7 @@ $(window).bind("resize", function(){
 function vlcAspectRatio(){
 	var vlc = $('#vlc');
 	var maxWidth = window.innerWidth * 0.90; // Max width for the image
-    var maxHeight = window.innerHeight * 0.90;    // Max height for the image
+    var maxHeight = window.innerHeight * 0.70;    // Max height for the image
 	var ratio = 0;  // Used for aspect ratio
     var width = vlc.width();    // Current image width
     var height = vlc.height();  // Current image height
@@ -46,14 +46,20 @@ function vlcAspectRatio(){
       $('.tsd-tv-content').css('width', maxWidth);
       height = height * ratio;    // Reset height to match scaled image
       width = width * ratio;    // Reset width to match scaled image
-	
-	// Check if current height is larger than max
-	
-     /* ratio = maxHeight / height; // get ratio for scaling image
-      $('#vlc').attr("height", maxHeight);   // Set new height
-      $('#vlc').attr("width", width * ratio); 
-      $('.tsd-tv-content').css("width", width * ratio);   // Scale width based on ratio
-      width = width * ratio;    // Reset width to match scaled image
-      height = height * ratio;    // Reset height to match scaled image
-    */
 }
+
+$('.tsd-mute').click(function(){
+	var vlc = document.getElementById("vlc");
+	//var vlc = $('#vlc');
+	vlc.audio.toggleMute();
+
+console.log("Track Count: "+vlc.audio.count);
+console.log("Channel: "+vlc.audio.channel);
+console.log("Volume: "+vlc.audio.volume);
+console.log(vlc.input.hasVout);
+});
+$('.tsd-2xv').click(function(){
+	var vlc = document.getElementById("vlc");
+	vlc.audio.volume = 200;
+	console.log(vlc.audio.volume);
+});

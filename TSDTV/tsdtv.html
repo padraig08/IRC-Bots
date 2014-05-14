@@ -101,8 +101,25 @@ left: 0px;
 bottom: 0px;
 height: 45px;
 width: 100%;
+background: rgba(0,92,179,1);
+background: -moz-linear-gradient(top, rgba(0,92,179,1) 0%, rgba(0,0,0,1) 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,92,179,1)), color-stop(100%, rgba(0,0,0,1)));
+background: -webkit-linear-gradient(top, rgba(0,92,179,1) 0%, rgba(0,0,0,1) 100%);
+background: -o-linear-gradient(top, rgba(0,92,179,1) 0%, rgba(0,0,0,1) 100%);
+background: -ms-linear-gradient(top, rgba(0,92,179,1) 0%, rgba(0,0,0,1) 100%);
+background: linear-gradient(to bottom, rgba(0,92,179,1) 0%, rgba(0,0,0,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#005cb3', endColorstr='#000000', GradientType=0 );
 }
-
+.tsd-control{
+	width:100px;
+	height:100px;
+	background:#ccc;
+	color:black;
+	border:1px solid black;
+}
+.tsd-control-container{
+	float:left;
+}
 
 </style>
 </head>
@@ -123,6 +140,12 @@ width: 100%;
 	<span class="tsd-note-button">NOTE</span><span class="tsd-note">
 		: You must have <a href="http://139.102.78.11/vlc_help.htm">the VLC browser plugin</a> installed to watch
 	</span>
+	</div>
+	<div class="tsd-control-container">
+		<div class="tsd-control tsd-mute">Mute</div>
+		<div class="tsd-control tsd-2xv">200% volume</div>
+		<div class="tsd-control tsd-marquee">Marquee</div>
+		<div class="tsd-control tsd-logo">Logo</div>
 	</div>
 	<div class="tsd-tv-container">
 		<div class="tsd-tv-content">
