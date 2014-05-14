@@ -34,13 +34,21 @@ $(window).bind("resize", function(){
 function vlcAspectRatio(){
 	var vlc = $('#vlc');
 	var maxWidth = window.innerWidth * 0.90; // Max width for the image
-    var maxHeight = window.innerHeight * 0.70;    // Max height for the image
+    //var maxHeight = window.innerHeight * 0.90;    // Max height for the image
 	var ratio = 0;  // Used for aspect ratio
     var width = vlc.width();    // Current image width
     var height = vlc.height();  // Current image height
 	// Check if the current width is larger than the max
-	
-      ratio = maxWidth / width;   // get ratio for scaling image
+	if(maxWidth > 800){
+      //maxWidth = 1000;
+      setNewWidth(800,width,height,ratio);
+  }else{
+      setNewWidth(maxWidth,width,height,ratio);
+  }
+}
+
+function setNewWidth(maxWidth, width, height, ratio){
+  ratio = maxWidth / width;   // get ratio for scaling image
       $('#vlc').attr("width", maxWidth); // Set new width
       $('#vlc').attr("height", height * ratio);  // Scale height based on ratio
       $('.tsd-tv-content').css('width', maxWidth);
@@ -63,3 +71,4 @@ $('.tsd-2xv').click(function(){
 	vlc.audio.volume = 200;
 	console.log(vlc.audio.volume);
 });
+
