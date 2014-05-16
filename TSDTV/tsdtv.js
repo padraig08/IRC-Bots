@@ -33,32 +33,27 @@ $(window).bind("resize", function(){
 
 function vlcAspectRatio(){
 	var vlc = $('#vlc');
-	var maxWidth = window.innerWidth * 0.90; // Max width for the image
-    //var maxHeight = window.innerHeight * 0.90;    // Max height for the image
-	var ratio = 0;  // Used for aspect ratio
-    var width = vlc.width();    // Current image width
-    var height = vlc.height();  // Current image height
-	// Check if the current width is larger than the max
-	if(maxWidth > 800){
-      //maxWidth = 1000;
-      setNewWidth(800,width,height,ratio);
-  }else{
-      setNewWidth(maxWidth,width,height,ratio);
-  }
+	var maxWidth = window.innerWidth; // Max width for the image
+    var maxHeight = window.innerHeight; // Max height for the image
+    //var width = vlc.width();    // Current image width
+    //var height = vlc.height();  // Current image height
+    var availableWidth = maxWidth - ($('.tsd-control-container').width() * 2.5);
+	var availableHeight = maxHeight - ($('.tsd-header').height() + $('.tsd-note-container').height() + $('.tsd-footer').height() + 32); 
+
+    setNewWidth(availableWidth, availableHeight);
 }
 
-function setNewWidth(maxWidth, width, height, ratio){
-  ratio = maxWidth / width;   // get ratio for scaling image
-      $('#vlc').attr("width", maxWidth); // Set new width
-      $('#vlc').attr("height", height * ratio);  // Scale height based on ratio
+function setNewWidth(maxWidth, maxHeight){
+      $('#vlc').css("width", maxWidth); // Set new width
+      $('#vlc').css("height", maxHeight);  // Scale height based on ratio
       $('.tsd-tv-content').css('width', maxWidth);
-      height = height * ratio;    // Reset height to match scaled image
-      width = width * ratio;    // Reset width to match scaled image
+      $('.tsd-tv-content').css('height', maxHeight);
+      height = maxHeight;    // Reset height to match scaled image
+      width = maxWidth;    // Reset width to match scaled image
 }
 
 $('.tsd-mute').click(function(){
 	var vlc = document.getElementById("vlc");
-	//var vlc = $('#vlc');
 	vlc.audio.toggleMute();
 
 console.log("Track Count: "+vlc.audio.count);
