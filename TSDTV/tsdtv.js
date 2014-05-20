@@ -1,36 +1,5 @@
 //TSDTV - v2
 
-$(document).ready(function(){
-	var vlc = $('#vlc');
-	vlcAspectRatio();
-	vlc.allofthelights();
-});	
-
-/*$('.tsd-note-container').hover(
-	function() {
-		$('.tsd-note').css('visibility','visible');
-	}, function() {
-		$('.tsd-note').css('visibility','hidden');
-	}
-);*/
-
-$(".light-switch").hover(
-  function() {
-    $('#light-svg').css('fill','#FFF');
-    $('#bg-svg').css('fill','rgb(85,85,85)');
-  }, function() {
-    $('#light-svg').css('fill','#030027');
-    $('#bg-svg').css('fill','#A4A4A4');
-});
-
-var vlc_size = $('#vlc');
-//console.log(vlc_size);
-
-$(window).bind("resize", function(){
-	//console.log(window.innerHeight, window.innerWidth);
-	vlcAspectRatio();
-});
-
 function vlcAspectRatio(){
 	var vlc = $('#vlc');
 	var maxWidth = window.innerWidth; // Max width for the image
@@ -52,6 +21,40 @@ function setNewWidth(maxWidth, maxHeight){
       width = maxWidth;    // Reset width to match scaled image
 }
 
+function tsdtvStatus(){
+	var vlc = document.getElementById("vlc");
+	if (vlc.input.hasVout){
+		console.log("TSDTV: Online");
+	}else if(!vlc.input.hasVout){
+		console.log("TSDTV: Offline");
+	}
+}
+
+
+$(document).ready(function(){
+	var vlc = $('#vlc');
+	vlcAspectRatio();
+	vlc.allofthelights();
+	tsdtvStatus();
+	setInterval(tsdtvStatus(), 11000);
+});
+
+
+
+$(".light-switch").hover(
+  function() {
+    $('#light-svg').css('fill','#FFF');
+    $('#bg-svg').css('fill','rgb(85,85,85)');
+  }, function() {
+    $('#light-svg').css('fill','#030027');
+    $('#bg-svg').css('fill','#A4A4A4');
+});
+
+$(window).bind("resize", function(){
+	//console.log(window.innerHeight, window.innerWidth);
+	vlcAspectRatio();
+});
+
 $('.tsd-mute').click(function(){
 	var vlc = document.getElementById("vlc");
 	vlc.audio.toggleMute();
@@ -67,7 +70,7 @@ $('.tsd-2xv').click(function(){
 	console.log(vlc.audio.volume);
 });
 
-function tsdtvStatus(){
-  
-}
+
+
+
 
