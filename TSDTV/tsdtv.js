@@ -67,3 +67,7 @@ $('.tsd-2xv').click(function(){
 	console.log(vlc.audio.volume);
 });
 
+function tsdtvStatus(){
+  
+}
+

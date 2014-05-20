@@ -107,9 +107,17 @@ background-color:#000;
 	background:#ccc;
 	color:black;
 	border:1px solid black;
+	border-radius: 100px;
+}
+.tsd-control p {
+margin-top: 40px;
+margin-left: auto;
+margin-right: auto;
+width: 60px;
 }
 .tsd-control-container{
 	float:left;
+	padding-top:15px;
 }
 .pov-stream{
 	top: 0;
@@ -126,6 +134,18 @@ left: 0;
 font-size: 10px;
 padding-left: 10px;
 padding-top: 7px;
+}
+.tsdtv-on{
+	margin-left:40px;
+}
+.tsd-control figure{
+
+  width: 100px;
+  height: 100px;
+  display: block;
+  position: absolute;
+  border-radius: 100px;
+
 }
 
 @media screen and (max-width : 1000px) {
@@ -146,6 +166,7 @@ padding-top: 7px;
 <body>
 	<div class="tsd-header">
 		<span class="tsd-title">TSDTV</span><span class="tsd-subtitle">Home of the Fighting Robots</span>
+
 		<div class="light-switch switch">
 				<svg class="light-bulb-svg" width="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
  				
@@ -162,10 +183,25 @@ padding-top: 7px;
 	</span>
 	</div>
 	<div class="tsd-control-container">
-		<div class="tsd-control tsd-mute">Mute</div>
-		<div class="tsd-control tsd-2xv">200% volume</div>
-		<div class="tsd-control tsd-marquee">Marquee</div>
-		<div class="tsd-control tsd-logo">Logo</div>
+		<div class="tsd-control tsd-status">
+			<figure class="tsd-on">ON</figure>
+    		<figure class="tsd-off">OFF</figure>
+		</div>
+		<div class="tsd-control tsd-mute">
+			<figure class="unmute">Not Mute</figure>
+    		<figure class="mute">Mute</figure>
+		</div>
+		<div class="tsd-control tsd-2xv">
+			<figure class="100v">100%</figure>
+    		<figure class="200v">200%</figure>
+    		<figure class="50v">50%</figure>
+    	</div>
+		<div class="tsd-control tsd-marquee">
+		<p>Marquee</p>
+		</div>
+		<div class="tsd-control tsd-logo">
+		<p>Logo</p>
+		</div>
 	</div>
 	<div class="tsd-tv-container">
 		<div class="tsd-tv-content">
