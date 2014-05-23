@@ -5,7 +5,7 @@ function vlcAspectRatio(showControls){
 	var maxWidth = window.innerWidth; // Max width for the image
     var maxHeight = window.innerHeight; // Max height for the image
     var availableWidth = 0;
-    if(showControls === true || !showControls){
+    if(showControls === true || showControls=== undefined){
 		availableWidth = maxWidth - ($('.tsd-control-container').width() * 2.5);	
     }else if(showControls === false){
 		availableWidth = maxWidth - 50;
@@ -37,7 +37,8 @@ function tsdtvStatus(){
 
 $(document).ready(function(){
 	var vlc = $('#vlc');
-	vlcAspectRatio();
+  //var player = VLCobject.embedVLC('vlc', 400, 300, true);
+  vlcAspectRatio();
 	vlc.allofthelights({
 		'is_responsive':true,
 		'callback_turn_off':function(){
@@ -86,6 +87,7 @@ $('.tsd-2xv').click(function(){
 $('.tsdtv-test').click(function(){
 	var vlc = $('#vlc');
 	vlc.attr("target","drumvid.mov");
+
 });
 
 $('.tsd-status').click(function(){
