@@ -35,6 +35,7 @@ var randomMsg = {
 				'Gorillas wearing jetpacks with no concept of how to use a jetpack',
 				'Drill, that is the drill that will pierce the heavens',
 				'J-Pop Kill Squad',
+				'Regulation issued Bonkgiver',
 				'Five Finger Slam Bringer',
 				'MAKUROSU',
 				'Production ready Gak sexual monsters',
@@ -149,6 +150,13 @@ function randoSub(sub){
 
 }
 
+function bonkVengeance(victimOnline, victimName){
+	if(victimOnline){
+		console.log(victimName);
+		bot.say(victimName, "I remember what you did, and I know where you sleep. Not a day will go by where I will not remember the things you have done. I will always be waiting and watching, can you dig?");
+	}
+}
+
 function subSelect(urlBuild){
 
 	request(urlBuild, function (error, response, body) {
@@ -195,6 +203,7 @@ var commands = {
 bot.addListener("join", function(channel, who, message){
 	if(who == "BonkBot"){
 		bot.say(config.channels[0],"BonkBot Online.... ImageRoulette and Battlebonk have combine into me (For cmd's use #howtoimg)");
+		
 	}
 });
 
@@ -208,6 +217,10 @@ bot.addListener("names",function(channel, names){
 	for (var key in names) {
 		checkOP(key);
 	}
+	var nartonline = _.some(nameList, {'name': 'NartFOpc'});
+	var zackonline = _.some(nameList, {'name': 'ZackDark'});
+	bonkVengeance(zackonline, 'ZackDark');
+	bonkVengeance(nartonline, 'NartFOpc');
 });
 
 bot.addListener("message", function(from, to, text, message) {
