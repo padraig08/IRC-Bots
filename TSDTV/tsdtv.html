@@ -129,6 +129,14 @@ padding-bottom: 10px;
 transform: rotateY(360deg);
 }
 
+.tsd-on-inactive{
+	-webkit-transform: rotateY(180deg);
+-moz-transform: rotateY(180deg);
+-ms-transform: rotateY(180deg);
+-o-transform: rotateY(180deg);
+transform: rotateY(180deg);
+}
+
 .tsd-off-active {
 -webkit-transform: rotateY(180deg);
 -moz-transform: rotateY(180deg);
@@ -136,6 +144,56 @@ transform: rotateY(360deg);
 -o-transform: rotateY(180deg);
 transform: rotateY(180deg);
 }
+
+.unmute-active {
+-webkit-transform: rotateY(360deg);
+-moz-transform: rotateY(360deg);
+-ms-transform: rotateY(360deg);
+-o-transform: rotateY(360deg);
+transform: rotateY(360deg);
+}
+
+.unmute-inactive{
+	-webkit-transform: rotateY(180deg);
+-moz-transform: rotateY(180deg);
+-ms-transform: rotateY(180deg);
+-o-transform: rotateY(180deg);
+transform: rotateY(180deg);
+}
+
+.mute-active {
+-webkit-transform: rotateY(180deg);
+-moz-transform: rotateY(180deg);
+-ms-transform: rotateY(180deg);
+-o-transform: rotateY(180deg);
+transform: rotateY(180deg);
+}
+
+
+.dubv-active {
+-webkit-transform: rotateY(360deg);
+-moz-transform: rotateY(360deg);
+-ms-transform: rotateY(360deg);
+-o-transform: rotateY(360deg);
+transform: rotateY(360deg);
+}
+
+.dubv-inactive{
+	-webkit-transform: rotateY(180deg);
+-moz-transform: rotateY(180deg);
+-ms-transform: rotateY(180deg);
+-o-transform: rotateY(180deg);
+transform: rotateY(180deg);
+}
+
+.regv-active {
+-webkit-transform: rotateY(180deg);
+-moz-transform: rotateY(180deg);
+-ms-transform: rotateY(180deg);
+-o-transform: rotateY(180deg);
+transform: rotateY(180deg);
+}
+
 
 .tsd-card{
 
@@ -163,8 +221,9 @@ backface-visibility: hidden;
 
 }
 .tsd-control p{
-margin-top: 40px;
-text-align:center;
+margin-top: 30px;
+text-align: center;
+font-size: 35px;
 }
 
 .tsd-off{
@@ -174,13 +233,7 @@ text-align:center;
 .tsd-on{
 	background:#1F9900;
 }
-.tsd-on-inactive{
-	-webkit-transform: rotateY(180deg);
--moz-transform: rotateY(180deg);
--ms-transform: rotateY(180deg);
--o-transform: rotateY(180deg);
-transform: rotateY(180deg);
-}
+
 
 .pov-stream{
 	top: 0;
@@ -199,13 +252,15 @@ padding-left: 10px;
 padding-top: 7px;
 }
 .mute{
-	background-image: url(mute.png);
-	background-size: contain;
+	background-image: url(unmute.png);
+	background-size: 75%;
+	background-position: center;
 	background-repeat: no-repeat;
 }
 .unmute{
-	background-image: url(unmute.png);
-	background-size: contain;
+	background-image: url(mute.png);
+	background-size: 75%;
+	background-position: center;
 	background-repeat: no-repeat;
 }
 
@@ -248,13 +303,13 @@ padding-top: 7px;
 			<div class="tsd-card tsd-on tsd-on-inactive"><p>ON</p></div>
     		<div class="tsd-card tsd-off tsd-off-inactive"><p>OFF</p></div>
 		</div>
-		<div class="tsd-control tsd-mute">
-			<div class="tsd-card unmute"></div>
-    		<div class="tsd-card mute"></div>
+		<div class="tsd-control tsd-mute tsd-mute-inactive">
+			<div class="tsd-card unmute unmute-inactive"></div>
+    		<div class="tsd-card mute mute-inactive"></div>
 		</div>
-		<div class="tsd-control tsd-2xv">
-			<div class="tsd-card 100v"><p>100%</p></div>
-    		<div class="tsd-card 200v"><p>200%</p></div>
+		<div class="tsd-control tsd-volume tsd-volume-inactive">
+			<div class="tsd-card dubv dubv-inactive"><p>200%</p></div>
+    		<div class="tsd-card regv regv-inactive"><p>100%</p></div>
     	</div>
 		<div class="tsd-control tsd-marquee">
 			<div class="tsd-card">

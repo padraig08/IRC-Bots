@@ -20,8 +20,6 @@ function setNewWidth(maxWidth, maxHeight){
       $('#vlc').css("height", maxHeight);  // Scale height based on ratio
       $('.tsd-tv-content').css('width', maxWidth);
       $('.tsd-tv-content').css('height', maxHeight);
-     // height = maxHeight;    // Reset height to match scaled image
-     // width = maxWidth;    // Reset width to match scaled image
 }
 
 function tsdtvStatus(){
@@ -32,6 +30,28 @@ function tsdtvStatus(){
 	}else if(!vlc.input.hasVout){
 		console.log("TSDTV: Offline");
 	}
+}
+
+function flipCard(container, oldCard, newCard, cardActive){
+
+
+  var containerActive = container+'-active';
+  var containerInactive = container+'-inactive';
+  var oldCardActive = oldCard+'-active';
+  var oldCardInactive = oldCard+'-inactive';
+  var newCardActive = newCard+'-active';
+  var newCardInactive = newCard+'-inactive';
+
+  if(cardActive){
+
+    $('.'+oldCard).removeClass(oldCardInactive).addClass(oldCardActive);
+    $('.'+newCard).removeClass(newCardInactive).addClass(newCardActive);
+    $('.'+container).addClass(containerActive).removeClass(containerInactive);
+  }else if(!cardActive){
+    $('.'+oldCard).removeClass(oldCardActive).addClass(oldCardInactive);
+    $('.'+newCard).removeClass(newCardActive).addClass(newCardInactive);
+    $('.'+container).addClass(containerInactive).removeClass(containerActive);
+  }
 }
 
 
@@ -73,17 +93,28 @@ $(window).bind("resize", function(){
 $('.tsd-mute').click(function(){
 	var vlc = document.getElementById("vlc");
 	vlc.audio.toggleMute();
-
-console.log("Track Count: "+vlc.audio.count);
-console.log("Channel: "+vlc.audio.channel);
-console.log("Volume: "+vlc.audio.volume);
-console.log(vlc.input.hasVout);
+  if($('.tsd-mute').hasClass('tsd-mute-inactive')){
+    flipCard('tsd-mute','mute','unmute',true);
+  }else if($('.tsd-mute').hasClass('tsd-mute-active')){
+    flipCard('tsd-mute','mute','unmute',false);
+  }
+  //console.log(vlc.input.hasVout);
 });
-$('.tsd-2xv').click(function(){
+$('.tsd-volume').click(function(){
 	var vlc = document.getElementById("vlc");
-	vlc.audio.volume = 200;
-	console.log(vlc.audio.volume);
+  if($('.tsd-volume').hasClass('tsd-volume-inactive')){
+    flipCard('tsd-volume','regv','dubv',true);
+    vlc.audio.volume = 200;
+  }else if($('.tsd-volume').hasClass('tsd-volume-active')){
+    flipCard('tsd-volume','regv','dubv',false);
+    vlc.audio.volume = 100;
+  }
+	//vlc.audio.volume = 200;
+	
 });
+
+
+
 $('.tsdtv-test').click(function(){
 	var vlc = $('#vlc');
 	vlc.attr("target","drumvid.mov");
@@ -92,13 +123,9 @@ $('.tsdtv-test').click(function(){
 
 $('.tsd-status').click(function(){
 	if($('.tsd-status').hasClass('tsd-status-inactive')){
-		$('.tsd-off').removeClass('tsd-off-inactive').addClass('tsd-off-active');
-		$('.tsd-on').removeClass('tsd-on-inactive').addClass('tsd-on-active');
-		$('.tsd-status').addClass('tsd-status-active').removeClass('tsd-status-inactive');
+		flipCard('tsd-status','tsd-off','tsd-on',true);
 	}else if($('.tsd-status').hasClass('tsd-status-active')){
-		$('.tsd-off').removeClass('tsd-off-active').addClass('tsd-off-inactive');
-		$('.tsd-on').removeClass('tsd-on-active').addClass('tsd-on-inactive');
-		$('.tsd-status').addClass('tsd-status-inactive').removeClass('tsd-status-active');
+		flipCard('tsd-status','tsd-off','tsd-on',false);
 	}
 });
 
