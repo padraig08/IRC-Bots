@@ -195,6 +195,31 @@ transform: rotateY(180deg);
 }
 
 
+.lq-stream-active {
+-webkit-transform: rotateY(360deg);
+-moz-transform: rotateY(360deg);
+-ms-transform: rotateY(360deg);
+-o-transform: rotateY(360deg);
+transform: rotateY(360deg);
+}
+
+.lq-stream-inactive{
+	-webkit-transform: rotateY(180deg);
+-moz-transform: rotateY(180deg);
+-ms-transform: rotateY(180deg);
+-o-transform: rotateY(180deg);
+transform: rotateY(180deg);
+}
+
+.hq-stream-active {
+-webkit-transform: rotateY(180deg);
+-moz-transform: rotateY(180deg);
+-ms-transform: rotateY(180deg);
+-o-transform: rotateY(180deg);
+transform: rotateY(180deg);
+}
+
+
 .tsd-card{
 
   width: 100px;
@@ -322,9 +347,12 @@ padding-top: 7px;
 			<div class="tsd-card fullscreen">
 			</div>
 		</div>
-		<div class="tsd-control tsd-logo">
-			<div class="tsd-card">
-				<p>Logo</p>
+		<div class="tsd-control tsd-quality tsd-quality-inactive">
+			<div class="tsd-card lq-stream lq-stream-inactive">
+				<p>LQ</p>
+			</div>
+			<div class="tsd-card hq-stream hq-stream-inactive">
+				<p>HQ</p>
 			</div>
 		</div>
 		<div class="tsd-control tsdtv-test">
@@ -335,7 +363,7 @@ padding-top: 7px;
 	</div>
 	<div class="tsd-tv-container">
 		<div class="tsd-tv-content">
-			<embed autoplay="yes" loop="true" name="VLC" target="http://irc.teamschoolyd.org:8090/premium.flv" type="application/x-vlc-plugin" volume="100" height="576" width="720" id="vlc">
+			<embed autoplay="yes" loop="true" name="VLC" type="application/x-vlc-plugin" volume="100" height="576" width="720" id="vlc">
 		</div>
 	</div>
 	<div class="tsd-footer">
@@ -346,7 +374,7 @@ padding-top: 7px;
 
 <script>
     $(document).ready(function() {
-        var tsdRight = document.createElement('audio');
+    	var tsdRight = document.createElement('audio');
         tsdRight.setAttribute('src', 'right.mp3');
         var tsdEntry = document.createElement('audio');
         tsdEntry.setAttribute('src', 'tsd.mp3');

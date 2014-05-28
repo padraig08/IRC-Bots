@@ -42,6 +42,7 @@ var randomMsg = {
 				'several hundred nuclear warheads',
 				'Weaponized Dubstep',
 				'Vaguemind',
+				'MAXIMUM OGREDRIVE',
 				'Slowjam feat. Lionel Richie',
 				'Tom Cruise Missiles',
 				'Squadron of War Corgis (also known as Worgis)',

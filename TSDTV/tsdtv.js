@@ -55,12 +55,23 @@ function flipCard(container, oldCard, newCard, cardActive){
 }
 
 
+$(window).bind("load", function() {
+	var vlc = document.getElementById("vlc");
+	vlc.playlist.add('http://irc.teamschoolyd.org:8090/premium.flv');
+	vlc.playlist.add('http://irc.teamschoolyd.org:8090/poverty.flv');
+	//vlc.playlist.add('drumvid.mov');
+	vlc.playlist.playItem(0);
+	vlc.video.marquee.enable();
+	vlc.video.marquee.text = "Schooly Was Right";
+
+});
+
+
+
 $(document).ready(function(){
-  var vlc = document.getElementById("vlc");
-  vlc.video.marquee.enable();
-	vlc = $('#vlc');
-  //var player = VLCobject.embedVLC('vlc', 400, 300, true);
-  vlcAspectRatio();
+	var vlc = $('#vlc');
+	//var player = VLCobject.embedVLC('vlc', 400, 300, true);
+	vlcAspectRatio();
 
 	vlc.allofthelights({
 		'is_responsive':true,
@@ -121,13 +132,6 @@ $('.tsd-fullscreen').click(function(){
   vlc.video.toggleFullscreen();
 });
 
-
-$('.tsdtv-test').click(function(){
-	//var vlc = $('#vlc');
-	//vlc.attr("target","drumvid.mov");
-
-});
-
 $('.tsd-status').click(function(){
 	if($('.tsd-status').hasClass('tsd-status-inactive')){
 		flipCard('tsd-status','tsd-off','tsd-on',true);
@@ -136,21 +140,21 @@ $('.tsd-status').click(function(){
 	}
 });
 
-$('.tsdtv-test').click(function(){
+$('.tsd-quality').click(function(){
   var vlc = document.getElementById("vlc");
-  vlc.playlist.add('drumvid.mov');
-  vlc.playlist.playItem(1);
-/*
-  vlc.video.marquee.text = "Schooly Was Right";
-  vlc.video.marquee.color = 0x000000;
-  vlc.video.marquee.opacity = 255;
-  vlc.video.marquee.position = 0;
-  //vlc.video.marquee.refresh 
-  vlc.video.marquee.size = 20;
-  vlc.video.marquee.timeout = 0;
-  //vlc.video.marquee.x: 
-  //vlc.video.marquee.y: 
-  */
+  if($('.tsd-quality').hasClass('tsd-quality-inactive')){
+    flipCard('tsd-quality','hq-stream','lq-stream',true);
+    vlc.playlist.playItem(1);
+  }else if($('.tsd-quality').hasClass('tsd-quality-active')){
+    flipCard('tsd-quality','hq-stream','lq-stream',false);
+    vlc.playlist.playItem(0);
+  }
+  //vlc.playlist.playItem(1);
+});
+
+
+$('.tsdtv-test').click(function(){
+  
 });
 
 
