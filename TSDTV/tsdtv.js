@@ -56,9 +56,12 @@ function flipCard(container, oldCard, newCard, cardActive){
 
 
 $(document).ready(function(){
-	var vlc = $('#vlc');
+  var vlc = document.getElementById("vlc");
+  vlc.video.marquee.enable();
+	vlc = $('#vlc');
   //var player = VLCobject.embedVLC('vlc', 400, 300, true);
   vlcAspectRatio();
+
 	vlc.allofthelights({
 		'is_responsive':true,
 		'callback_turn_off':function(){
@@ -113,11 +116,15 @@ $('.tsd-volume').click(function(){
 	
 });
 
+$('.tsd-fullscreen').click(function(){
+  var vlc = document.getElementById("vlc");
+  vlc.video.toggleFullscreen();
+});
 
 
 $('.tsdtv-test').click(function(){
-	var vlc = $('#vlc');
-	vlc.attr("target","drumvid.mov");
+	//var vlc = $('#vlc');
+	//vlc.attr("target","drumvid.mov");
 
 });
 
@@ -127,6 +134,23 @@ $('.tsd-status').click(function(){
 	}else if($('.tsd-status').hasClass('tsd-status-active')){
 		flipCard('tsd-status','tsd-off','tsd-on',false);
 	}
+});
+
+$('.tsdtv-test').click(function(){
+  var vlc = document.getElementById("vlc");
+  vlc.playlist.add('drumvid.mov');
+  vlc.playlist.playItem(1);
+/*
+  vlc.video.marquee.text = "Schooly Was Right";
+  vlc.video.marquee.color = 0x000000;
+  vlc.video.marquee.opacity = 255;
+  vlc.video.marquee.position = 0;
+  //vlc.video.marquee.refresh 
+  vlc.video.marquee.size = 20;
+  vlc.video.marquee.timeout = 0;
+  //vlc.video.marquee.x: 
+  //vlc.video.marquee.y: 
+  */
 });
 
 

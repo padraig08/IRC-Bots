@@ -263,6 +263,12 @@ padding-top: 7px;
 	background-position: center;
 	background-repeat: no-repeat;
 }
+.fullscreen{
+	background-image: url(fullscreen.png);
+	background-size: 75%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
 
 @media screen and (max-width : 1000px) {
 .tsd-control{
@@ -308,12 +314,12 @@ padding-top: 7px;
     		<div class="tsd-card mute mute-inactive"></div>
 		</div>
 		<div class="tsd-control tsd-volume tsd-volume-inactive">
-			<div class="tsd-card dubv dubv-inactive"><p>200%</p></div>
-    		<div class="tsd-card regv regv-inactive"><p>100%</p></div>
+			<div class="tsd-card dubv dubv-inactive"><p><span>-</span>200%<span>+</span></p></div>
+    		<div class="tsd-card regv regv-inactive"><p><span>-</span>100%<span>+</span></p></div>
+    		<div class="tsd-card halfv halfv-inactive"><p><span>-</span>50%<span>+</span></p></div>
     	</div>
-		<div class="tsd-control tsd-marquee">
-			<div class="tsd-card">
-				<p>Marquee</p>
+		<div class="tsd-control tsd-fullscreen">
+			<div class="tsd-card fullscreen">
 			</div>
 		</div>
 		<div class="tsd-control tsd-logo">
