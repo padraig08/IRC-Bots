@@ -1,5 +1,5 @@
 var config = {
-	channels: ["#tsd"],
+	channels: ["#bots"],
 	server: "irc.teamschoolyd.org",
 	botName: "BonkBot"
 };
@@ -17,6 +17,7 @@ var urls = {
 };
 
 var clonkometer = 0;
+var offQuestion = false;
 
 var randomMsg = {
 	attacker:	['Armada',
@@ -125,40 +126,33 @@ function timeToBonk(from, to, target)
 }
 
 
-function randImg(kind){
+function randImg(kind, where){
 		var subreddit = getRandomInt(0, kind.length-1);
 		var urlBuild = urls.reddit + kind[subreddit] +'/random/.json';
-		subSelect(urlBuild);
+		subSelect(urlBuild, where);
 }
 
-function randoSub(sub){
+function randoSub(sub, where){
 	//console.log("sub is:"+"|"+sub+"|", sub.length);
 	var urlBuild = '';
 	if (!sub.length || sub.length === 0 || sub === ""){
 		var urlRand = urls.reddit + 'random/';
 		request(urlRand, function (error, response, body){
 			urlBuild = response.request.uri.href + "random/.json";
-			console.log(urlBuild);
-			subSelect(urlBuild);
+			//console.log(urlBuild);
+			subSelect(urlBuild, where);
 		});
 
 	} else {
 
 		urlBuild = urls.reddit + sub + '/random/.json';
-		subSelect(urlBuild);
+		subSelect(urlBuild, where);
 		
 	}
 
 }
 
-function bonkVengeance(victimOnline, victimName){
-	if(victimOnline){
-		console.log(victimName);
-		bot.say(victimName, "I remember what you did, and I know where you sleep. Not a day will go by where I will not remember the things you have done. I will always be waiting and watching, can you dig?");
-	}
-}
-
-function subSelect(urlBuild){
+function subSelect(urlBuild, where){
 
 	request(urlBuild, function (error, response, body) {
 		var invalidSub = response.request.uri.search;
@@ -168,12 +162,12 @@ function subSelect(urlBuild){
 				//econsole.log(dataUrl);
 				
 				if (dataUrl.over_18 === true){
-					bot.say(config.channels[0],'Warning: The following is NSFW/NSFL');
+					bot.say(where,'Warning: The following is NSFW/NSFL');
 				}
-				bot.say(config.channels[0], dataUrl.title +" from r/"+ dataUrl.subreddit +" --- "+ dataUrl.url);
+				bot.say(where, dataUrl.title +" from r/"+ dataUrl.subreddit +" --- "+ dataUrl.url);
 				
 			} else if (invalidSub !== null){
-					bot.say(config.channels[0],'The listed subreddit is not usable, please try another one.');
+					bot.say(where,'The listed subreddit is not usable, please try another one.');
 			}
 		}
 	);
@@ -218,13 +212,9 @@ bot.addListener("names",function(channel, names){
 	for (var key in names) {
 		checkOP(key);
 	}
-	var nartonline = _.some(nameList, {'name': 'NartFOpc'});
-	var zackonline = _.some(nameList, {'name': 'ZackDark'});
-	bonkVengeance(zackonline, 'ZackDark');
-	bonkVengeance(nartonline, 'NartFOpc');
 });
 
-bot.addListener("message", function(from, to, text, message) {
+bot.addListener("message#bots", function(from, text, message) {
 
 	//Only needs to be matched if the command means to capture text
 	var bonkMatch = text.match(bonkPattern);
@@ -273,20 +263,52 @@ bot.addListener("message", function(from, to, text, message) {
 	
 	if (imgPattern.test(text) ){
 		kind = urls.subs.img;
-		randImg(kind);
+		randImg(kind, config.channels[0]);
 	}
 
 	if(gifPattern.test(text)){
 		kind = urls.subs.gif;
-		randImg(kind);
+		randImg(kind, config.channels[0]);
 	}
 		
 	if(clonkPattern.test(text)){
-		bot.say(config.channels[0], "BonkBot offline...");
-		bot.disconnect("SeeYouNextTimeSpaceCowboy");
+		if(from == "Paddy" || from == "Paddio"){
+			offQuestion = true;
+			bot.say(from, "What's my real name?");
+		}else{
+			bot.say(from, "You're not Paddy, fuck off.");
+		}
 	}
 
 	if(randoPattern.test(text)){
-		randoSub(randoMatch[1].trim());
+		randoSub(randoMatch[1].trim(), config.channels[0]);
 	}
+});
+bot.addListener("pm", function(from, text, message) {
+
+	//Only needs to be matched if the command means to capture text
+	var randoMatch = text.match(randoPattern);
+
+	if(offQuestion == true && text == "Bonkle"){
+		bot.say(config.channels[0], "BonkBot offline...");
+		bot.disconnect("SeeYouNextTimeSpaceCowboy");
+	}else if (offQuestion == true){
+		bot.say(from, "You're gonna have to try hard than that");
+	}
+
+	if (imgPattern.test(text) ){
+		kind = urls.subs.img;
+		randImg(kind, from);
+	}
+
+	if(gifPattern.test(text)){
+		kind = urls.subs.gif;
+		randImg(kind, from);
+	}
+
+	if(randoPattern.test(text)){
+		randoSub(randoMatch[1].trim(), from);
+	}
+
+
 });

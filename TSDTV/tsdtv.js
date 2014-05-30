@@ -61,9 +61,7 @@ $(window).bind("load", function() {
 	vlc.playlist.add('http://irc.teamschoolyd.org:8090/poverty.flv');
 	//vlc.playlist.add('drumvid.mov');
 	vlc.playlist.playItem(0);
-	vlc.video.marquee.enable();
-	vlc.video.marquee.text = "Schooly Was Right";
-
+	vlc.video.logo.enable();
 });
 
 
@@ -154,7 +152,8 @@ $('.tsd-quality').click(function(){
 
 
 $('.tsdtv-test').click(function(){
-  
+  var vlc = document.getElementById("vlc");
+  vlc.playlist.togglePause();
 });
 
 

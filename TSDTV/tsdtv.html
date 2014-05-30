@@ -294,6 +294,18 @@ padding-top: 7px;
 	background-position: center;
 	background-repeat: no-repeat;
 }
+.play{
+	background-image: url(play.png);
+	background-size: 335%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+.pause{
+	background-image: url(pause.png);
+	background-size: 335%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
 
 @media screen and (max-width : 1000px) {
 .tsd-control{
@@ -334,14 +346,19 @@ padding-top: 7px;
 			<div class="tsd-card tsd-on tsd-on-inactive"><p>ON</p></div>
     		<div class="tsd-card tsd-off tsd-off-inactive"><p>OFF</p></div>
 		</div>
+		<div class="tsd-control tsd-playToggle">
+			<div class="tsd-card pause pause-inactive"></div>
+			<div class="tsd-card play play-inactive"></div>
+		</div>
 		<div class="tsd-control tsd-mute tsd-mute-inactive">
 			<div class="tsd-card unmute unmute-inactive"></div>
     		<div class="tsd-card mute mute-inactive"></div>
 		</div>
 		<div class="tsd-control tsd-volume tsd-volume-inactive">
-			<div class="tsd-card dubv dubv-inactive"><p><span>-</span>200%<span>+</span></p></div>
-    		<div class="tsd-card regv regv-inactive"><p><span>-</span>100%<span>+</span></p></div>
-    		<div class="tsd-card halfv halfv-inactive"><p><span>-</span>50%<span>+</span></p></div>
+			<div class="tsd-card fourv fourv-inactive"><p><span>-</span>200%<span>+</span></p></div>
+			<div class="tsd-card threev threev-inactive"><p><span>-</span>50%<span>+</span></p></div>
+    		<div class="tsd-card twov twov-inactive"><p><span>-</span>100%<span>+</span></p></div>
+    		<div class="tsd-card onev onev-inactive"><p><span>-</span>50%<span>+</span></p></div>
     	</div>
 		<div class="tsd-control tsd-fullscreen">
 			<div class="tsd-card fullscreen">
@@ -353,11 +370,6 @@ padding-top: 7px;
 			</div>
 			<div class="tsd-card hq-stream hq-stream-inactive">
 				<p>HQ</p>
-			</div>
-		</div>
-		<div class="tsd-control tsdtv-test">
-			<div class="tsd-card">
-				<p>Test</p>
 			</div>
 		</div>
 	</div>
