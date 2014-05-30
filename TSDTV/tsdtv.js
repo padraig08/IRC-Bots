@@ -32,26 +32,12 @@ function tsdtvStatus(){
 	}
 }
 
-function flipCard(container, oldCard, newCard, cardActive){
+function flipCard(container, oldCard, newCard, oldState, newState){
 
-
-  var containerActive = container+'-active';
-  var containerInactive = container+'-inactive';
-  var oldCardActive = oldCard+'-active';
-  var oldCardInactive = oldCard+'-inactive';
-  var newCardActive = newCard+'-active';
-  var newCardInactive = newCard+'-inactive';
-
-  if(cardActive){
-
-    $('.'+oldCard).removeClass(oldCardInactive).addClass(oldCardActive);
-    $('.'+newCard).removeClass(newCardInactive).addClass(newCardActive);
-    $('.'+container).addClass(containerActive).removeClass(containerInactive);
-  }else if(!cardActive){
-    $('.'+oldCard).removeClass(oldCardActive).addClass(oldCardInactive);
-    $('.'+newCard).removeClass(newCardActive).addClass(newCardInactive);
-    $('.'+container).addClass(containerInactive).removeClass(containerActive);
-  }
+    $('.'+oldCard).removeClass('active').addClass('inactive');
+    $('.'+newCard).removeClass('inactive').addClass('active');
+    $('.'+container).addClass(newState).removeClass(oldState);
+  
 }
 
 
@@ -104,25 +90,41 @@ $(window).bind("resize", function(){
 
 $('.tsd-mute').click(function(){
 	var vlc = document.getElementById("vlc");
-	vlc.audio.toggleMute();
-  if($('.tsd-mute').hasClass('tsd-mute-inactive')){
-    flipCard('tsd-mute','mute','unmute',true);
-  }else if($('.tsd-mute').hasClass('tsd-mute-active')){
-    flipCard('tsd-mute','mute','unmute',false);
+  if($('.tsd-mute').hasClass('control-unmute')){
+    flipCard('tsd-mute','unmute','mute','control-unmute','control-mute');
+    vlc.audio.toggleMute();
+  }else if($('.tsd-mute').hasClass('control-mute')){
+    flipCard('tsd-mute','mute','unmute','control-mute','control-unmute');
+    vlc.audio.toggleMute();
   }
-  //console.log(vlc.input.hasVout);
 });
-$('.tsd-volume').click(function(){
+$('.volumeUp').click(function(){
 	var vlc = document.getElementById("vlc");
-  if($('.tsd-volume').hasClass('tsd-volume-inactive')){
-    flipCard('tsd-volume','regv','dubv',true);
-    vlc.audio.volume = 200;
-  }else if($('.tsd-volume').hasClass('tsd-volume-active')){
-    flipCard('tsd-volume','regv','dubv',false);
+  if($('.tsd-volume').hasClass('control-fifty')){
+    flipCard('tsd-volume','fiftyv','hundredv','control-fifty','control-hundred');
     vlc.audio.volume = 100;
+  }else if($('.tsd-volume').hasClass('control-hundred')){
+    flipCard('tsd-volume','hundredv','hundredfiftyv','control-hundred','control-hundredfifty');
+    vlc.audio.volume = 150;
+  }else if($('.tsd-volume').hasClass('control-hundredfifty')){
+    flipCard('tsd-volume','hundredfiftyv','twohundredv','control-hundredfifty','control-twohundred');
+    vlc.audio.volume = 200;
   }
-	//vlc.audio.volume = 200;
 	
+});
+$('.volumeDown').click(function(){
+  var vlc = document.getElementById("vlc");
+  if($('.tsd-volume').hasClass('control-hundred')){
+    flipCard('tsd-volume','hundredv','fiftyv','control-hundred','control-fifty');
+    vlc.audio.volume = 50;
+  }else if($('.tsd-volume').hasClass('control-hundredfifty')){
+    flipCard('tsd-volume','hundredfiftyv','hundredv','control-hundredfifty','control-hundred');
+    vlc.audio.volume = 100;
+  }else if($('.tsd-volume').hasClass('control-twohundred')){
+    flipCard('tsd-volume','twohundredv','hundredfiftyv','control-twohundred','control-hundredfifty');
+    vlc.audio.volume = 150;
+  }
+  
 });
 
 $('.tsd-fullscreen').click(function(){
@@ -131,29 +133,35 @@ $('.tsd-fullscreen').click(function(){
 });
 
 $('.tsd-status').click(function(){
-	if($('.tsd-status').hasClass('tsd-status-inactive')){
-		flipCard('tsd-status','tsd-off','tsd-on',true);
-	}else if($('.tsd-status').hasClass('tsd-status-active')){
-		flipCard('tsd-status','tsd-off','tsd-on',false);
-	}
+	if($('.tsd-quality').hasClass('control-off')){
+    flipCard('tsd-quality','off','on','control-off','control-on');
+  }else if($('.tsd-quality').hasClass('control-lq')){
+    flipCard('tsd-quality','on','off','control-on','control-off');
+  }
 });
 
 $('.tsd-quality').click(function(){
   var vlc = document.getElementById("vlc");
-  if($('.tsd-quality').hasClass('tsd-quality-inactive')){
-    flipCard('tsd-quality','hq-stream','lq-stream',true);
+  if($('.tsd-quality').hasClass('control-hq')){
+    flipCard('tsd-quality','hq-stream','lq-stream','control-hq','control-lq');
     vlc.playlist.playItem(1);
-  }else if($('.tsd-quality').hasClass('tsd-quality-active')){
-    flipCard('tsd-quality','hq-stream','lq-stream',false);
-    vlc.playlist.playItem(0);
+  }else if($('.tsd-quality').hasClass('control-lq')){
+    flipCard('tsd-quality','lq-stream','hq-stream','control-lq','control-hq');
+    vlc.playlist.playItem(1);
   }
-  //vlc.playlist.playItem(1);
 });
 
 
-$('.tsdtv-test').click(function(){
+$('.tsd-playToggle').click(function(){
   var vlc = document.getElementById("vlc");
-  vlc.playlist.togglePause();
+  if($('.tsd-playToggle').hasClass('control-play')){
+    flipCard('tsd-playToggle','play','pause','control-play','control-pause');
+    vlc.playlist.togglePause();
+  }else if($('.tsd-playToggle').hasClass('control-pause')){
+    flipCard('tsd-playToggle','pause','play','control-pause','control-play');
+    vlc.playlist.togglePause();
+  }
+
 });
 
 

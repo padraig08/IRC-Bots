@@ -75,7 +75,7 @@ var randomMsg = {
 				'Get Bonked',
 				'Come on and Bonk and Welcome to the Clonk',
 				'Samurai Bonk',
-				'Bonk Around the Clock',
+				'Bonk Around the Clonk',
 				'Great Bonks of Fire',
 				'Bonkzilla',
 				'Rebonkulous',
