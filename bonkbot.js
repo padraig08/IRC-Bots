@@ -1,5 +1,5 @@
 var config = {
-	channels: ["#bots"],
+	channels: ["#tsd"],
 	server: "irc.teamschoolyd.org",
 	botName: "BonkBot"
 };
@@ -107,7 +107,7 @@ function checkOP(name){
 	nameList.push(newName);
 }
 
-function timeToBonk(from, to, target)
+function timeToBonk(from, target)
 {
 	var calc = getRandomInt(0,100);
 	var result = getRandomInt(0,randomMsg.result.length -1);
@@ -214,7 +214,18 @@ bot.addListener("names",function(channel, names){
 	}
 });
 
-bot.addListener("message#bots", function(from, text, message) {
+bot.addListener("nick",function(oldnick, newnick, channel, message){
+	console.log(oldnick, newnick);
+	//console.log("=og=="+nameList+"===");
+	var removeName = _.where(nameList, {'name': oldnick});
+	nameList = _.without(nameList, removeName[0]);
+	//console.log("=remove=="+nameList+"===");
+	checkOP(newnick);
+	//console.log("=add=="+nameList+"===");
+});
+
+
+bot.addListener("message#tsd", function(from, text, message) {
 
 	//Only needs to be matched if the command means to capture text
 	var bonkMatch = text.match(bonkPattern);
@@ -247,7 +258,7 @@ bot.addListener("message#bots", function(from, text, message) {
 		//console.log('Selected Name: ', selectedName);
 
 		if (selectedName){
-			timeToBonk(from, to, givenName);	
+			timeToBonk(from, givenName);	
 		}else {
 			if (clonkometer === 0){
 				clonkometer++;
@@ -256,7 +267,7 @@ bot.addListener("message#bots", function(from, text, message) {
 				clonkometer++;
 				bot.say(config.channels[0], "Next person to fuck this up, you're gonna get bonked.");
 			} else if (clonkometer > 1){
-				timeToBonk(from, to, from);
+				timeToBonk(from, from);
 			}
 		}
 	}
@@ -289,7 +300,7 @@ bot.addListener("pm", function(from, text, message) {
 	//Only needs to be matched if the command means to capture text
 	var randoMatch = text.match(randoPattern);
 
-	if(offQuestion == true && text == "Bonkle"){
+	if(offQuestion == true && text == "Bonkulous"){
 		bot.say(config.channels[0], "BonkBot offline...");
 		bot.disconnect("SeeYouNextTimeSpaceCowboy");
 	}else if (offQuestion == true){
