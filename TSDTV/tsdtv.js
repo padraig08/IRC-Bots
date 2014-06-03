@@ -5,13 +5,20 @@ function vlcAspectRatio(showControls){
 	var maxWidth = window.innerWidth; // Max width for the image
     var maxHeight = window.innerHeight; // Max height for the image
     var availableWidth = 0;
+    var availableHeight = 0;
+  if(maxWidth <= 1000){
+      $('.tsd-tv-container').css('overflow','hidden');
+      availableWidth = maxWidth - 10;
+      availableHeight = maxHeight - ($('.tsd-header').height() + $('.tsd-note-container').height() + $('.tsd-footer').height() + $('.tsd-control-container').height() + 32); 
+  }else if (maxWidth>1000){
+    $('.tsd-tv-container').css('overflow','visible');
     if(showControls === true || showControls=== undefined){
 		availableWidth = maxWidth - ($('.tsd-control-container').width() * 2.5);	
     }else if(showControls === false){
 		availableWidth = maxWidth - 50;
-	}
-	var availableHeight = maxHeight - ($('.tsd-header').height() + $('.tsd-note-container').height() + $('.tsd-footer').height() + 32); 
-
+    }
+    availableHeight = maxHeight - ($('.tsd-header').height() + $('.tsd-note-container').height() + $('.tsd-footer').height() + 32); 
+  }
     setNewWidth(availableWidth, availableHeight);
 }
 
@@ -22,7 +29,7 @@ function setNewWidth(maxWidth, maxHeight){
       $('.tsd-tv-content').css('height', maxHeight);
 }
 
-function tsdtvStatus(){
+/*function tsdtvStatus(){
 	var vlc = document.getElementById("vlc");
 	console.log(vlc.input.state);
 	if (vlc.input.hasVout){
@@ -30,7 +37,7 @@ function tsdtvStatus(){
 	}else if(!vlc.input.hasVout){
 		console.log("TSDTV: Offline");
 	}
-}
+}*/
 
 function flipCard(container, oldCard, newCard, oldState, newState){
 
@@ -69,7 +76,7 @@ $(document).ready(function(){
 		},
 		'z-index':10
 	});
-	tsdtvStatus();
+	//tsdtvStatus();
 });
 
 
@@ -98,7 +105,22 @@ $('.tsd-mute').click(function(){
     vlc.audio.toggleMute();
   }
 });
-$('.volumeUp').click(function(){
+
+$('.volume-down').click(function(){
+  var vlc = document.getElementById("vlc");
+  if($('.tsd-volume').hasClass('control-twohundred')){
+    flipCard('tsd-volume','twohundredv','hundredfiftyv','control-twohundred','control-hundredfifty');
+    vlc.audio.volume = 150;
+  }else if($('.tsd-volume').hasClass('control-hundredfifty')){
+    flipCard('tsd-volume','hundredfiftyv','hundredv','control-hundredfifty','control-hundred');
+    vlc.audio.volume = 100;
+  }else if($('.tsd-volume').hasClass('control-hundred')){
+    flipCard('tsd-volume','hundredv','fiftyv','control-hundred','control-fifty');
+    vlc.audio.volume = 50;
+  }  
+});
+
+$('.volume-up').click(function(){
 	var vlc = document.getElementById("vlc");
   if($('.tsd-volume').hasClass('control-fifty')){
     flipCard('tsd-volume','fiftyv','hundredv','control-fifty','control-hundred');
@@ -111,20 +133,6 @@ $('.volumeUp').click(function(){
     vlc.audio.volume = 200;
   }
 	
-});
-$('.volumeDown').click(function(){
-  var vlc = document.getElementById("vlc");
-  if($('.tsd-volume').hasClass('control-hundred')){
-    flipCard('tsd-volume','hundredv','fiftyv','control-hundred','control-fifty');
-    vlc.audio.volume = 50;
-  }else if($('.tsd-volume').hasClass('control-hundredfifty')){
-    flipCard('tsd-volume','hundredfiftyv','hundredv','control-hundredfifty','control-hundred');
-    vlc.audio.volume = 100;
-  }else if($('.tsd-volume').hasClass('control-twohundred')){
-    flipCard('tsd-volume','twohundredv','hundredfiftyv','control-twohundred','control-hundredfifty');
-    vlc.audio.volume = 150;
-  }
-  
 });
 
 $('.tsd-fullscreen').click(function(){
@@ -164,6 +172,33 @@ $('.tsd-playToggle').click(function(){
 
 });
 
+$('.rate-down').click(function(){
+  var vlc = document.getElementById("vlc");
+  if($('.tsd-rate').hasClass('control-twor')){
+    flipCard('tsd-rate','twor','onehalfr','control-twor','control-onehalfr');
+    vlc.input.rate = 1.5;
+  }else if($('.tsd-rate').hasClass('control-onehalfr')){
+    flipCard('tsd-rate','onehalfr','oner','control-onehalfr','control-oner');
+    vlc.input.rate = 1;
+  }else if($('.tsd-rate').hasClass('control-oner')){
+    flipCard('tsd-rate','oner','halfr','control-oner','control-halfr');
+    vlc.input.rate = 0.5;
+  }  
+});
 
+$('.rate-up').click(function(){
+  var vlc = document.getElementById("vlc");
+  if($('.tsd-rate').hasClass('control-halfr')){
+    flipCard('tsd-rate','halfr','oner','control-halfr','control-oner');
+    vlc.input.volume = 1;
+  }else if($('.tsd-rate').hasClass('control-oner')){
+    flipCard('tsd-rate','oner','onehalfr','control-oner','control-onehalfr');
+    vlc.input.rate = 1.5;
+  }else if($('.tsd-rate').hasClass('control-onehalfr')){
+    flipCard('tsd-rate','onehalfr','twor','control-onehalfr','control-twor');
+    vlc.input.rate = 2.0;
+  }
+  
+});
 
 

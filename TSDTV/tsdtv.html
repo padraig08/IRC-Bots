@@ -2,13 +2,12 @@
 <html>
 <head>
 <script src="http://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
-<script src="jquery-vlc.js" type="text/javascript"></script>
 <script src="jquery.allofthelights-min.js" type="text/javascript"></script>
 
 <style>
 @font-face{
 	font-family: TSD;
-	src:url('spyagency3grad.ttf');
+	src:url('spyagency3.ttf');
 }
 body {
 	color: #A4A4A4;
@@ -168,15 +167,6 @@ text-align: center;
 font-size: 35px;
 }
 
-.tsd-off{
-	background:#F00;
-	z-index: 10;
-}
-.tsd-on{
-	background:#1F9900;
-}
-
-
 .pov-stream{
 	top: 0;
 position: absolute;
@@ -223,6 +213,80 @@ padding-top: 7px;
 	background-position: center;
 	background-repeat: no-repeat;
 }
+.volumeNumbers {
+width: 40px;
+margin: 0;
+padding: 0;
+float: left;
+font-size: 30px;
+margin-left: 20;
+}
+
+.volume-up {
+	margin-top: -5px;
+margin-right: 5px;
+float: right;
+
+width:20px;
+height:20px;
+background-image: url(plus.png);
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+
+}
+.volume-down {
+float: right;
+margin-right: 5px;
+
+width:20px;
+height:20px;
+background-image: url(minus.png);
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+.rateNumbers {
+width: 40px;
+margin: 0;
+padding: 0;
+float: left;
+font-size: 30px;
+margin-left: 20;
+}
+
+.rate-up {
+	margin-top: -5px;
+margin-right: 5px;
+float: right;
+
+width:20px;
+height:20px;
+background-image: url(plus.png);
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+
+}
+.rate-down {
+float: right;
+margin-right: 5px;
+
+width:20px;
+height:20px;
+background-image: url(minus.png);
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+.card-content {
+width: 100px;
+margin-top: 34px;
+}
+
+div.fiftyv div.volumeNumbers {
+margin-left: 30px;
+}
 
 @media screen and (max-width : 1000px) {
 .tsd-control{
@@ -259,10 +323,6 @@ padding-top: 7px;
 	</span>
 	</div>
 	<div class="tsd-control-container">
-		<div class="tsd-control tsd-status control-off">
-			<div class="tsd-card tsd-on inactive"><p>ON</p></div>
-    		<div class="tsd-card tsd-off active"><p>OFF</p></div>
-		</div>
 		<div class="tsd-control tsd-playToggle control-play">
 			<div class="tsd-card pause inactive"></div>
 			<div class="tsd-card play active"></div>
@@ -272,10 +332,70 @@ padding-top: 7px;
     		<div class="tsd-card unmute active"></div>
 		</div>
 		<div class="tsd-control tsd-volume control-hundred">
-			<div class="tsd-card twohundredv inactive"><p><div class="volumeDown">-</div>200%</p></div>
-			<div class="tsd-card hundredfiftyv inactive"><p><div class="volumeDown">-</div>150%<div class="volumeUp">+</div></p></div>
-    		<div class="tsd-card hundredv active"><p><div class="volumeDown">-</div>100%<div class="volumeUp">+</div></p></div>
-    		<div class="tsd-card fiftyv inactive"><p>50%<div class="volumeUp">+</div></p></div>
+			<div class="tsd-card twohundredv inactive">
+				<div class="card-content">
+					
+					<div class="volumeNumbers">200</div>
+					<div class="volume-down"></div>
+				</div>
+			</div>
+			<div class="tsd-card hundredfiftyv inactive">
+				<div class="card-content">
+
+					<div class="volumeNumbers">150</div>
+					<div class="volume-up"></div>
+					<div class="volume-down"></div>
+					
+				</div>
+			</div>
+    		<div class="tsd-card hundredv active">
+    			<div class="card-content">
+    				
+    				<div class="volumeNumbers">100</div>
+    				<div class="volume-up"></div>
+    				<div class="volume-down"></div>
+    				
+    			</div>
+    		</div>
+    		<div class="tsd-card fiftyv inactive">
+    			<div class="card-content">
+    				<div class="volumeNumbers">50</div>
+    				<div class="volume-up"></div>
+    			</div>
+    		</div>
+    	</div>
+    	<div class="tsd-control tsd-rate control-oner">
+			<div class="tsd-card twor inactive">
+				<div class="card-content">
+					
+					<div class="rateNumbers">2x</div>
+					<div class="rate-down"></div>
+				</div>
+			</div>
+			<div class="tsd-card onehalfr inactive">
+				<div class="card-content">
+
+					<div class="rateNumbers">1.5x</div>
+					<div class="rate-up"></div>
+					<div class="rate-down"></div>
+					
+				</div>
+			</div>
+    		<div class="tsd-card oner active">
+    			<div class="card-content">
+    				
+    				<div class="rateNumbers">1x</div>
+    				<div class="rate-up"></div>
+    				<div class="rate-down"></div>
+    				
+    			</div>
+    		</div>
+    		<div class="tsd-card halfr inactive">
+    			<div class="card-content">
+    				<div class="rateNumbers">0.5x</div>
+    				<div class="rate-up"></div>
+    			</div>
+    		</div>
     	</div>
 		<div class="tsd-control tsd-fullscreen">
 			<div class="tsd-card fullscreen">
