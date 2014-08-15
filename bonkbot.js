@@ -1,5 +1,5 @@
 var config = {
-	channels: ["#tsd"],
+	channels: ["#bots"],
 	server: "irc.teamschoolyd.org",
 	botName: "BonkBot"
 };
@@ -12,8 +12,35 @@ var _ = require('lodash-node');
 var urls = {
 	reddit: 'http://www.reddit.com/r/',
 	subs: { img: ['pics','photoshopbattles','OldSchoolCool','dataisbeautiful','gunpla','DIY', 'AnimalsBeingJerks', 'thathappened', 'picturesofiansleeping','notinteresting'], 
-			gif:['gifs','combinedgifs','blackpeoplegifs','whitepeoplegifs','animegifs','brokengifs','shittyreactiongifs','chemicalreactiongifs','reactiongifs','kramergifs','georgegifs','perfectLoops', 'HighQualityGifs','SuperSaiyanGifs','ProWrestlingGIFs']},
+			gif:['gifs','combinedgifs','blackpeoplegifs','whitepeoplegifs','animegifs','shittyreactiongifs','chemicalreactiongifs','reactiongifs','kramergifs','georgegifs','perfectLoops', 'HighQualityGifs','SuperSaiyanGifs','ProWrestlingGIFs']},
 	commands: ['img','gif','howtoimg','Clonk', 'rando']
+};
+var dmx = {
+	commands: 'dmx',
+	phrases: ['X GON GIVE IT TO YA',
+			'TOOK TOO LONG TO GET IT ON YO OWN, X GON DELIVER TO YA',
+			"KNOCK, KNOCK, OPEN UP THE DOOR IT'S REAL",
+			"WITH THE NONSTOP POP POP, THE STAINLESS STEEL",
+			"HIT IT WITH FULL STRENFF",
+			"FIRST WE GON ROCK, THEN WE GON ROLL",
+			"Y'ALL GON MAKE ME LOSE MY MIND, UP IN HERE, UP IN HERE",
+			"Y'ALL GON MAKE ME ACT A FOOL, UP IN HERE, UP IN HERE",
+			"GGRRRRRRRRR.... WHAT!"],
+	vids: ["https://www.youtube.com/watch?v=thIVtEOtlWM",
+		"https://www.youtube.com/watch?v=ThlhSnRk21E",
+		"https://www.youtube.com/watch?v=fGx6K90TmCI",
+		"https://www.youtube.com/watch?v=8k6SS6uWI-k",
+		"https://www.youtube.com/watch?v=vkOJ9uNj9EY",
+		"https://www.youtube.com/watch?v=ExitLAP6F9U",
+		"https://www.youtube.com/watch?v=Grj9zdnbKQ4",
+		"https://www.youtube.com/watch?v=kPBFzNFV6DQ",
+		"https://www.youtube.com/watch?v=roo0CeT1VXI"]
+};
+var gouf = {
+	commands: 'gouf',
+	items: ['https://www.youtube.com/watch?v=CPqomrYO960',
+			'https://www.youtube.com/watch?v=nKqs1JLDbp4',
+			'https://www.youtube.com/watch?v=ts7--zxXXKQ']
 };
 
 var clonkometer = 0;
@@ -31,7 +58,26 @@ var randomMsg = {
 				'unforseen clonk',
 				'Orbital Death Laser',
 				'Swag Overload',
+				'Great Teacher Onizuka',
+				'Hydrogen powered chest blimps',
+				'Long Donged Ippo',
+				'Fast in-boxing',
+				'Mongoloid out-boxing',
+				'minor technicality in the Laredo Rules',
+				'TDVictoryLap',
+				'IRC Avengers',
+				'Captain Battlebonk',
+				'Tumblr Mercenaries',
+				'Victory Swole',
+				'sonic fanfic',
+				'S-Shrek',
+				'fully armed and operational bonklestation',
+				'two fat dwarves',
+				'Reverse engineered kek set to Danger Maximum',
+				'Destination Maximum',
+				'DMX grrr cannon',
 				'The Clonkening',
+				'fuckin ball pit',
 				'secret of the ooze',
 				'Gorillas wearing jetpacks with no concept of how to use a jetpack',
 				'Drill, that is the drill that will pierce the heavens',
@@ -39,7 +85,9 @@ var randomMsg = {
 				'Regulation issued Bonkgiver',
 				'Five Finger Slam Bringer',
 				'MAKUROSU',
-				'Production ready Gak sexual monsters',
+				'Intense batch of Smellikinesis',
+				'good whiff',
+				'Production ready Gak',
 				'several hundred nuclear warheads',
 				'Weaponized Dubstep',
 				'Vaguemind',
@@ -55,11 +103,23 @@ var randomMsg = {
 				'were made more important than a one night stand',
 				'were taken to district court',
 				'have been BTFO',
+				'were bad bonked',
+				'were made just... just a mess',
+				"got GTO'd",
+				"were set to Danger Maximum",
+				'fell victim to bonk',
+				"didn't make it in the third round",
+				"got KO'd with 3 seconds remaining",
+				"were totally bamboozled",
+				"were judged",
 				'were BLOWN THE FUCK OUT',
-				'Molded into new Gak',
+				'were Molded into new Gak',
 				'were made to understand their fate',
 				'are currently in bite sized chunks scattered to the wind',
 				'were blown to smiteroons',
+				'have been sent back to mother in a cardboard box',
+				'were taken in for questioning',
+				'were cuffed by Lou',
 				'were hacked into the future',
 				'are being bonk, bonking, bonked',
 				'are not recognizable anymore',
@@ -68,16 +128,21 @@ var randomMsg = {
 	assess:		['#cantbonkthis',
 				'Whadda ya gonna do, drop a bonk on me?',
 				'About Bonking Time',
+				'Dark Side of the Clonk',
 				'Clonkers are still in the fight',
 				'Holding on by the skin of your clonkers',
 				'bonks all around',
+				'Double Bonk',
 				'Was that a good bonking or a bad clonking?',
 				'Get Bonked',
 				'Come on and Bonk and Welcome to the Clonk',
-				'Samurai Bonk',
+				'Triple Bonk',
+				'The Incredible Bonk',
 				'Bonk Around the Clonk',
 				'Great Bonks of Fire',
+				'OverBonk',
 				'Bonkzilla',
+				'I am the Bonk',
 				'Rebonkulous',
 				'UNBONKINGBELIEVABLE'],
 	colors:		['light_blue',
@@ -185,7 +250,9 @@ var commands = {
 		clonk:		'^#'+urls.commands[3]+'(.*)$',
 		battlebonk: '^#'+randomMsg.commands[0]+'(.*)$',
 		howtobonk:	'^#'+randomMsg.commands[1]+'(.*)$',
-		rando: '^#'+urls.commands[4]+'(.*)$'};
+		rando: '^#'+urls.commands[4]+'(.*)$',
+		dmx: '^#'+dmx.commands+'(.*)$',
+		gouf: '^#'+gouf.commands+'(.*)$'};
 	var imgPattern = new RegExp(commands.img);
 	var gifPattern = new RegExp(commands.gif);
 	var howPattern = new RegExp(commands.howtoimg);
@@ -193,12 +260,16 @@ var commands = {
 	var bonkPattern = new RegExp(commands.battlebonk);
 	var howbonkPattern = new RegExp(commands.howtobonk);
 	var randoPattern = new RegExp(commands.rando);
+	var dmxPattern = new RegExp(commands.dmx);
+	var goufPattern = new RegExp(commands.gouf);
 	var kind= '';
 
 bot.addListener("join", function(channel, who, message){
 	if(who == "BonkBot"){
-		bot.say(config.channels[0],"BonkBot Online.... ImageRoulette and Battlebonk have combine into me (For cmd's use #howtoimg)");
+		bot.say(config.channels[0],"BonkBot Online.... ImageRoulette and Battlebonk have combine into me (For cmd's use #howtoimg and #howtobonk)");
 		
+	}else{
+		checkOP(who);
 	}
 });
 
@@ -216,16 +287,14 @@ bot.addListener("names",function(channel, names){
 
 bot.addListener("nick",function(oldnick, newnick, channel, message){
 	console.log(oldnick, newnick);
-	//console.log("=og=="+nameList+"===");
 	var removeName = _.where(nameList, {'name': oldnick});
 	nameList = _.without(nameList, removeName[0]);
-	//console.log("=remove=="+nameList+"===");
 	checkOP(newnick);
-	//console.log("=add=="+nameList+"===");
+	
 });
 
 
-bot.addListener("message#tsd", function(from, text, message) {
+bot.addListener("message#bots", function(from, text, message) {
 
 	//Only needs to be matched if the command means to capture text
 	var bonkMatch = text.match(bonkPattern);
@@ -294,6 +363,19 @@ bot.addListener("message#tsd", function(from, text, message) {
 	if(randoPattern.test(text)){
 		randoSub(randoMatch[1].trim(), config.channels[0]);
 	}
+
+	if(dmxPattern.test(text)){
+		var dmxChosenPhrase = getRandomInt(0,dmx.phrases.length-1);
+		var dmxChosenVid =  getRandomInt(0,dmx.vids.length-1);
+		bot.say(config.channels[0], dmx.phrases[dmxChosenPhrase]);
+		bot.say(config.channels[0], dmx.vids[dmxChosenVid]);
+	}
+
+	if(goufPattern.test(text)){
+		var goufChosenVid = getRandomInt(0,gouf.items.length-1);
+		bot.say(config.channels[0], gouf.items[goufChosenVid]);
+	}
+
 });
 bot.addListener("pm", function(from, text, message) {
 
