@@ -1,5 +1,5 @@
 var config = {
-	channels: ["#bots"],
+	channels: ["#tsd"],
 	server: "irc.teamschoolyd.org",
 	botName: "BonkBot"
 };
@@ -13,15 +13,17 @@ var urls = {
 	reddit: 'http://www.reddit.com/r/',
 	subs: { img: ['pics','photoshopbattles','OldSchoolCool','dataisbeautiful','gunpla','DIY', 'AnimalsBeingJerks', 'thathappened', 'picturesofiansleeping','notinteresting'], 
 			gif:['gifs','combinedgifs','blackpeoplegifs','whitepeoplegifs','animegifs','shittyreactiongifs','chemicalreactiongifs','reactiongifs','kramergifs','georgegifs','perfectLoops', 'HighQualityGifs','SuperSaiyanGifs','ProWrestlingGIFs']},
-	commands: ['img','gif','howtoimg','Clonk', 'rando']
+	commands: ['img','gif','howtobonk','Clonk', 'rando']
 };
 var dmx = {
 	commands: 'dmx',
 	phrases: ['X GON GIVE IT TO YA',
-			'TOOK TOO LONG TO GET IT ON YO OWN, X GON DELIVER TO YA',
+			'DONE WAITING FOR YA TO GET IT ON YO OWN, X GON DELIVER TO YA',
 			"KNOCK, KNOCK, OPEN UP THE DOOR IT'S REAL",
 			"WITH THE NONSTOP POP POP, THE STAINLESS STEEL",
 			"HIT IT WITH FULL STRENFF",
+			"BREAK BREAD WITH THE ENEMY",
+			"I'LL BREAK WHO YOU'RE SENDING ME",
 			"FIRST WE GON ROCK, THEN WE GON ROLL",
 			"Y'ALL GON MAKE ME LOSE MY MIND, UP IN HERE, UP IN HERE",
 			"Y'ALL GON MAKE ME ACT A FOOL, UP IN HERE, UP IN HERE",
@@ -34,13 +36,80 @@ var dmx = {
 		"https://www.youtube.com/watch?v=ExitLAP6F9U",
 		"https://www.youtube.com/watch?v=Grj9zdnbKQ4",
 		"https://www.youtube.com/watch?v=kPBFzNFV6DQ",
-		"https://www.youtube.com/watch?v=roo0CeT1VXI"]
+		"https://www.youtube.com/watch?v=roo0CeT1VXI",
+		'https://www.youtube.com/watch?v=Qy8SPLff5pQ',
+		'https://www.youtube.com/watch?v=OnkpPMH4i9o',
+		'https://www.youtube.com/watch?v=5Q6lgzzfPS4',
+		'https://www.youtube.com/watch?v=xFSwIw-_-as',
+		'https://www.youtube.com/watch?v=Pit2gYQka2M',
+		'https://www.youtube.com/watch?v=v5yTzlw5dKs',
+		'https://www.youtube.com/watch?v=zxP038dKDuo',
+		'https://www.youtube.com/watch?v=he_JgaDUvIU',
+		'https://www.youtube.com/watch?v=wkx8Mw6uMdM',
+		'https://www.youtube.com/watch?v=3IoaCC_ZDno',
+		'https://www.youtube.com/watch?v=ZtBaeOwwK3c',
+		'https://www.youtube.com/watch?v=GGiIuBaXGQw',
+		'https://www.youtube.com/watch?v=8hgmW4B9wVs',
+		'https://www.youtube.com/watch?v=47G3SK8QEhQ']
 };
 var gouf = {
 	commands: 'gouf',
 	items: ['https://www.youtube.com/watch?v=CPqomrYO960',
 			'https://www.youtube.com/watch?v=nKqs1JLDbp4',
 			'https://www.youtube.com/watch?v=ts7--zxXXKQ']
+};
+
+var hyokin = {
+	commands: 'hyokin',
+	items: ["Hyokin is a 19-year old American writer, artist, voice-actor, webpage designer, and all around Halo fan.",
+			"He began playing Halo in 2004 when he purchased his first Xbox and soon moved to the newly released Halo 2.",
+			"In January 2010, he began hosting a weekly Custom Game night on Halo.Bungie.Org where he met many of the leaders of his clan, The Customs Clan; including Chrisl 01 b, Imonkey777, CaneCutter, and Deafhawk36.",
+			"Hyokin works at a small local grocery store where he bags groceries, maintains the recycling room, and pushes carts.",
+			"He spends his free time playing Halo, writing short stories, and maintaining his various websites.",
+			"He also enjoys hiking and swimming.",
+			"Hyokin's favorite Halo 3 ODST Character is Buck. He also enjoys the line 'Barn, said the lady'",
+			"Hyokin has unlocked Recon Armor in Halo 3.",
+			"Hyokin has unlocked Sergeant Johnson in Halo 3 ODST.",
+			"Hyokin has less than 5000 Gamerpoints, over 4000 of which came from Halo 3 and Halo 3 ODST.",
+			"Hyokin did not complete Halo Wars and found it to be boring.",
+			"Hyokin is always eating a snack on the HBO Customs Podcast.",
+			"Hyokin likes CaneCutter and picks on his accent because he considers him a good friend.",
+			"Hyokin and Monkey are bestest pals.",
+			"Hyokin is in all but two of Chrisl 01 b's 'Things You Wouldn't Expect Reach Videos.",
+			"Hyokin made it into a Bungie Vidoc The Good, The Ugly, and the Badass' at 16-seconds in, using 'Team Armor Lock'",
+			"Hyokin has been on HBO since 2006. He started playing Halo in 2004 and got a computer and Xbox Live in 2006.",
+			"Hyokin joined HBO after reading Stephen Loftus' articles.",
+			"Hyokin's favorite Halo level of all time is Assault On The Control Room in Halo: Combat Evolved.",
+			"Hyokin has more HBO forum posts than Louis Wu and everyone else from Customs Clan.",
+			"Hyokin quit Halo for a month when he saw the Reach trailer in December 2009.",
+			"Hyokin return and created Customs.",
+			"Hyokin recieved his Halo: Reach Beta Code from Frank O'Conner through e-mail. Frankie gave it to him because he posted first in a thread where Frankie was asking Cody Miller if he had a code yet. Hyokin explained that Cody had one but he did not. Frankie then e-mailed him a code subject line reading 'Cody's Sloppy Seconds'",
+			"Hyokin wears purple armor with an EVA Helmet, Scout Shoulders, and a CQB chestplate.",
+			"Hyokin's emblem in Halo games is the letter 'H' created using the Marathon and Vertical Stripes images.",
+			"Hyokin will turn on Halo, play around on a single forge map for two hours, then turn it off.",
+			"Hyokin loves Forging maps.",
+			"Hyokin's biggest desire for Halo Reach's Forge system is Trees.",
+			"Hyokin likes Chinese food and Pepsi.",
+			"Hyokin has recieved a fortune cookie reading 'Oops! Wrong Cookie'",
+			"Hyokin is attending a community college for graphic art and communcations.",
+			"Hyokin enjoys creating video games on his computer using FPS Creator and RPG Maker VX.",
+			"Hyokin has been making video games for almost ten years, though never completeing a project.",
+			"Hyokin has been designing websites since 2003.",
+			"Hyokin owns a black Xbox 360 Elite with a black controller.",
+			"Hyokin has a white Xbox Arcade headset.",
+			"Hyokin's cellphone has a sticker of a gopher poking its head up from a hole saying 'Sup'",
+			"Hyokin is husky, though not obese.",
+			"Hyokin hates Grifball.",
+			"Hyokin owns a white t-shirt reading 'Ihyokin.com' in purple text with a purple skull. Custom made.",
+			"Hyokin owns a calico cat named Zoey.",
+			"Hyokin lives in his parent's basement in a room he and his stepdad built themselves.",
+			"Hyokin has an HD TV.",
+			"Hyokin owns his own personal 'Gamer' couch.",
+			"Hyokin purchased the Legendary Edition of Halo 3 and has the cat-head helmet in his closet.",
+			"Hyokin has a purple 'pod Nano.",
+			"Hyokin drives a black, bubble-shaped car. It is similar to his Halo 3 EVA helmet, except it is black not purple.",
+			"His stepfather would never let his son drive a purple car.",
+			"Hyokin's Bungie.net account name is 'Dellaro Studios' which was the name of a website he ran years ago."]
 };
 
 var clonkometer = 0;
@@ -119,7 +188,8 @@ var randomMsg = {
 				'were blown to smiteroons',
 				'have been sent back to mother in a cardboard box',
 				'were taken in for questioning',
-				'were cuffed by Lou',
+				'were cuffed and detained',
+				'were made husky though not obese',
 				'were hacked into the future',
 				'are being bonk, bonking, bonked',
 				'are not recognizable anymore',
@@ -252,7 +322,8 @@ var commands = {
 		howtobonk:	'^#'+randomMsg.commands[1]+'(.*)$',
 		rando: '^#'+urls.commands[4]+'(.*)$',
 		dmx: '^#'+dmx.commands+'(.*)$',
-		gouf: '^#'+gouf.commands+'(.*)$'};
+		gouf: '^#'+gouf.commands+'(.*)$',
+		hyo: '^#'+hyokin.commands+'(.*)$'};
 	var imgPattern = new RegExp(commands.img);
 	var gifPattern = new RegExp(commands.gif);
 	var howPattern = new RegExp(commands.howtoimg);
@@ -262,11 +333,12 @@ var commands = {
 	var randoPattern = new RegExp(commands.rando);
 	var dmxPattern = new RegExp(commands.dmx);
 	var goufPattern = new RegExp(commands.gouf);
+	var hyoPattern = new RegExp(commands.hyo);
 	var kind= '';
 
 bot.addListener("join", function(channel, who, message){
 	if(who == "BonkBot"){
-		bot.say(config.channels[0],"BonkBot Online.... ImageRoulette and Battlebonk have combine into me (For cmd's use #howtoimg and #howtobonk)");
+		bot.say(config.channels[0],"BonkBot Online.... Modules running: Battlebonk, ImageRoulette, DMX, Gouf, Hyokin-Facts | use #howtobonk for instructions");
 		
 	}else{
 		checkOP(who);
@@ -294,28 +366,32 @@ bot.addListener("nick",function(oldnick, newnick, channel, message){
 });
 
 
-bot.addListener("message#bots", function(from, text, message) {
+bot.addListener("message#tsd", function(from, text, message) {
 
 	//Only needs to be matched if the command means to capture text
 	var bonkMatch = text.match(bonkPattern);
 	//Only needs to be matched if the command means to capture text
 	var randoMatch = text.match(randoPattern);
 
-	if(howPattern.test(text)){
+	if(howPattern.test(text) | howbonkPattern.test(text)){
 		bot.say(config.channels[0],"Sending list of commands your way, " + from);
+		bot.say(from, "--Battlebonk--");
+		bot.say(from, "To initiate battlebonk use command: #battlebonk <target>");
+		bot.say(from, "Make sure <target> is someone currently in the chat. Otherwise you could bonk yourself");
+		bot.say(from, "--ImageRoulette--");
 		bot.say(from, "To get a random image or gif use: #img or #gif");
 		bot.say(from, "Note: Gifs may still come up in image randomizer.");
 		bot.say(from, "To get a random post from any subreddit, use #rando <target>");
 		bot.say(from, "If no target is specified, a random subreddit will be selected for you.");
 		bot.say(from, "Warning: Not all random posts will be images or gifs and the sfw value depends on the subreddit.");
+		bot.say(from, "--DMX--");
+		bot.say(from, "use #dmx to deploy a DMX signature bark and video");
+		bot.say(from, "--Gouf--");
+		bot.say(from, "use #gouf to deploy a ;_;7 for all the goufs lost over the years");
+		bot.say(from, "--Hyokin--");
+		bot.say(from, "use #hyokin to get some much needed Hyokin facts");
 	}
 
-	if(howbonkPattern.test(text)){
-		bot.say(config.channels[0],"Sending list of commands your way, " + from);
-		bot.say(from, "To initiate battlebonk use command: #battlebonk <target>");
-		bot.say(from, "Make sure <target> is someone currently in the chat. Otherwise you could bonk yourself");
-	}
-	
 	if (bonkPattern.test(text)){
 
 		var givenName = bonkMatch[1].trim();
@@ -374,6 +450,11 @@ bot.addListener("message#bots", function(from, text, message) {
 	if(goufPattern.test(text)){
 		var goufChosenVid = getRandomInt(0,gouf.items.length-1);
 		bot.say(config.channels[0], gouf.items[goufChosenVid]);
+	}
+
+	if(hyoPattern.test(text)){
+		var hyoChosenFact = getRandomInt(0,hyokin.items.length-1);
+		bot.say(config.channels[0], hyokin.items[hyoChosenVid]);
 	}
 
 });
