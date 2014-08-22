@@ -62,28 +62,28 @@ var gouf = {
 var hyokin = {
 	commands: 'hyokin',
 	items: ["Hyokin is a 19-year old American writer, artist, voice-actor, webpage designer, and all around Halo fan.",
-			"He began playing Halo in 2004 when he purchased his first Xbox and soon moved to the newly released Halo 2.",
-			"In January 2010, he began hosting a weekly Custom Game night on Halo.Bungie.Org where he met many of the leaders of his clan, The Customs Clan; including Chrisl 01 b, Imonkey777, CaneCutter, and Deafhawk36.",
-			"Hyokin works at a small local grocery store where he bags groceries, maintains the recycling room, and pushes carts.",
-			"He spends his free time playing Halo, writing short stories, and maintaining his various websites.",
-			"He also enjoys hiking and swimming.",
-			"Hyokin's favorite Halo 3 ODST Character is Buck. He also enjoys the line 'Barn, said the lady'",
+			"Hyokin began playing Halo in 2004 when Hyokin purchased his first Xbox and soon moved to the newly released Halo 2.",
+			"In January 2010, Hyokin began hosting a weekly Custom Game night on Halo.Bungie.Org where Hyokin met many of the leaders of his clan, The Customs Clan; including Chris101 b, Imonkey777, CaneCutter, and Deafhawk36.",
+			"Hyokin works at a small local grocery store where Hyokin bags groceries, maintains the recycling room, and pushes carts.",
+			"Hyokin spends his free time playing Halo, writing short stories, and maintaining his various websites.",
+			"Hyokin also enjoys hiking and swimming.",
+			"Hyokin's favorite Halo 3 ODST Character is Buck. Hyokin also enjoys the line 'Barn, said the lady'",
 			"Hyokin has unlocked Recon Armor in Halo 3.",
 			"Hyokin has unlocked Sergeant Johnson in Halo 3 ODST.",
 			"Hyokin has less than 5000 Gamerpoints, over 4000 of which came from Halo 3 and Halo 3 ODST.",
 			"Hyokin did not complete Halo Wars and found it to be boring.",
 			"Hyokin is always eating a snack on the HBO Customs Podcast.",
-			"Hyokin likes CaneCutter and picks on his accent because he considers him a good friend.",
+			"Hyokin likes CaneCutter and picks on his accent because Hyokin considers him a good friend.",
 			"Hyokin and Monkey are bestest pals.",
-			"Hyokin is in all but two of Chrisl 01 b's 'Things You Wouldn't Expect Reach Videos.",
+			"Hyokin is in all but two of Chris101 b's 'Things You Wouldn't Expect Reach Videos.",
 			"Hyokin made it into a Bungie Vidoc The Good, The Ugly, and the Badass' at 16-seconds in, using 'Team Armor Lock'",
-			"Hyokin has been on HBO since 2006. He started playing Halo in 2004 and got a computer and Xbox Live in 2006.",
+			"Hyokin has been on HBO since 2006. Hyokin started playing Halo in 2004 and got a computer and Xbox Live in 2006.",
 			"Hyokin joined HBO after reading Stephen Loftus' articles.",
 			"Hyokin's favorite Halo level of all time is Assault On The Control Room in Halo: Combat Evolved.",
 			"Hyokin has more HBO forum posts than Louis Wu and everyone else from Customs Clan.",
-			"Hyokin quit Halo for a month when he saw the Reach trailer in December 2009.",
+			"Hyokin quit Halo for a month when Hyokin saw the Reach trailer in December 2009.",
 			"Hyokin return and created Customs.",
-			"Hyokin recieved his Halo: Reach Beta Code from Frank O'Conner through e-mail. Frankie gave it to him because he posted first in a thread where Frankie was asking Cody Miller if he had a code yet. Hyokin explained that Cody had one but he did not. Frankie then e-mailed him a code subject line reading 'Cody's Sloppy Seconds'",
+			"Hyokin recieved his Halo: Reach Beta Code from Frank O'Conner through e-mail. Frankie gave it to him because Hyokin posted first in a thread where Frankie was asking Cody Miller if Hyokin had a code yet. Hyokin explained that Cody had one but Hyokin did not. Frankie then e-mailed him a code subject line reading 'Cody's Sloppy Seconds'",
 			"Hyokin wears purple armor with an EVA Helmet, Scout Shoulders, and a CQB chestplate.",
 			"Hyokin's emblem in Halo games is the letter 'H' created using the Marathon and Vertical Stripes images.",
 			"Hyokin will turn on Halo, play around on a single forge map for two hours, then turn it off.",
@@ -102,14 +102,14 @@ var hyokin = {
 			"Hyokin hates Grifball.",
 			"Hyokin owns a white t-shirt reading 'Ihyokin.com' in purple text with a purple skull. Custom made.",
 			"Hyokin owns a calico cat named Zoey.",
-			"Hyokin lives in his parent's basement in a room he and his stepdad built themselves.",
+			"Hyokin lives in his parent's basement in a room Hyokin and his stepdad built themselves.",
 			"Hyokin has an HD TV.",
 			"Hyokin owns his own personal 'Gamer' couch.",
 			"Hyokin purchased the Legendary Edition of Halo 3 and has the cat-head helmet in his closet.",
-			"Hyokin has a purple 'pod Nano.",
+			"Hyokin has a purple iPod Nano.",
 			"Hyokin drives a black, bubble-shaped car. It is similar to his Halo 3 EVA helmet, except it is black not purple.",
-			"His stepfather would never let his son drive a purple car.",
-			"Hyokin's Bungie.net account name is 'Dellaro Studios' which was the name of a website he ran years ago."]
+			"Hyokin's stepfather would never let his son drive a purple car.",
+			"Hyokin's Bungie.net account name is 'Dellaro Studios' which was the name of a website Hyokin ran years ago."]
 };
 
 var clonkometer = 0;
@@ -240,6 +240,23 @@ function checkOP(name){
 	}
 	var newName = { 'name': name };
 	nameList.push(newName);
+}
+
+function quothTheHyo(sub, from){
+	var hyoChosenFact = '';
+	var hyoReplaceFact = '';
+	hyoChosenFact = getRandomInt(0,hyokin.items.length-1);
+
+	if (!sub.length || sub.length === 0 || sub === ""){
+		bot.say(config.channels[0], hyokin.items[hyoChosenFact]);
+	}else if (sub.length > 20 || sub.indexOf(".") > -1){
+		sub = "That fucker "+from+", the douche king himself";
+		hyoReplaceFact = hyokin.items[hyoChosenFact].replace("Hyokin", sub).replace(" Hyokin", " "+sub).replace("hyokin",sub);
+		bot.say(config.channels[0], hyoReplaceFact);
+	}else{
+		hyoReplaceFact = hyokin.items[hyoChosenFact].replace("Hyokin", sub).replace(" Hyokin", " "+sub).replace("hyokin",sub);
+		bot.say(config.channels[0], hyoReplaceFact);
+	}
 }
 
 function timeToBonk(from, target)
@@ -373,6 +390,8 @@ bot.addListener("message#tsd", function(from, text, message) {
 	//Only needs to be matched if the command means to capture text
 	var randoMatch = text.match(randoPattern);
 
+	var hyoMatch = text.match(hyoPattern);
+
 	if(howPattern.test(text) | howbonkPattern.test(text)){
 		bot.say(config.channels[0],"Sending list of commands your way, " + from);
 		bot.say(from, "--Battlebonk--");
@@ -390,6 +409,7 @@ bot.addListener("message#tsd", function(from, text, message) {
 		bot.say(from, "use #gouf to deploy a ;_;7 for all the goufs lost over the years");
 		bot.say(from, "--Hyokin--");
 		bot.say(from, "use #hyokin to get some much needed Hyokin facts");
+		bot.say(from, "leave it blank for hyokin classic, or add a <target> to make a new fact. Custom made.");
 	}
 
 	if (bonkPattern.test(text)){
@@ -453,8 +473,9 @@ bot.addListener("message#tsd", function(from, text, message) {
 	}
 
 	if(hyoPattern.test(text)){
-		var hyoChosenFact = getRandomInt(0,hyokin.items.length-1);
-		bot.say(config.channels[0], hyokin.items[hyoChosenVid]);
+
+		quothTheHyo(hyoMatch[1].trim(), from);
+		
 	}
 
 });
