@@ -1,0 +1,60 @@
+var config = {
+	channels: ["#bots"],
+	server: "irc.teamschoolyd.org",
+	botName: "testbot"
+};
+
+//set above to #tsd or other channels when ready
+
+
+var irc = require("irc");
+var request = require("request");
+
+var ebolapls = {
+	commands: ['ebolapls'],
+	items: ['http://i.imgur.com/v5wRoGc.png',
+			'http://time.com/3510986/ebola-dog-sink/',
+			'http://www.washingtonpost.com/local/hazmat-crew-sent-after-woman-gets-sick-on-bus-near-pentagon-concerns-of-ebola/2014/10/17/9e3f1316-5612-11e4-ba4b-f6333e2c0453_story.html',
+			'http://www.mediaite.com/online/theres-a-plush-ebola-toy-online-thats-already-sold-out/',
+			'http://i.imgur.com/gKBuySK.jpg']
+			//Add items to be randomly selected to list above
+}
+
+var owlpls = {
+	commands: ['owlpls'],
+	items: ['http://i.imgur.com/v5wRoGc.png',
+		'https://www.youtube.com/watch?v=ONVVilKIM9s',
+		'https://www.youtube.com/watch?v=InOcj98SEbI',]
+}
+
+function getRandomInt(min,max){
+	var rando = Math.floor(Math.random() * (max - min +1)) + min;
+	return rando;
+}
+
+
+var bot = new irc.Client(config.server, config.botName, {
+	channels: config.channels
+});
+
+var commands = {
+		ebolapls: '^.'+ebolapls.commands[0]+'(.*)$',
+		owlpls: '^.'+owlpls.commands[0]+'(.*)$'};
+	
+	var ebolaplsPattern = new RegExp(commands.ebolapls);
+	var owlplsPattern = new RegExp(commands.owlpls);
+
+
+bot.addListener("message#bots", function(from, text, message) {
+
+
+	if(ebolaplsPattern.test(text)){
+		var ebolaplsLink = getRandomInt(0,ebolapls.items.length-1);
+		bot.say(config.channels[0], ebolapls.items[ebolaplsLink]);
+	}
+	if(owlplsPattern.test(text)){
+		var owlplsLink = getRandomInt(0,owlpls.items.length-1);
+		bot.say(config.channels[0], owlpls.items[owlplsLink]);
+	}	
+
+});

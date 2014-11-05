@@ -1,6 +1,6 @@
 var config = {
-	channels: ["#tsd"],
-	server: "irc.teamschoolyd.org",
+	channels: ["#chat"],
+	server: "irc.example.org",
 	botName: "BonkBot"
 };
 
@@ -8,7 +8,69 @@ var config = {
 var irc = require("irc");
 var request = require('request');
 var _ = require('lodash-node');
+var MsTranslator = require('mstranslator');
+var latin = require('./node_modules/latinise/latinise');
+var romaji = require("hepburn");
+var hbombcount = require("countdown");
 
+var transClient = new MsTranslator({
+      client_id: "BonkBot"
+      , client_secret: ""
+    });
+var countdown = {
+		commands: 'hbomb',
+		items : ['According to my calculations, HBOMB is in approximately <time>',
+				"Great Scott! it's <time> til HBOMB!",
+				"Anomaly detected. Mt.Baker. T-Minus <time>. Enact HBOMB protcol.",
+				'"In <time>, my plan will come to pass. Those fools." -The Ghost of Rowboat',
+				"Finally, after <time>, I'm free. Time to conquer HBOMB."]
+}
+var translate = {
+	commands: ['translate','howtotranslate','engrish'],
+	language:  ['ar',
+				'bg',
+				'ca',
+				'zh-CHS',
+				'zh-CHT',
+				'cs',
+				'da',
+				'nl',
+				'et',
+				'fi',
+				'fr',
+				'de',
+				'el',
+				'ht',
+				'he',
+				'hi',
+				'mww',
+				'hu',
+				'id',
+				'it',
+				'ja',
+				'tlh',
+				'tlh-Qaak',
+				'ko',
+				'lv',
+				'lt',
+				'ms',
+				'mt',
+				'no',
+				'fa',
+				'pl',
+				'pt',
+				'ro',
+				'ru',
+				'sk',
+				'sl',
+				'es',
+				'sv',
+				'th',
+				'tr',
+				'uk',
+				'ur',
+				'vi',
+				'cy']}
 var urls = {
 	reddit: 'http://www.reddit.com/r/',
 	subs: { img: ['pics','photoshopbattles','OldSchoolCool','dataisbeautiful','gunpla','DIY', 'AnimalsBeingJerks', 'thathappened', 'picturesofiansleeping','notinteresting'], 
@@ -27,30 +89,30 @@ var dmx = {
 			"FIRST WE GON ROCK, THEN WE GON ROLL",
 			"Y'ALL GON MAKE ME LOSE MY MIND, UP IN HERE, UP IN HERE",
 			"Y'ALL GON MAKE ME ACT A FOOL, UP IN HERE, UP IN HERE",
-			"GGRRRRRRRRR.... WHAT!"],
-	vids: ["https://www.youtube.com/watch?v=thIVtEOtlWM",
-		"https://www.youtube.com/watch?v=ThlhSnRk21E",
-		"https://www.youtube.com/watch?v=fGx6K90TmCI",
-		"https://www.youtube.com/watch?v=8k6SS6uWI-k",
-		"https://www.youtube.com/watch?v=vkOJ9uNj9EY",
-		"https://www.youtube.com/watch?v=ExitLAP6F9U",
-		"https://www.youtube.com/watch?v=Grj9zdnbKQ4",
-		"https://www.youtube.com/watch?v=kPBFzNFV6DQ",
-		"https://www.youtube.com/watch?v=roo0CeT1VXI",
-		'https://www.youtube.com/watch?v=Qy8SPLff5pQ',
-		'https://www.youtube.com/watch?v=OnkpPMH4i9o',
-		'https://www.youtube.com/watch?v=5Q6lgzzfPS4',
-		'https://www.youtube.com/watch?v=xFSwIw-_-as',
-		'https://www.youtube.com/watch?v=Pit2gYQka2M',
-		'https://www.youtube.com/watch?v=v5yTzlw5dKs',
-		'https://www.youtube.com/watch?v=zxP038dKDuo',
-		'https://www.youtube.com/watch?v=he_JgaDUvIU',
-		'https://www.youtube.com/watch?v=wkx8Mw6uMdM',
-		'https://www.youtube.com/watch?v=3IoaCC_ZDno',
-		'https://www.youtube.com/watch?v=ZtBaeOwwK3c',
-		'https://www.youtube.com/watch?v=GGiIuBaXGQw',
-		'https://www.youtube.com/watch?v=8hgmW4B9wVs',
-		'https://www.youtube.com/watch?v=47G3SK8QEhQ']
+			"GGRRRRRRRRR.... WHAT!",
+			"https://www.youtube.com/watch?v=thIVtEOtlWM",
+			"https://www.youtube.com/watch?v=ThlhSnRk21E",
+			"https://www.youtube.com/watch?v=fGx6K90TmCI",
+			"https://www.youtube.com/watch?v=8k6SS6uWI-k",
+			"https://www.youtube.com/watch?v=vkOJ9uNj9EY",
+			"https://www.youtube.com/watch?v=ExitLAP6F9U",
+			"https://www.youtube.com/watch?v=Grj9zdnbKQ4",
+			"https://www.youtube.com/watch?v=kPBFzNFV6DQ",
+			"https://www.youtube.com/watch?v=roo0CeT1VXI",
+			'https://www.youtube.com/watch?v=Qy8SPLff5pQ',
+			'https://www.youtube.com/watch?v=OnkpPMH4i9o',
+			'https://www.youtube.com/watch?v=5Q6lgzzfPS4',
+			'https://www.youtube.com/watch?v=xFSwIw-_-as',
+			'https://www.youtube.com/watch?v=Pit2gYQka2M',
+			'https://www.youtube.com/watch?v=v5yTzlw5dKs',
+			'https://www.youtube.com/watch?v=zxP038dKDuo',
+			'https://www.youtube.com/watch?v=he_JgaDUvIU',
+			'https://www.youtube.com/watch?v=wkx8Mw6uMdM',
+			'https://www.youtube.com/watch?v=3IoaCC_ZDno',
+			'https://www.youtube.com/watch?v=ZtBaeOwwK3c',
+			'https://www.youtube.com/watch?v=GGiIuBaXGQw',
+			'https://www.youtube.com/watch?v=8hgmW4B9wVs',
+			'https://www.youtube.com/watch?v=47G3SK8QEhQ']
 };
 var gouf = {
 	commands: 'gouf',
@@ -83,7 +145,7 @@ var hyokin = {
 			"Hyokin has more HBO forum posts than Louis Wu and everyone else from Customs Clan.",
 			"Hyokin quit Halo for a month when Hyokin saw the Reach trailer in December 2009.",
 			"Hyokin return and created Customs.",
-			"Hyokin recieved his Halo: Reach Beta Code from Frank O'Conner through e-mail. Frankie gave it to him because Hyokin posted first in a thread where Frankie was asking Cody Miller if Hyokin had a code yet. Hyokin explained that Cody had one but Hyokin did not. Frankie then e-mailed him a code subject line reading 'Cody's Sloppy Seconds'",
+			"Hyokin recieved his Halo: Reach Beta Code from Frank O'Conner through e-mail. Frankie gave it to him because Hyokin posted first in a thread where Frankie was asking Cody Miller if he had a code yet. Hyokin explained that Cody had one but he did not. Frankie then e-mailed him a code subject line reading 'Cody's Sloppy Seconds'",
 			"Hyokin wears purple armor with an EVA Helmet, Scout Shoulders, and a CQB chestplate.",
 			"Hyokin's emblem in Halo games is the letter 'H' created using the Marathon and Vertical Stripes images.",
 			"Hyokin will turn on Halo, play around on a single forge map for two hours, then turn it off.",
@@ -243,20 +305,86 @@ function checkOP(name){
 }
 
 function quothTheHyo(sub, from){
-	var hyoChosenFact = '';
-	var hyoReplaceFact = '';
-	hyoChosenFact = getRandomInt(0,hyokin.items.length-1);
+        var hyoChosenFact = hyokin.items[getRandomInt(0,hyokin.items.length-1)];
+        var person = sub;
+ 
+        if (!sub.length || sub.length === 0 || sub === ""){
+                person = 'Hyokin';
+        }else if (sub.length > 50 || sub.indexOf(".") > -1 || sub.indexOf("s/") > -1){
+                person = "That fucker "+from+", the douche king himself";
+        }
+ 
+        //ideally the "%hyo" keyword should be defined elsewhere and referenced via variable here
+        bot.say(config.channels[0], '>' + hyoChosenFact.replace(/Hyokin/gi, person));
+}
 
-	if (!sub.length || sub.length === 0 || sub === ""){
-		bot.say(config.channels[0], hyokin.items[hyoChosenFact]);
-	}else if (sub.length > 20 || sub.indexOf(".") > -1){
-		sub = "That fucker "+from+", the douche king himself";
-		hyoReplaceFact = hyokin.items[hyoChosenFact].replace("Hyokin", sub).replace(" Hyokin", " "+sub).replace("hyokin",sub);
-		bot.say(config.channels[0], hyoReplaceFact);
-	}else{
-		hyoReplaceFact = hyokin.items[hyoChosenFact].replace("Hyokin", sub).replace(" Hyokin", " "+sub).replace("hyokin",sub);
-		bot.say(config.channels[0], hyoReplaceFact);
-	}
+function detectThatShit(string, to){
+
+	if(string.charAt(string.length - 1) == "~"){
+	string = romaji.toHiragana(string);
+	params = { text: string };
+}else{
+	params = { text: string	};
+}
+	
+	transClient.initialize_token(function(keys){
+		transClient.detect(params, function(err, data){
+			if (!to || to === null || to === ""){
+				translateThatShit(string, "en", data);
+			}else{
+				translateThatShit(string, to, data);
+			}
+		});
+	});
+
+}
+
+function translateThatShit(string, to, from){
+	params = { 
+      text: string
+      , from: from
+      , to: to
+    };
+	
+	transClient.initialize_token(function(keys){
+			transClient.translate(params, function(err, data) {
+				if(data.indexOf("ArgumentOutOfRangeException:") == -1){
+					if(to == "ja"){
+						data = romaji.fromKana(data);
+						console.log(data, to, from);
+						bot.say(config.channels[0],"Translation: "+data.latinise());
+					}else{
+						console.log(data, to, from);
+						bot.say(config.channels[0],"Translation: "+data.latinise());
+					}
+				}else{
+        			
+        			bot.say(config.channels[0],"ERROR: Please use a supported language code.");
+        		}
+    		});
+	});
+}
+
+function engrishThatShit(string, to){
+params1 = { 
+      text: string
+      , from: 'en'
+      , to: to
+    };
+
+transClient.initialize_token(function(keys){
+			transClient.translate(params1, function(err, data) {
+			var engrish1 = data;
+			params2 = { text: engrish1, from: to, to: 'en'};
+			transClient.translate(params2, function(err, data) {
+				bot.say(config.channels[0],"Engrish: "+data.latinise());
+			});
+		});
+	});
+
+
+			
+
 }
 
 function timeToBonk(from, target)
@@ -285,7 +413,7 @@ function randImg(kind, where){
 }
 
 function randoSub(sub, where){
-	//console.log("sub is:"+"|"+sub+"|", sub.length);
+	//console.log("sub is:"+" | "+sub+" | ", sub.length);
 	var urlBuild = '';
 	if (!sub.length || sub.length === 0 || sub === ""){
 		var urlRand = urls.reddit + 'random/';
@@ -340,22 +468,30 @@ var commands = {
 		rando: '^#'+urls.commands[4]+'(.*)$',
 		dmx: '^#'+dmx.commands+'(.*)$',
 		gouf: '^#'+gouf.commands+'(.*)$',
-		hyo: '^#'+hyokin.commands+'(.*)$'};
+		hyo: '^#'+hyokin.commands+'(.*)$',
+		trans: '^#'+translate.commands[0]+'(.*)$',
+		howtrans: '^#'+translate.commands[1]+'(.*)$',
+		engrish: '^#'+translate.commands[2]+'(.*)$',
+		hbomb: '^#'+countdown.commands+'(.*)$'};
 	var imgPattern = new RegExp(commands.img);
 	var gifPattern = new RegExp(commands.gif);
 	var howPattern = new RegExp(commands.howtoimg);
 	var clonkPattern = new RegExp(commands.clonk);
 	var bonkPattern = new RegExp(commands.battlebonk);
 	var howbonkPattern = new RegExp(commands.howtobonk);
+	var howtransPattern = new RegExp(commands.howtrans);
 	var randoPattern = new RegExp(commands.rando);
 	var dmxPattern = new RegExp(commands.dmx);
 	var goufPattern = new RegExp(commands.gouf);
 	var hyoPattern = new RegExp(commands.hyo);
+	var transPattern = new RegExp(commands.trans);
+	var engrishPattern = new RegExp(commands.engrish);
+	var hbombPattern = new RegExp(commands.hbomb);
 	var kind= '';
 
 bot.addListener("join", function(channel, who, message){
 	if(who == "BonkBot"){
-		bot.say(config.channels[0],"BonkBot Online.... Modules running: Battlebonk, ImageRoulette, DMX, Gouf, Hyokin-Facts | use #howtobonk for instructions");
+		bot.say(config.channels[0],"BonkBot Online.... use #howtobonk for instructions and running modules");
 		
 	}else{
 		checkOP(who);
@@ -375,7 +511,7 @@ bot.addListener("names",function(channel, names){
 });
 
 bot.addListener("nick",function(oldnick, newnick, channel, message){
-	console.log(oldnick, newnick);
+	//console.log(oldnick, newnick);
 	var removeName = _.where(nameList, {'name': oldnick});
 	nameList = _.without(nameList, removeName[0]);
 	checkOP(newnick);
@@ -383,14 +519,14 @@ bot.addListener("nick",function(oldnick, newnick, channel, message){
 });
 
 
-bot.addListener("message#tsd", function(from, text, message) {
+bot.addListener("message#chat", function(from, text, message) {
 
 	//Only needs to be matched if the command means to capture text
 	var bonkMatch = text.match(bonkPattern);
-	//Only needs to be matched if the command means to capture text
 	var randoMatch = text.match(randoPattern);
-
 	var hyoMatch = text.match(hyoPattern);
+	var transMatch = text.match(transPattern);
+	var engrishMatch = text.match(engrishPattern);
 
 	if(howPattern.test(text) | howbonkPattern.test(text)){
 		bot.say(config.channels[0],"Sending list of commands your way, " + from);
@@ -410,6 +546,19 @@ bot.addListener("message#tsd", function(from, text, message) {
 		bot.say(from, "--Hyokin--");
 		bot.say(from, "use #hyokin to get some much needed Hyokin facts");
 		bot.say(from, "leave it blank for hyokin classic, or add a <target> to make a new fact. Custom made.");
+		bot.say(from, "--Translate--");
+		bot.say(from, "use #translate to translate text to English or other languages");
+		bot.say(from, "leave it blank for translation to English, or add /<language code> to translate in that language. For a list of language codes, use #howtotranslate");
+		bot.say(from, "NOTE: if you want to translate Romaji Japanese, end the string with ~");
+		bot.say(from, "use #engrish to translate text to a designated language or random language then back to english. See what gets lost in translation!");
+	}
+
+	if(howtransPattern.test(text)){
+		bot.say(from,"Use #translate <text>/<language code> to translate.");
+		bot.say(from,"---Full List of Language Codes---");
+		bot.say(from,"ar: Arabic"+" | "+"bg: Bulgarian"+" | "+"ca: Catalan"+" | "+"zh-CHS: Chinese"+" | "+"cs: Czech"+" | "+"da: Danish"+" | "+"nl: Dutch"+" | "+"en: English"+" | "+"et: Estonian"+" | "+"fi: Finnish"+" | "+"fr: French"+" | "+"de: German"+" | "+"el: Greek"+" | "+"ht: Haitian Creole"+" | "+"he: Hebrew"+" | "+"hi: Hindi"+" | "+"mww: Hmong Daw"+" | "+"hu: Hungarian"+" | "+"id: Indonesian"+" | "+"it: Italian");
+		bot.say(from,"ja: Japanese"+" | "+"tlh: Klingon"+" | "+"ko: Korean"+" | "+"lv: Latvian"+" | "+"lt: Lithuanian"+" | "+"ms: Malay"+" | "+"mt: Maltese"+" | "+"no: Norwegian"+" | "+"fa: Persian"+" | "+"pl: Polish"+" | "+"pt: Portuguese"+" | "+"ro: Romanian"+" | "+"ru: Russian"+" | "+"sk: Slovak"+" | "+"sl: Slovenian"+" | "+"es: Spanish"+" | "+"sv: Swedish"+" | "+"th: Thai"+" | "+"tr: Turkish"+" | "+"uk: Ukrainian"+" | "+"ur: Urdu"+" | "+"vi: Vietnamese"+" | "+"cy: Welsh");
+
 	}
 
 	if (bonkPattern.test(text)){
@@ -448,7 +597,7 @@ bot.addListener("message#tsd", function(from, text, message) {
 	}
 		
 	if(clonkPattern.test(text)){
-		if(from == "Paddy" || from == "Paddio"){
+		if(from == "Paddy" || from == "Paddyfly_in_the_Sky"){
 			offQuestion = true;
 			bot.say(from, "What's my real name?");
 		}else{
@@ -462,9 +611,7 @@ bot.addListener("message#tsd", function(from, text, message) {
 
 	if(dmxPattern.test(text)){
 		var dmxChosenPhrase = getRandomInt(0,dmx.phrases.length-1);
-		var dmxChosenVid =  getRandomInt(0,dmx.vids.length-1);
 		bot.say(config.channels[0], dmx.phrases[dmxChosenPhrase]);
-		bot.say(config.channels[0], dmx.vids[dmxChosenVid]);
 	}
 
 	if(goufPattern.test(text)){
@@ -476,6 +623,34 @@ bot.addListener("message#tsd", function(from, text, message) {
 
 		quothTheHyo(hyoMatch[1].trim(), from);
 		
+	}
+
+	if(transPattern.test(text)){
+		var res = transMatch[1].trim().split("/");
+		//console.log(res);
+		if(!res[1] || res[1] === null || res[1] === ""){
+			detectThatShit(res[0]);
+		}else{
+			detectThatShit(res[0],res[1]);
+		}
+	}
+
+	if(engrishPattern.test(text)){
+		var res = engrishMatch[1].trim().split("/");
+		if(!res[1] || res[1] === null || res[1] === ""){
+			var result = getRandomInt(0,translate.language.length -1);
+			var resultMsg = translate.language[result];
+			engrishThatShit(res[0], resultMsg);
+		}else{
+			engrishThatShit(res[0],res[1]);
+		}
+	}
+
+	if(hbombPattern.test(text)){
+		var timeTilHBOMB = hbombcount(null ,new Date(2015, 0, 16)).toString();
+		var randTimer = getRandomInt(0,countdown.items.length-1);
+		var HBOMBstr = countdown.items[randTimer];
+		bot.say(config.channels[0], HBOMBstr.replace("<time>",timeTilHBOMB));
 	}
 
 });
