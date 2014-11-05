@@ -5,13 +5,18 @@ var config = {
 };
 
 // Get the lib
-var irc = require("irc");
-var request = require('request');
-var _ = require('lodash-node');
-var MsTranslator = require('mstranslator');
-var latin = require('./node_modules/latinise/latinise');
-var romaji = require("hepburn");
-var hbombcount = require("countdown");
+var irc = require("irc"),
+request = require('request'),
+_ = require('lodash-node'),
+MsTranslator = require('mstranslator'),
+latin = require('./node_modules/latinise/latinise'),
+romaji = require("hepburn"),
+hbombcount = require("countdown"),
+util = require('util'),
+twitter = require('twitter');
+
+
+//var twit = new twitter
 
 var transClient = new MsTranslator({
       client_id: "BonkBot"
