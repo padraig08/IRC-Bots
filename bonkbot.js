@@ -1,6 +1,6 @@
 var config = {
-	channels: ["#chat"],
-	server: "irc.example.org",
+	channels: ["#tsd"],
+	server: "irc.teamschoolyd.org",
 	botName: "BonkBot"
 };
 
@@ -12,15 +12,19 @@ MsTranslator = require('mstranslator'),
 latin = require('./node_modules/latinise/latinise'),
 romaji = require("hepburn"),
 hbombcount = require("countdown"),
-util = require('util'),
-twitter = require('twitter');
+twitter = require('twit');
 
 
-//var twit = new twitter
+var Tw = new twitter({
+    consumer_key: 'Q00cDGH1Uts9EMM054m49YPSP',
+    consumer_secret: 'efMhSkHrffYMwcL9mBfauzaFwyqnxg1DXVOeTXw0r4wBU7uW1R',
+    access_token: '101582044-SuccSiCG5tUT5p9rf2IbgOhUFvlSzdQhiiNbZLtH',
+    access_token_secret: 'arCaTp4Ko0gjIcrHB9lSH115eABMCGubQYH1nnTEALH61'
+});
 
 var transClient = new MsTranslator({
       client_id: "BonkBot"
-      , client_secret: ""
+      , client_secret: "siyaadX0Xc8ECdH2wLfEQq1wvLfVGO10FYE58Wqh0f4="
     });
 var countdown = {
 		commands: 'hbomb',
@@ -30,6 +34,11 @@ var countdown = {
 				'"In <time>, my plan will come to pass. Those fools." -The Ghost of Rowboat',
 				"Finally, after <time>, I'm free. Time to conquer HBOMB."]
 }
+
+var fanfic = {
+	commands: 'fanfic'
+};
+
 var translate = {
 	commands: ['translate','howtotranslate','engrish'],
 	language:  ['ar',
@@ -124,6 +133,10 @@ var gouf = {
 	items: ['https://www.youtube.com/watch?v=CPqomrYO960',
 			'https://www.youtube.com/watch?v=nKqs1JLDbp4',
 			'https://www.youtube.com/watch?v=ts7--zxXXKQ']
+};
+var ugh = {
+	commands: 'ugh',
+	items: 'https://www.youtube.com/watch?v=jq9JaTp7pFo'
 };
 
 var hyokin = {
@@ -477,7 +490,10 @@ var commands = {
 		trans: '^#'+translate.commands[0]+'(.*)$',
 		howtrans: '^#'+translate.commands[1]+'(.*)$',
 		engrish: '^#'+translate.commands[2]+'(.*)$',
-		hbomb: '^#'+countdown.commands+'(.*)$'};
+		hbomb: '^#'+countdown.commands+'(.*)$',
+		ugh: '^#'+ugh.commands+'(.*)$',
+		fanfic:'^#'+fanfic.commands+'(.*)$'
+	};
 	var imgPattern = new RegExp(commands.img);
 	var gifPattern = new RegExp(commands.gif);
 	var howPattern = new RegExp(commands.howtoimg);
@@ -492,6 +508,8 @@ var commands = {
 	var transPattern = new RegExp(commands.trans);
 	var engrishPattern = new RegExp(commands.engrish);
 	var hbombPattern = new RegExp(commands.hbomb);
+	var ughPattern = new RegExp(commands.ugh);
+	var fanficPattern = new RegExp(commands.fanfic);
 	var kind= '';
 
 bot.addListener("join", function(channel, who, message){
@@ -524,7 +542,7 @@ bot.addListener("nick",function(oldnick, newnick, channel, message){
 });
 
 
-bot.addListener("message#chat", function(from, text, message) {
+bot.addListener("message#tsd", function(from, text, message) {
 
 	//Only needs to be matched if the command means to capture text
 	var bonkMatch = text.match(bonkPattern);
@@ -658,6 +676,18 @@ bot.addListener("message#chat", function(from, text, message) {
 		bot.say(config.channels[0], HBOMBstr.replace("<time>",timeTilHBOMB));
 	}
 
+	if(ughPattern.test(text)){
+		bot.say(config.channels[0], ugh.items);
+	}
+
+	if(fanficPattern.test(text)){
+		Tw.get('statuses/user_timeline', {screen_name: 'fanfiction_txt', count:'200', exclude_replies:'true', include_rts:'false'}, function(err, data, response){
+			var randTweet = getRandomInt(0,data.length-1);
+			bot.say(config.channels[0], "Fanfiction_txt: " +data[randTweet].text);
+		});
+		
+	}
+
 });
 bot.addListener("pm", function(from, text, message) {
 
@@ -684,6 +714,5 @@ bot.addListener("pm", function(from, text, message) {
 	if(randoPattern.test(text)){
 		randoSub(randoMatch[1].trim(), from);
 	}
-
 
 });
