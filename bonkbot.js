@@ -1,5 +1,5 @@
 var config = {
-	channels: ["#tsd"],
+	channels: ["#bots"],
 	server: "irc.teamschoolyd.org",
 	botName: "BonkBot"
 };
@@ -13,6 +13,7 @@ latin = require('./node_modules/latinise/latinise'),
 romaji = require("hepburn"),
 hbombcount = require("countdown"),
 twitter = require('twit');
+geo = require ('geocoder');
 
 
 var Tw = new twitter({
@@ -35,8 +36,8 @@ var countdown = {
 				"Finally, after <time>, I'm free. Time to conquer HBOMB."]
 }
 
-var fanfic = {
-	commands: 'fanfic'
+var Tweet = {
+	commands: ['twit', 'fanfic'] 
 };
 
 var translate = {
@@ -424,6 +425,24 @@ function timeToBonk(from, target)
 }
 
 
+function searchDaTweet (searchString) {
+
+	geocoder.geocode("Atlanta, GA", function ( err, data ) {
+  	console.log(data);
+	});
+
+	if (!searchString.length || searchString.length === 0 || searchString === ""){
+		bot.say(config.channels[0], "No text provided, switching to fanfiction");
+
+	}else{
+	Tw.get('search/tweets', {q: searchString, count:'100'}, function(err, data, response){
+			var randTweet = getRandomInt(0,data.length-1);
+			console.log(data[randTweet].user);
+			bot.say(config.channels[0], "Tweet" +data[randTweet].text);
+	});
+	}
+}
+
 function randImg(kind, where){
 		var subreddit = getRandomInt(0, kind.length-1);
 		var urlBuild = urls.reddit + kind[subreddit] +'/random/.json';
@@ -492,7 +511,8 @@ var commands = {
 		engrish: '^#'+translate.commands[2]+'(.*)$',
 		hbomb: '^#'+countdown.commands+'(.*)$',
 		ugh: '^#'+ugh.commands+'(.*)$',
-		fanfic:'^#'+fanfic.commands+'(.*)$'
+		fanfic:'^#'+Tweet.commands[1]+'(.*)$',
+		twit: '^#'+Tweet.commands[0]+'(.*)$'
 	};
 	var imgPattern = new RegExp(commands.img);
 	var gifPattern = new RegExp(commands.gif);
@@ -510,6 +530,7 @@ var commands = {
 	var hbombPattern = new RegExp(commands.hbomb);
 	var ughPattern = new RegExp(commands.ugh);
 	var fanficPattern = new RegExp(commands.fanfic);
+	var twitPattern = new RegExp(commands.twit);
 	var kind= '';
 
 bot.addListener("join", function(channel, who, message){
@@ -542,7 +563,7 @@ bot.addListener("nick",function(oldnick, newnick, channel, message){
 });
 
 
-bot.addListener("message#tsd", function(from, text, message) {
+bot.addListener("message#bots", function(from, text, message) {
 
 	//Only needs to be matched if the command means to capture text
 	var bonkMatch = text.match(bonkPattern);
@@ -550,6 +571,7 @@ bot.addListener("message#tsd", function(from, text, message) {
 	var hyoMatch = text.match(hyoPattern);
 	var transMatch = text.match(transPattern);
 	var engrishMatch = text.match(engrishPattern);
+	var twitMatch = text.match(twitPattern);
 
 	if(howPattern.test(text) | howbonkPattern.test(text)){
 		bot.say(config.channels[0],"Sending list of commands your way, " + from);
@@ -686,6 +708,10 @@ bot.addListener("message#tsd", function(from, text, message) {
 			bot.say(config.channels[0], "Fanfiction_txt: " +data[randTweet].text);
 		});
 		
+	}
+
+	if(twitPattern.test(text)){
+		searchDaTweet(twitMatch[1].trim());
 	}
 
 });
