@@ -441,9 +441,9 @@ function searchDaTweet (searchString) {
 
 	}else{
 	Tw.get('search/tweets', {q: searchString, count:'10'}, function(err, data, response){
-			var randTweet = getRandomInt(0,9);
+			var randTweet = getRandomInt(0,data.statuses.length-1);
 			console.log(randTweet);
-			bot.say(config.channels[0], "Tweet" +data[randTweet].text);
+			bot.say(config.channels[0], "Tweet from "+ data.statuses[randTweet].user.name +" : "+data.statuses[randTweet].text);
 	});
 	}
 }
