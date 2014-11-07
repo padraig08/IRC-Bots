@@ -12,8 +12,10 @@ MsTranslator = require('mstranslator'),
 latin = require('./node_modules/latinise/latinise'),
 romaji = require("hepburn"),
 hbombcount = require("countdown"),
-twitter = require('twit');
-geo = require ('geocoder');
+twitter = require('twit'),
+geo = require ('geocoder'),
+util = require('util');
+
 
 
 var Tw = new twitter({
@@ -429,10 +431,6 @@ function timeToBonk(from, target)
 
 function searchDaTweet (searchString) {
 
-	geo.geocode("Atlanta, GA", function ( err, data ) {
-  	console.log(data);
-	});
-
 	if (!searchString.length || searchString.length === 0 || searchString === ""){
 		bot.say(config.channels[0], "No text provided, switching to fanfiction");
 		Tw.get('statuses/user_timeline', {screen_name: 'fanfiction_txt', count:'200', exclude_replies:'true', include_rts:'false'}, function(err, data, response){
@@ -440,18 +438,38 @@ function searchDaTweet (searchString) {
 			bot.say(config.channels[0], "Fanfiction_txt: " +data[randTweet].text);
 		});
 
-	}else if(_contains(searchString,"|")){
+	}else if(_.contains(searchString,"|")){
 
 		var searchArray = searchString.split("|");
-		console.log(searchArray[0]+","+searchArray[1]);
+		geo.geocode(searchArray[1], function(err, data){
+			if(data.status == 'OK'){
+				Tw.get('search/tweets', {q: searchString, count:'100', geocode: data.results[0].geometry.location.lat+','+data.results[0].geometry.location.lng+',10mi'}, 
+				function(err, data, response){
+					if(data.statuses.length > 0){
+					var randTweet = getRandomInt(0,data.statuses.length-1);
+					bot.say(config.channels[0], "Tweet from "+data.statuses[randTweet].user.name +" : " +data.statuses[randTweet].text);
+				}else{
+					bot.say(config.channels[0], "No tweets found, that's pretty shitty.");
 
+				}
 
+				});
+			}else{
+			bot.say(config.channels[0], "Location not found, or like an error happened. I don't know, man.");
+
+		}
+
+});
 	}else{
 
 	Tw.get('search/tweets', {q: searchString, count:'100'}, function(err, data, response){
+		if(data.statuses.length > 0){
 			var randTweet = getRandomInt(0,data.statuses.length-1);
-			console.log(randTweet);
 			bot.say(config.channels[0], "Tweet from "+ data.statuses[randTweet].user.name +" : "+data.statuses[randTweet].text);
+			}else{
+					bot.say(config.channels[0], "No tweets found, that's pretty shitty.");
+
+				}
 	});
 	}
 }
