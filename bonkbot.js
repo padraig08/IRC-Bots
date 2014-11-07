@@ -145,7 +145,7 @@ var hyokin = {
 	commands: 'hyokin',
 	items: ["Hyokin is a 19-year old American writer, artist, voice-actor, webpage designer, and all around Halo fan.",
 			"Hyokin began playing Halo in 2004 when Hyokin purchased his first Xbox and soon moved to the newly released Halo 2.",
-			"In January 2010, Hyokin began hosting a weekly Custom Game night on Halo.Bungie.Org where Hyokin met many of the leaders of his clan, The Customs Clan; including Chris101 b, Imonkey777, CaneCutter, and Deafhawk36.",
+			"In January 2010, Hyokin began hosting a weekly Custom Game night on Halo.Bungie.Org where Hyokin met many of the leaders of his clan, The Customs Clan; including Hyokin, Hyokin(1), Hyokin(2), and Hyokin(3).",
 			"Hyokin works at a small local grocery store where Hyokin bags groceries, maintains the recycling room, and pushes carts.",
 			"Hyokin spends his free time playing Halo, writing short stories, and maintaining his various websites.",
 			"Hyokin also enjoys hiking and swimming.",
@@ -191,7 +191,8 @@ var hyokin = {
 			"Hyokin has a purple iPod Nano.",
 			"Hyokin drives a black, bubble-shaped car. It is similar to his Halo 3 EVA helmet, except it is black not purple.",
 			"Hyokin's stepfather would never let his son drive a purple car.",
-			"Hyokin's Bungie.net account name is 'Dellaro Studios' which was the name of a website Hyokin ran years ago."]
+			"Hyokin's Bungie.net account name is 'Dellaro Studios' which was the name of a website Hyokin ran years ago.",
+			"Hyokin feels warm nostalgia for Halo 4. All"+ hbombcount(null ,new Date(2012, 10, 6)).toString();+" of it."]
 };
 
 var clonkometer = 0;
