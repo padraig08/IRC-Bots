@@ -428,9 +428,9 @@ function timeToBonk(from, target)
 
 function searchDaTweet (searchString) {
 
-	/*geocoder.geocode("Atlanta, GA", function ( err, data ) {
+	geo.geocode("Atlanta, GA", function ( err, data ) {
   	console.log(data);
-	});*/
+	});
 
 	if (!searchString.length || searchString.length === 0 || searchString === ""){
 		bot.say(config.channels[0], "No text provided, switching to fanfiction");
@@ -439,8 +439,15 @@ function searchDaTweet (searchString) {
 			bot.say(config.channels[0], "Fanfiction_txt: " +data[randTweet].text);
 		});
 
+	}else if(_contains(searchString,"|")){
+
+		var searchArray = searchString.split("|");
+		console.log(searchArray[0]+","+searchArray[1]);
+
+
 	}else{
-	Tw.get('search/tweets', {q: searchString, count:'10'}, function(err, data, response){
+
+	Tw.get('search/tweets', {q: searchString, count:'100'}, function(err, data, response){
 			var randTweet = getRandomInt(0,data.statuses.length-1);
 			console.log(randTweet);
 			bot.say(config.channels[0], "Tweet from "+ data.statuses[randTweet].user.name +" : "+data.statuses[randTweet].text);
