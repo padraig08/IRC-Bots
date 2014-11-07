@@ -192,7 +192,7 @@ var hyokin = {
 			"Hyokin drives a black, bubble-shaped car. It is similar to his Halo 3 EVA helmet, except it is black not purple.",
 			"Hyokin's stepfather would never let his son drive a purple car.",
 			"Hyokin's Bungie.net account name is 'Dellaro Studios' which was the name of a website Hyokin ran years ago.",
-			"Hyokin feels warm nostalgia for Halo 4. All"+ hbombcount(null ,new Date(2012, 10, 6)).toString();+" of it."]
+			"Hyokin feels warm nostalgia for Halo 4. All"+ hbombcount(null ,new Date(2012, 10, 6)).toString()+" of it."]
 };
 
 var clonkometer = 0;
