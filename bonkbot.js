@@ -137,7 +137,8 @@ var gouf = {
 };
 var ugh = {
 	commands: 'ugh',
-	items: 'https://www.youtube.com/watch?v=jq9JaTp7pFo'
+	items: ['https://www.youtube.com/watch?v=jq9JaTp7pFo',
+			'https://www.youtube.com/watch?v=d5ZvzIOO6aU']
 };
 
 var hyokin = {
@@ -427,17 +428,21 @@ function timeToBonk(from, target)
 
 function searchDaTweet (searchString) {
 
-	geocoder.geocode("Atlanta, GA", function ( err, data ) {
+	/*geocoder.geocode("Atlanta, GA", function ( err, data ) {
   	console.log(data);
-	});
+	});*/
 
 	if (!searchString.length || searchString.length === 0 || searchString === ""){
 		bot.say(config.channels[0], "No text provided, switching to fanfiction");
+		Tw.get('statuses/user_timeline', {screen_name: 'fanfiction_txt', count:'200', exclude_replies:'true', include_rts:'false'}, function(err, data, response){
+			var randTweet = getRandomInt(0,data.length-1);
+			bot.say(config.channels[0], "Fanfiction_txt: " +data[randTweet].text);
+		});
 
 	}else{
-	Tw.get('search/tweets', {q: searchString, count:'100'}, function(err, data, response){
-			var randTweet = getRandomInt(0,data.length-1);
-			console.log(data[randTweet].user);
+	Tw.get('search/tweets', {q: searchString, count:'10'}, function(err, data, response){
+			var randTweet = getRandomInt(0,9);
+			console.log(randTweet);
 			bot.say(config.channels[0], "Tweet" +data[randTweet].text);
 	});
 	}
@@ -699,7 +704,8 @@ bot.addListener("message#bots", function(from, text, message) {
 	}
 
 	if(ughPattern.test(text)){
-		bot.say(config.channels[0], ugh.items);
+		var ughRand = getRandomInt(0,ugh.items.length-1);
+		bot.say(config.channels[0], ugh.items[ughRand]);
 	}
 
 	if(fanficPattern.test(text)){
