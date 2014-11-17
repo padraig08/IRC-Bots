@@ -1,8 +1,8 @@
 var plug = require('plugapi');
 
 var bot = new plug({
-	"email":"padraig08@live.com",
-	"password":"TSDFMBOTFORGREATFUTURE"
+	"email":"",
+	"password":""
 });
 
 bot.connect('-1911581813480328609');

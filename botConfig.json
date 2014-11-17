@@ -1,0 +1,16 @@
+{"botSettings" : {
+	"channels": ["#bots"],
+	"server": "irc.teamschoolyd.org",
+	"botName": "BonkBot"
+},
+"twConfig" : {
+    "consumer_key": "Q00cDGH1Uts9EMM054m49YPSP",
+    "consumer_secret": "efMhSkHrffYMwcL9mBfauzaFwyqnxg1DXVOeTXw0r4wBU7uW1R",
+    "access_token": "101582044-SuccSiCG5tUT5p9rf2IbgOhUFvlSzdQhiiNbZLtH",
+    "access_token_secret": "arCaTp4Ko0gjIcrHB9lSH115eABMCGubQYH1nnTEALH61"
+},
+
+"transConfig": {
+      "client_id": "BonkBot"
+      , "client_secret": "siyaadX0Xc8ECdH2wLfEQq1wvLfVGO10FYE58Wqh0f4="
+}}

@@ -1,7 +1,21 @@
+var botConfig = require('./botConfig.json'),
+botData = require('./botData.json');
+
+var countdown = botData.countdown,
+	Tweet = botData.Tweet,
+	qdb = botData.qdb,
+	translate = botData.translate,
+	urls = botData.urls,
+	dmx = botData.dmx,
+	gouf = botData.gouf,
+	ugh = botData.ugh,
+	hyokin = botData.hyokin,
+	randomMsg = botData.randomMsg;
+
 var config = {
-	channels: ["#bots"],
-	server: "irc.teamschoolyd.org",
-	botName: "BonkBot"
+	channels: botConfig.botSettings.channels,
+	server: botConfig.botSettings.server,
+	botName: botConfig.botSettings.botName
 };
 
 // Get the lib
@@ -17,298 +31,20 @@ geo = require ('geocoder'),
 util = require('util');
 
 
-
 var Tw = new twitter({
-    consumer_key: 'Q00cDGH1Uts9EMM054m49YPSP',
-    consumer_secret: 'efMhSkHrffYMwcL9mBfauzaFwyqnxg1DXVOeTXw0r4wBU7uW1R',
-    access_token: '101582044-SuccSiCG5tUT5p9rf2IbgOhUFvlSzdQhiiNbZLtH',
-    access_token_secret: 'arCaTp4Ko0gjIcrHB9lSH115eABMCGubQYH1nnTEALH61'
+    consumer_key: botConfig.twConfig.consumer_key,
+    consumer_secret: botConfig.twConfig.consumer_secret,
+    access_token: botConfig.twConfig.access_token,
+    access_token_secret: botConfig.twConfig.access_token_secret
 });
 
 var transClient = new MsTranslator({
-      client_id: "BonkBot"
-      , client_secret: "siyaadX0Xc8ECdH2wLfEQq1wvLfVGO10FYE58Wqh0f4="
+      client_id: botConfig.transConfig.client_id
+      , client_secret: botConfig.transConfig.client_secret
     });
-var countdown = {
-		commands: 'hbomb',
-		items : ['According to my calculations, HBOMB is in approximately <time>',
-				"Great Scott! it's <time> til HBOMB!",
-				"Anomaly detected. Mt.Baker. T-Minus <time>. Enact HBOMB protcol.",
-				'"In <time>, my plan will come to pass. Those fools." -The Ghost of Rowboat',
-				"Finally, after <time>, I'm free. Time to conquer HBOMB."]
-}
-
-var Tweet = {
-	commands: ['twit', 'fanfic'] 
-};
-
-var translate = {
-	commands: ['translate','howtotranslate','engrish'],
-	language:  ['ar',
-				'bg',
-				'ca',
-				'zh-CHS',
-				'zh-CHT',
-				'cs',
-				'da',
-				'nl',
-				'et',
-				'fi',
-				'fr',
-				'de',
-				'el',
-				'ht',
-				'he',
-				'hi',
-				'mww',
-				'hu',
-				'id',
-				'it',
-				'ja',
-				'tlh',
-				'tlh-Qaak',
-				'ko',
-				'lv',
-				'lt',
-				'ms',
-				'mt',
-				'no',
-				'fa',
-				'pl',
-				'pt',
-				'ro',
-				'ru',
-				'sk',
-				'sl',
-				'es',
-				'sv',
-				'th',
-				'tr',
-				'uk',
-				'ur',
-				'vi',
-				'cy']}
-var urls = {
-	reddit: 'http://www.reddit.com/r/',
-	subs: { img: ['pics','photoshopbattles','OldSchoolCool','dataisbeautiful','gunpla','DIY', 'AnimalsBeingJerks', 'thathappened', 'picturesofiansleeping','notinteresting'], 
-			gif:['gifs','combinedgifs','blackpeoplegifs','whitepeoplegifs','animegifs','shittyreactiongifs','chemicalreactiongifs','reactiongifs','kramergifs','georgegifs','perfectLoops', 'HighQualityGifs','SuperSaiyanGifs','ProWrestlingGIFs']},
-	commands: ['img','gif','howtobonk','Clonk', 'rando']
-};
-var dmx = {
-	commands: 'dmx',
-	phrases: ['X GON GIVE IT TO YA',
-			'DONE WAITING FOR YA TO GET IT ON YO OWN, X GON DELIVER TO YA',
-			"KNOCK, KNOCK, OPEN UP THE DOOR IT'S REAL",
-			"WITH THE NONSTOP POP POP, THE STAINLESS STEEL",
-			"HIT IT WITH FULL STRENFF",
-			"BREAK BREAD WITH THE ENEMY",
-			"I'LL BREAK WHO YOU'RE SENDING ME",
-			"FIRST WE GON ROCK, THEN WE GON ROLL",
-			"Y'ALL GON MAKE ME LOSE MY MIND, UP IN HERE, UP IN HERE",
-			"Y'ALL GON MAKE ME ACT A FOOL, UP IN HERE, UP IN HERE",
-			"GGRRRRRRRRR.... WHAT!",
-			"https://www.youtube.com/watch?v=thIVtEOtlWM",
-			"https://www.youtube.com/watch?v=ThlhSnRk21E",
-			"https://www.youtube.com/watch?v=fGx6K90TmCI",
-			"https://www.youtube.com/watch?v=8k6SS6uWI-k",
-			"https://www.youtube.com/watch?v=vkOJ9uNj9EY",
-			"https://www.youtube.com/watch?v=ExitLAP6F9U",
-			"https://www.youtube.com/watch?v=Grj9zdnbKQ4",
-			"https://www.youtube.com/watch?v=kPBFzNFV6DQ",
-			"https://www.youtube.com/watch?v=roo0CeT1VXI",
-			'https://www.youtube.com/watch?v=Qy8SPLff5pQ',
-			'https://www.youtube.com/watch?v=OnkpPMH4i9o',
-			'https://www.youtube.com/watch?v=5Q6lgzzfPS4',
-			'https://www.youtube.com/watch?v=xFSwIw-_-as',
-			'https://www.youtube.com/watch?v=Pit2gYQka2M',
-			'https://www.youtube.com/watch?v=v5yTzlw5dKs',
-			'https://www.youtube.com/watch?v=zxP038dKDuo',
-			'https://www.youtube.com/watch?v=he_JgaDUvIU',
-			'https://www.youtube.com/watch?v=wkx8Mw6uMdM',
-			'https://www.youtube.com/watch?v=3IoaCC_ZDno',
-			'https://www.youtube.com/watch?v=ZtBaeOwwK3c',
-			'https://www.youtube.com/watch?v=GGiIuBaXGQw',
-			'https://www.youtube.com/watch?v=8hgmW4B9wVs',
-			'https://www.youtube.com/watch?v=47G3SK8QEhQ']
-};
-var gouf = {
-	commands: 'gouf',
-	items: ['https://www.youtube.com/watch?v=CPqomrYO960',
-			'https://www.youtube.com/watch?v=nKqs1JLDbp4',
-			'https://www.youtube.com/watch?v=ts7--zxXXKQ']
-};
-var ugh = {
-	commands: 'ugh',
-	items: ['https://www.youtube.com/watch?v=jq9JaTp7pFo',
-			'https://www.youtube.com/watch?v=d5ZvzIOO6aU']
-};
-
-var hyokin = {
-	commands: 'hyokin',
-	items: ["Hyokin is a 19-year old American writer, artist, voice-actor, webpage designer, and all around Halo fan.",
-			"Hyokin began playing Halo in 2004 when Hyokin purchased his first Xbox and soon moved to the newly released Halo 2.",
-			"In January 2010, Hyokin began hosting a weekly Custom Game night on Halo.Bungie.Org where Hyokin met many of the leaders of his clan, The Customs Clan; including Hyokin, Hyokin(1), Hyokin(2), and Hyokin(3).",
-			"Hyokin works at a small local grocery store where Hyokin bags groceries, maintains the recycling room, and pushes carts.",
-			"Hyokin spends his free time playing Halo, writing short stories, and maintaining his various websites.",
-			"Hyokin also enjoys hiking and swimming.",
-			"Hyokin's favorite Halo 3 ODST Character is Buck. Hyokin also enjoys the line 'Barn, said the lady'",
-			"Hyokin has unlocked Recon Armor in Halo 3.",
-			"Hyokin has unlocked Sergeant Johnson in Halo 3 ODST.",
-			"Hyokin has less than 5000 Gamerpoints, over 4000 of which came from Halo 3 and Halo 3 ODST.",
-			"Hyokin did not complete Halo Wars and found it to be boring.",
-			"Hyokin is always eating a snack on the HBO Customs Podcast.",
-			"Hyokin likes CaneCutter and picks on his accent because Hyokin considers him a good friend.",
-			"Hyokin and Monkey are bestest pals.",
-			"Hyokin is in all but two of Chris101 b's 'Things You Wouldn't Expect Reach Videos.",
-			"Hyokin made it into a Bungie Vidoc The Good, The Ugly, and the Badass' at 16-seconds in, using 'Team Armor Lock'",
-			"Hyokin has been on HBO since 2006. Hyokin started playing Halo in 2004 and got a computer and Xbox Live in 2006.",
-			"Hyokin joined HBO after reading Stephen Loftus' articles.",
-			"Hyokin's favorite Halo level of all time is Assault On The Control Room in Halo: Combat Evolved.",
-			"Hyokin has more HBO forum posts than Louis Wu and everyone else from Customs Clan.",
-			"Hyokin quit Halo for a month when Hyokin saw the Reach trailer in December 2009.",
-			"Hyokin return and created Customs.",
-			"Hyokin recieved his Halo: Reach Beta Code from Frank O'Conner through e-mail. Frankie gave it to him because Hyokin posted first in a thread where Frankie was asking Cody Miller if he had a code yet. Hyokin explained that Cody had one but he did not. Frankie then e-mailed him a code subject line reading 'Cody's Sloppy Seconds'",
-			"Hyokin wears purple armor with an EVA Helmet, Scout Shoulders, and a CQB chestplate.",
-			"Hyokin's emblem in Halo games is the letter 'H' created using the Marathon and Vertical Stripes images.",
-			"Hyokin will turn on Halo, play around on a single forge map for two hours, then turn it off.",
-			"Hyokin loves Forging maps.",
-			"Hyokin's biggest desire for Halo Reach's Forge system is Trees.",
-			"Hyokin likes Chinese food and Pepsi.",
-			"Hyokin has recieved a fortune cookie reading 'Oops! Wrong Cookie'",
-			"Hyokin is attending a community college for graphic art and communcations.",
-			"Hyokin enjoys creating video games on his computer using FPS Creator and RPG Maker VX.",
-			"Hyokin has been making video games for almost ten years, though never completeing a project.",
-			"Hyokin has been designing websites since 2003.",
-			"Hyokin owns a black Xbox 360 Elite with a black controller.",
-			"Hyokin has a white Xbox Arcade headset.",
-			"Hyokin's cellphone has a sticker of a gopher poking its head up from a hole saying 'Sup'",
-			"Hyokin is husky, though not obese.",
-			"Hyokin hates Grifball.",
-			"Hyokin owns a white t-shirt reading 'Ihyokin.com' in purple text with a purple skull. Custom made.",
-			"Hyokin owns a calico cat named Zoey.",
-			"Hyokin lives in his parent's basement in a room Hyokin and his stepdad built themselves.",
-			"Hyokin has an HD TV.",
-			"Hyokin owns his own personal 'Gamer' couch.",
-			"Hyokin purchased the Legendary Edition of Halo 3 and has the cat-head helmet in his closet.",
-			"Hyokin has a purple iPod Nano.",
-			"Hyokin drives a black, bubble-shaped car. It is similar to his Halo 3 EVA helmet, except it is black not purple.",
-			"Hyokin's stepfather would never let his son drive a purple car.",
-			"Hyokin's Bungie.net account name is 'Dellaro Studios' which was the name of a website Hyokin ran years ago.",
-			"Hyokin feels warm nostalgia for Halo 4. All"+ hbombcount(null ,new Date(2012, 10, 6)).toString()+" of it."]
-};
 
 var clonkometer = 0;
 var offQuestion = false;
-
-var randomMsg = {
-	attacker:	['Armada',
-				'Invisibrutes',
-				'Titan nicknamed "Mr.Bonkle"',
-				'Fischer Price Care Bear War Hero Automaton',
-				'Prince of All Saiyans',
-				'Mechanized 1998 Harlem Globetrotters',
-				'Godzilla sized Daft Punk using cities as their dance clubs',
-				'well placed bonk',
-				'unforseen clonk',
-				'Orbital Death Laser',
-				'Swag Overload',
-				'Great Teacher Onizuka',
-				'Hydrogen powered chest blimps',
-				'Long Donged Ippo',
-				'Fast in-boxing',
-				'Mongoloid out-boxing',
-				'minor technicality in the Laredo Rules',
-				'TDVictoryLap',
-				'IRC Avengers',
-				'Captain Battlebonk',
-				'Tumblr Mercenaries',
-				'Victory Swole',
-				'sonic fanfic',
-				'S-Shrek',
-				'fully armed and operational bonklestation',
-				'two fat dwarves',
-				'Reverse engineered kek set to Danger Maximum',
-				'Destination Maximum',
-				'DMX grrr cannon',
-				'The Clonkening',
-				'fuckin ball pit',
-				'secret of the ooze',
-				'Gorillas wearing jetpacks with no concept of how to use a jetpack',
-				'Drill, that is the drill that will pierce the heavens',
-				'J-Pop Kill Squad',
-				'Regulation issued Bonkgiver',
-				'Five Finger Slam Bringer',
-				'MAKUROSU',
-				'Intense batch of Smellikinesis',
-				'good whiff',
-				'Production ready Gak',
-				'several hundred nuclear warheads',
-				'Weaponized Dubstep',
-				'Vaguemind',
-				'MAXIMUM OGREDRIVE',
-				'Slowjam feat. Lionel Richie',
-				'Tom Cruise Missiles',
-				'Squadron of War Corgis (also known as Worgis)',
-				'Sweet Hand of Irony'],
-	result:		['were taken out to pasture',
-				'have been irrevocably rekt',
-				'were slammed, jammed, thank you maamd',
-				'have been shaked, quaked, and space kaboomed',
-				'were made more important than a one night stand',
-				'were taken to district court',
-				'have been BTFO',
-				'were bad bonked',
-				'were made just... just a mess',
-				"got GTO'd",
-				"were set to Danger Maximum",
-				'fell victim to bonk',
-				"didn't make it in the third round",
-				"got KO'd with 3 seconds remaining",
-				"were totally bamboozled",
-				"were judged",
-				'were BLOWN THE FUCK OUT',
-				'were Molded into new Gak',
-				'were made to understand their fate',
-				'are currently in bite sized chunks scattered to the wind',
-				'were blown to smiteroons',
-				'have been sent back to mother in a cardboard box',
-				'were taken in for questioning',
-				'were cuffed and detained',
-				'were made husky though not obese',
-				'were hacked into the future',
-				'are being bonk, bonking, bonked',
-				'are not recognizable anymore',
-				'were completely decimated',
-				'have lived up to the name "live by the bonk, die by the bonk"'],
-	assess:		['#cantbonkthis',
-				'Whadda ya gonna do, drop a bonk on me?',
-				'About Bonking Time',
-				'Dark Side of the Clonk',
-				'Clonkers are still in the fight',
-				'Holding on by the skin of your clonkers',
-				'bonks all around',
-				'Double Bonk',
-				'Was that a good bonking or a bad clonking?',
-				'Get Bonked',
-				'Come on and Bonk and Welcome to the Clonk',
-				'Triple Bonk',
-				'The Incredible Bonk',
-				'Bonk Around the Clonk',
-				'Great Bonks of Fire',
-				'OverBonk',
-				'Bonkzilla',
-				'I am the Bonk',
-				'Rebonkulous',
-				'UNBONKINGBELIEVABLE'],
-	colors:		['light_blue',
-				'light_green',
-				'yellow',
-				'light_red'],
-	commands:	['battlebonk',
-				'howtobonk',
-				'Clonk']
-};
-
 var nameList = [];
 var stripOP = '^[@&#+$~%!*?](.*)$';
 
@@ -331,10 +67,8 @@ function quothTheHyo(sub, from){
         var hyoChosenFact = hyokin.items[getRandomInt(0,hyokin.items.length-1)];
         var person = sub;
  
-        if (!sub.length || sub.length === 0 || sub === ""){
+        if (_.isEmpty(sub)){
                 person = 'Hyokin';
-        }else if (sub.length > 50 || sub.indexOf(".") > -1 || sub.indexOf("s/") > -1){
-                person = "That fucker "+from+", the douche king himself";
         }
  
         //ideally the "%hyo" keyword should be defined elsewhere and referenced via variable here
@@ -352,7 +86,7 @@ function detectThatShit(string, to){
 	
 	transClient.initialize_token(function(keys){
 		transClient.detect(params, function(err, data){
-			if (!to || to === null || to === ""){
+			if (_.isEmpty(to)){
 				translateThatShit(string, "en", data);
 			}else{
 				translateThatShit(string, to, data);
@@ -431,7 +165,7 @@ function timeToBonk(from, target)
 
 function searchDaTweet (searchString) {
 
-	if (!searchString.length || searchString.length === 0 || searchString === ""){
+	if (_.isEmpty(searchString)){
 		bot.say(config.channels[0], "No text provided, switching to fanfiction");
 		Tw.get('statuses/user_timeline', {screen_name: 'fanfiction_txt', count:'200', exclude_replies:'true', include_rts:'false'}, function(err, data, response){
 			var randTweet = getRandomInt(0,data.length-1);
@@ -447,7 +181,7 @@ function searchDaTweet (searchString) {
 				function(err, data, response){
 					if(data.statuses.length > 0){
 					var randTweet = getRandomInt(0,data.statuses.length-1);
-					bot.say(config.channels[0], "Tweet from "+data.statuses[randTweet].user.name +" : " +data.statuses[randTweet].text);
+			bot.say(config.channels[0], "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+data.statuses[randTweet].text +" (http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+")");
 				}else{
 					bot.say(config.channels[0], "No tweets found, that's pretty shitty.");
 
@@ -465,7 +199,7 @@ function searchDaTweet (searchString) {
 	Tw.get('search/tweets', {q: searchString, count:'100'}, function(err, data, response){
 		if(data.statuses.length > 0){
 			var randTweet = getRandomInt(0,data.statuses.length-1);
-			bot.say(config.channels[0], "Tweet from "+ data.statuses[randTweet].user.name +" : "+data.statuses[randTweet].text);
+			bot.say(config.channels[0], "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+data.statuses[randTweet].text +" (http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+")");
 			}else{
 					bot.say(config.channels[0], "No tweets found, that's pretty shitty.");
 
@@ -483,7 +217,7 @@ function randImg(kind, where){
 function randoSub(sub, where){
 	//console.log("sub is:"+" | "+sub+" | ", sub.length);
 	var urlBuild = '';
-	if (!sub.length || sub.length === 0 || sub === ""){
+	if (_.isEmpty(sub)){
 		var urlRand = urls.reddit + 'random/';
 		request(urlRand, function (error, response, body){
 			urlBuild = response.request.uri.href + "random/.json";
@@ -543,7 +277,11 @@ var commands = {
 		hbomb: '^#'+countdown.commands+'(.*)$',
 		ugh: '^#'+ugh.commands+'(.*)$',
 		fanfic:'^#'+Tweet.commands[1]+'(.*)$',
-		twit: '^#'+Tweet.commands[0]+'(.*)$'
+		twit: '^#'+Tweet.commands[0]+'(.*)$',
+		tweet: '^#'+Tweet.commands[2]+'(.*)$',
+		qdb: '^#'+qdb.commands+'(.*)$'
+
+
 	};
 	var imgPattern = new RegExp(commands.img);
 	var gifPattern = new RegExp(commands.gif);
@@ -562,6 +300,8 @@ var commands = {
 	var ughPattern = new RegExp(commands.ugh);
 	var fanficPattern = new RegExp(commands.fanfic);
 	var twitPattern = new RegExp(commands.twit);
+	var tweetPattern = new RegExp(commands.tweet);
+	var qdbPattern = new RegExp(commands.qdb);
 	var kind= '';
 
 bot.addListener("join", function(channel, who, message){
@@ -603,6 +343,8 @@ bot.addListener("message#bots", function(from, text, message) {
 	var transMatch = text.match(transPattern);
 	var engrishMatch = text.match(engrishPattern);
 	var twitMatch = text.match(twitPattern);
+	var tweetMatch = text.match(tweetPattern);
+
 
 	if(howPattern.test(text) | howbonkPattern.test(text)){
 		bot.say(config.channels[0],"Sending list of commands your way, " + from);
@@ -627,6 +369,12 @@ bot.addListener("message#bots", function(from, text, message) {
 		bot.say(from, "leave it blank for translation to English, or add /<language code> to translate in that language. For a list of language codes, use #howtotranslate");
 		bot.say(from, "NOTE: if you want to translate Romaji Japanese, end the string with ~");
 		bot.say(from, "use #engrish to translate text to a designated language or random language then back to english. See what gets lost in translation!");
+		bot.say(from, "--Twit--");
+		bot.say(from, "use #twit <string> to search for a random tweet with that string. Add |<location> for location based searches.");
+		bot.say(from, "use #fanfic to pull a random fanfiction_txt post from the past 200.");
+
+
+		
 	}
 
 	if(howtransPattern.test(text)){
@@ -704,7 +452,7 @@ bot.addListener("message#bots", function(from, text, message) {
 	if(transPattern.test(text)){
 		var res = transMatch[1].trim().split("/");
 		//console.log(res);
-		if(!res[1] || res[1] === null || res[1] === ""){
+		if(_.isEmpty(res[1])){
 			detectThatShit(res[0]);
 		}else{
 			detectThatShit(res[0],res[1]);
@@ -713,7 +461,7 @@ bot.addListener("message#bots", function(from, text, message) {
 
 	if(engrishPattern.test(text)){
 		var res = engrishMatch[1].trim().split("/");
-		if(!res[1] || res[1] === null || res[1] === ""){
+		if(_.isEmpty(res[1])){
 			var result = getRandomInt(0,translate.language.length -1);
 			var resultMsg = translate.language[result];
 			engrishThatShit(res[0], resultMsg);
@@ -744,6 +492,15 @@ bot.addListener("message#bots", function(from, text, message) {
 
 	if(twitPattern.test(text)){
 		searchDaTweet(twitMatch[1].trim());
+	}
+
+	if(tweetPattern.test(text)){
+		searchDaTweet(tweetMatch[1].trim());
+	}
+
+	if(qdbPattern.test(text)){
+		var randQDB = getRandomInt(1,642);
+		bot.say(config.channels[0], "http://qdb.zero9f9.com/quote.php?id="+randQDB );
 	}
 
 });
