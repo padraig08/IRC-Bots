@@ -162,15 +162,22 @@ function timeToBonk(from, target)
 
 }
 
+function userTweet(text){
+
+var AllTweets = [];
+var currentTweets = [];
+
+	Tw.get('statuses/user_timeline', {screen_name: 'fanfiction_txt', count:'200', exclude_replies:'true', include_rts:'false'}, function(err, data, response){
+			var randTweet = getRandomInt(0,data.length-1);
+			bot.say(config.channels[0], "Fanfiction_txt: " +data[randTweet].text);
+		});
+
+}
 
 function searchDaTweet (searchString) {
 
 	if (_.isEmpty(searchString)){
-		bot.say(config.channels[0], "No text provided, switching to fanfiction");
-		Tw.get('statuses/user_timeline', {screen_name: 'fanfiction_txt', count:'200', exclude_replies:'true', include_rts:'false'}, function(err, data, response){
-			var randTweet = getRandomInt(0,data.length-1);
-			bot.say(config.channels[0], "Fanfiction_txt: " +data[randTweet].text);
-		});
+		bot.say(config.channels[0], "No text provided. Come on man, you're better than this.");
 
 	}else if(_.contains(searchString,"|")){
 
@@ -334,7 +341,7 @@ bot.addListener("nick",function(oldnick, newnick, channel, message){
 });
 
 
-bot.addListener("message#bots", function(from, text, message) {
+bot.addListener("message"+config.channels[0], function(from, text, message) {
 
 	//Only needs to be matched if the command means to capture text
 	var bonkMatch = text.match(bonkPattern);
@@ -483,11 +490,7 @@ bot.addListener("message#bots", function(from, text, message) {
 	}
 
 	if(fanficPattern.test(text)){
-		Tw.get('statuses/user_timeline', {screen_name: 'fanfiction_txt', count:'200', exclude_replies:'true', include_rts:'false'}, function(err, data, response){
-			var randTweet = getRandomInt(0,data.length-1);
-			bot.say(config.channels[0], "Fanfiction_txt: " +data[randTweet].text);
-		});
-		
+		userTweet(text);		
 	}
 
 	if(twitPattern.test(text)){
