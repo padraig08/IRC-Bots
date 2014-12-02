@@ -1,8 +1,4 @@
-{"botSettings" : {
-	"channels": ["#bots"],
-	"server": "irc.teamschoolyd.org",
-	"botName": "BonkBot"
-},
+{
 "twConfig" : {
     "consumer_key": "Q00cDGH1Uts9EMM054m49YPSP",
     "consumer_secret": "efMhSkHrffYMwcL9mBfauzaFwyqnxg1DXVOeTXw0r4wBU7uW1R",
