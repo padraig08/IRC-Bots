@@ -408,19 +408,7 @@ bot.on('!tweet', function (command){
     searchDaTweet(command.args.join(" "), command);
 });
 
-/*
-bot.on("privmsg", function() {
-
+bot.on('error', function (message){
+	console.log(message);
 });
 
-	
-bot.addListener("pm", function(from, text, message) {
-
-	if(offQuestion == true && text == "Bonkulous"){
-		bot.say(command.channel, "BonkBot offline...");
-		bot.disconnect("SeeYouNextTimeSpaceCowboy");
-	}else if (offQuestion == true){
-		bot.say(from, "You're gonna have to try hard than that");
-	}
-
-});*/
