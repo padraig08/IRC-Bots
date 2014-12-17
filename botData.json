@@ -8,6 +8,14 @@
 				"Finally, after <time>, I'm free. Time to conquer HBOMB."]
 },
 
+"av" :{
+	"items": ["lol, what a bitch",
+			"SCHOOBY, SCHOOBY, SCHOOBY, LOOK!",
+			"HAAHAHAHAHAHA AS IF!",
+			"fucking casual trash",
+			"what a nice post."]
+},
+
 "Tweet" : {
 	"commands": ["twit", "fanfic", "tweet"] 
 },
