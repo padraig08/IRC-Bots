@@ -155,14 +155,17 @@ function timeToBonk(command)
 	var calcMsg = calc.toString() + "% of ";
 	var resultMsg = randomMsg.result[result];
 	var attackerMsg = randomMsg.attacker[attacker];
+
 	
 	clonk = c.brown("Battlebonk results: " + calcMsg + target+"'s clonkers " + resultMsg + " by " + from+"'s " + attackerMsg);
 	bot.say(command.channel, clonk);
 	var recalcColor = Math.round((calc * (randomMsg.colors.length - 1)) /100);
 	var recalcAssess = Math.round((calc *(randomMsg.assess.length - 1)) /100);
-	var assessColor = randomMsg.colors[recalcColor];
-	assessment = c.bold.bgred.yellow(randomMsg.assess[recalcAssess]);
-	bot.say(command.channel, "Battlebonk Status: " + assessment);
+	//var assessColor = "c."+randomMsg.colors[recalcColor];
+	var assessment = randomMsg.assess[recalcAssess];
+	console.log(assessment);
+	
+	bot.say(command.channel, "Battlebonk Status: " + c.red(assessment));
 
 }
 
@@ -388,8 +391,8 @@ bot.on('!translate', function (command) {
 bot.on('!engrish', function (command){
     var res = command.args.join(" ").split("/");
     if(_.isEmpty(res[1])){
-        var result = getRandomInt(0,translate.language.length -1);
-        var resultMsg = translate.language[result];
+        var result = getRandomInt(0,translate.engrish.length -1);
+        var resultMsg = translate.engrish[result];
         engrishThatShit(res[0], resultMsg, command);
     }else{
         engrishThatShit(res[0],res[1], command);
