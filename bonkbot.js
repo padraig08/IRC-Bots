@@ -416,6 +416,6 @@ bot.on('error', function (message){
 bot.on('!av', function (command){
 	var randHBO = getRandomInt(1,1201210);
 	var randAV = getRandomInt(0,4);
-	bot.say(command.channel,"http://forums.bungie.org/halo/archive.pl?read="+randHBO);
+	bot.say(command.channel,"http://carnage.bungie.org/haloforum/halo.forum.pl?read="+randHBO);
 	bot.say(command.channel, "AV: "+av.items[randAV]);
 });
