@@ -10,7 +10,8 @@ var countdown = botData.countdown,
 	gouf = botData.gouf,
 	ugh = botData.ugh,
 	hyokin = botData.hyokin,
-	randomMsg = botData.randomMsg;
+	randomMsg = botData.randomMsg,
+	av = botData.av;
 
 // Get the lib
 var irc = require('tennu'),
@@ -411,19 +412,13 @@ bot.on('!tweet', function (command){
     searchDaTweet(command.args.join(" "), command);
 });
 
-/*
-bot.on("privmsg", function() {
-
+bot.on('error', function (message){
+	console.log(message);
 });
 
-	
-bot.addListener("pm", function(from, text, message) {
-
-	if(offQuestion == true && text == "Bonkulous"){
-		bot.say(command.channel, "BonkBot offline...");
-		bot.disconnect("SeeYouNextTimeSpaceCowboy");
-	}else if (offQuestion == true){
-		bot.say(from, "You're gonna have to try hard than that");
-	}
-
-});*/
+bot.on('!av', function (command){
+	var randHBO = getRandomInt(1,1201210);
+	var randAV = getRandomInt(0,4);
+	bot.say(command.channel,"http://carnage.bungie.org/haloforum/halo.forum.pl?read="+randHBO);
+	bot.say(command.channel, "AV: "+av.items[randAV]);
+});
