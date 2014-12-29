@@ -11,7 +11,8 @@ var countdown = botData.countdown,
 	ugh = botData.ugh,
 	hyokin = botData.hyokin,
 	randomMsg = botData.randomMsg,
-	av = botData.av;
+	av = botData.av,
+	rhymePos = botData.rhymePos;
 
 // Get the lib
 var irc = require('tennu'),
@@ -25,7 +26,8 @@ hbombcount = require("countdown"),
 twitter = require('twit'),
 geo = require ('geocoder'),
 c = require('irc-colors'),
-util = require('util');
+util = require('util'),
+rhyme = require('rhyme-plus');
 
 
 var Tw = new twitter({
@@ -418,7 +420,22 @@ bot.on('error', function (message){
 
 bot.on('!av', function (command){
 	var randHBO = getRandomInt(1,1201210);
-	var randAV = getRandomInt(0,4);
+	var randAV = getRandomInt(0, av.items.length-1);
 	bot.say(command.channel,"http://carnage.bungie.org/haloforum/halo.forum.pl?read="+randHBO);
-	bot.say(command.channel, "AV: "+av.items[randAV]);
+	bot.say(command.channel, av.items[randAV]);
+});
+
+bot.on('!rhyme', function (command){
+	rhyme(function (r) {
+		var rhymes = r.rhyme(command.args.join(""));
+		var randRhyme = getRandomInt(0,rhymes.length-1);
+		var randRhymePos = getRandomInt(0, rhymePos.items.length-1);
+		var chosenRhyme = rhymePos.items[randRhymePos];
+		var replaceRhyme =  chosenRhyme.replace(/rhymed/gi, rhymes[randRhyme]).replace(/word/gi,command.args.join("").toUpperCase());
+		if(rhymes[randRhyme] == undefined){
+			bot.say(command.channel, "Choose a better word, I got no rhymes for you.");
+		}else{
+			bot.say(command.channel, replaceRhyme);
+		}
+	});
 });

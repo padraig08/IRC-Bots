@@ -16,6 +16,13 @@
 			"what a nice post."]
 },
 
+"rhymePos" :{
+	"items": ["word rhymed",
+			"rhymed word",
+			"rhymed AND word",
+			"word AND rhymed"]
+	},
+
 "Tweet" : {
 	"commands": ["twit", "fanfic", "tweet"] 
 },
