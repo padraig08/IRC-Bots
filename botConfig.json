@@ -9,4 +9,10 @@
 "transConfig": {
       "client_id": "BonkBot"
       , "client_secret": "siyaadX0Xc8ECdH2wLfEQq1wvLfVGO10FYE58Wqh0f4="
-}}
+},
+
+"defConfig": {
+
+	"defKey":"02f9c357-ef20-4435-a2f6-e410e5fdd64f"
+	
+	}}
