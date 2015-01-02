@@ -9,7 +9,6 @@ var countdown = botData.countdown,
 	dmx = botData.dmx,
 	gouf = botData.gouf,
 	ugh = botData.ugh,
-	hyokin = botData.hyokin,
 	randomMsg = botData.randomMsg,
 	av = botData.av,
 	rhymePos = botData.rhymePos;
@@ -66,23 +65,6 @@ function checkOP(name){
 	}
 	var newName = { 'name': name };
 	nameList.push(newName);
-}
-
-function quothTheHyo(command){
-		var hyoString = command.args.join(" ");
-        var hyoChosenFact = hyokin.items[getRandomInt(0,hyokin.items.length-1)];
-        var person = hyoString;
- 
-        if (_.isEmpty(hyoString)){
-                person = 'Hyokin';
-        }
-
-        if (hyoChosenFact.indexOf("<h4time>") > -1){
-        	hyoChosenFact = hyoChosenFact.replace(/<h4time>/gi, hbombcount(null ,new Date(2012, 10, 6)).toString());
-        }
- 
-        //ideally the "%hyo" keyword should be defined elsewhere and referenced via variable here
-        bot.say(command.channel, '>' + hyoChosenFact.replace(/Hyokin/gi, person));
 }
 
 function detectThatShit(string, to, command){
@@ -270,7 +252,7 @@ function subSelect(urlBuild, where){
 			if (!error && response.statusCode == 200 && invalidSub === null) {
 				var redditData = JSON.parse(body);
 				var dataUrl = redditData[0].data.children[0].data;
-				//econsole.log(dataUrl);
+				//console.log(dataUrl);
 				
 				if (dataUrl.over_18 === true){
 					bot.say(where,'Warning: The following is NSFW/NSFL');
@@ -302,9 +284,7 @@ var Logger = function () {
 var bot = irc.Client(network, {Logger: Logger});
 bot.connect();
 
-	var kind= '';
-
-
+var kind= '';
 
 bot.on("join", function(message){
 	if(message.nickname == "Bonk-Bot"){
@@ -334,9 +314,7 @@ bot.on("nick",function(message){
 	var removeName = _.where(nameList, {'name': message.old});
 	nameList = _.without(nameList, removeName[0]);
 	checkOP(message.new);
-	
 });
-
 
 //Commands//
 
@@ -365,13 +343,7 @@ bot.on('!qdb', function (command){
 });
 
 bot.on('!battlebonk', function (command) {
-	
 	timeToBonk(command);
-	
-});
-
-bot.on('!hyokin', function (command) {
-    quothTheHyo(command);
 });
 
 bot.on('!img', function (command) {
@@ -447,7 +419,6 @@ bot.on('!rhyme', function (command){
 });
 
 bot.on('!define', function (command){
-
 	var defineWord = command.args.join(" ");
 	dict.define(defineWord, function(error, result){
 	if (error == null) {
@@ -462,10 +433,12 @@ bot.on('!define', function (command){
 		}
 	}
 	else console.log(error);
-});
+	});
 });
 
 bot.on('!syn', function (command){
-	var synonyms = moby.search('mad');
+	var inward = command.args.join("");
+	var synonyms = moby.search(inward);
 	console.log(synonyms);
+	print(command.args);
 });
