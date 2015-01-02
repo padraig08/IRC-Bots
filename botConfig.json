@@ -11,8 +11,8 @@
       , "client_secret": "siyaadX0Xc8ECdH2wLfEQq1wvLfVGO10FYE58Wqh0f4="
 },
 
-"defConfig": {
+"wordConfig":{
+	"wordnikKey":"d2995fee04930f335d81803552c000b9aab0e63a3813e0326"
+}
+}
 
-	"defKey":"02f9c357-ef20-4435-a2f6-e410e5fdd64f"
-	
-	}}

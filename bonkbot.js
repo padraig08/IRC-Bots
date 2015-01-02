@@ -28,8 +28,11 @@ geo = require ('geocoder'),
 c = require('irc-colors'),
 util = require('util'),
 rhyme = require('rhyme-plus'),
-Dictionary = require('mw-dictionary'),
-moby = require('moby');
+Wordnik = require('wordnik');
+
+var word = new Wordnik({
+    api_key: botConfig.wordConfig.wordnikKey
+});
 
 
 var Tw = new twitter({
@@ -38,10 +41,6 @@ var Tw = new twitter({
     access_token: botConfig.twConfig.access_token,
     access_token_secret: botConfig.twConfig.access_token_secret
 });
-
-var dict = new Dictionary({
-		key: botConfig.defConfig.defKey
-	});
 
 var transClient = new MsTranslator({
       client_id: botConfig.transConfig.client_id
@@ -447,25 +446,12 @@ bot.on('!rhyme', function (command){
 });
 
 bot.on('!define', function (command){
+	word.definitions(command.args.join(" "), function(e, defs) {
+  		console.log(e, defs);
+	});
 
-	var defineWord = command.args.join(" ");
-	dict.define(defineWord, function(error, result){
-	if (error == null) {
-		for(var i=0; i<result.length; i++){
-			bot.say(command.channel, i+'. '+result[i].partOfSpeech+ " : "+result[i].definition);
-		}
-	}
-	else if (error === "suggestions"){
-		bot.say(command.channel, ' not found in dictionary. Possible suggestions:');
-		for (var i=0; i<result.length; i++){
-			bot.say(command.channel, result[i]);
-		}
-	}
-	else console.log(error);
-});
 });
 
 bot.on('!syn', function (command){
-	var synonyms = moby.search('mad');
-	console.log(synonyms);
+	
 });
