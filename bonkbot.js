@@ -12,7 +12,8 @@ var countdown = botData.countdown,
 	hyokin = botData.hyokin,
 	randomMsg = botData.randomMsg,
 	av = botData.av,
-	rhymePos = botData.rhymePos;
+	rhymePos = botData.rhymePos,
+	word = botData.word;
 
 // Get the lib
 var irc = require('tennu'),
@@ -431,27 +432,53 @@ bot.on('!av', function (command){
 });
 
 bot.on('!rhyme', function (command){
-	rhyme(function (r) {
-		var rhymes = r.rhyme(command.args.join(""));
-		var randRhyme = getRandomInt(0,rhymes.length-1);
-		var randRhymePos = getRandomInt(0, rhymePos.items.length-1);
-		var chosenRhyme = rhymePos.items[randRhymePos];
-		var replaceRhyme =  chosenRhyme.replace(/rhymed/gi, rhymes[randRhyme]).replace(/word/gi,command.args.join("").toUpperCase());
-		if(rhymes[randRhyme] == undefined){
-			bot.say(command.channel, "Choose a better word, I got no rhymes for you.");
+		var rhymeWord = command.args.join("");
+		var urlRhymeBuild = word.wordUrl+word.rhymeUrl+word.apiUrl;
+		var urlRhymeBuild = urlRhymeBuild.replace(/<word>/gi, rhymeWord).replace(/<api>/gi, word.api);
+
+	request(urlRhymeBuild, function (error, response, body) {
+		if (error || response.statusCode !== 200 || body.length <= 2){
+			bot.say(command.channel,'Try another word, I got no rhymes for you.');
 		}else{
+			var rhymeData = JSON.parse(body);
+			var randRhyme = getRandomInt(0,rhymeData[0].words.length-1;);
+			var randRhymePos = getRandomInt(0, rhymePos.items.length-1);
+			var chosenRhyme = rhymePos.items[randRhymePos];
+			var replaceRhyme =  chosenRhyme.replace(/rhymed/gi, rhymeData[0].words[randRhyme]).replace(/word/gi,command.args.join("").toUpperCase());
 			bot.say(command.channel, replaceRhyme);
 		}
-	});
+	});	
 });
 
 bot.on('!define', function (command){
-	word.definitions(command.args.join(" "), function(e, defs) {
-  		console.log(e, defs);
-	});
+	var defineWord = command.args.join("");
+	var urlDefineBuild = word.wordUrl+word.defineUrl+word.apiUrl;
+	var urlDefineBuild = urlDefineBuild.replace(/<word>/gi, defineWord).replace(/<api>/gi, word.api);
 
+	request(urlDefineBuild, function (error, response, body) {
+		if (error || response.statusCode !== 200 || body.length <= 2){
+			bot.say(command.channel,'Try another word, I got no definitions for you.');
+		}else{
+			var defineData = JSON.parse(body);
+			var randDefine = getRandomInt(0, defineData.length-1);
+			bot.say(command.channel, defineData[randDefine].word+" ["+defineData[randDefine].partOfSpeech+"] : "+defineData[randDefine].text);
+		}
+	});	
 });
 
-bot.on('!syn', function (command){
+bot.on('!example', function (command){
+var exampleWord = command.args.join("");
+var urlExampleBuild = word.wordUrl+word.exampleUrl+word.apiUrl;
+var urlExampleBuild = urlExampleBuild.replace(/<word>/gi, exampleWord).replace(/<api>/gi, word.api);
+request(urlExampleBuild, function (error, response, body) {
+	if (error || response.statusCode !== 200 || body.length <= 2){
+		console.log('Try another word. I got no examples for you, jack.');
+	}else{
+		var exampleData = JSON.parse(body);
+		var randExample = getRandomInt(0, exampleData.examples.length-1);
+		bot.say(command.channel, exampleData.examples[randExample].text);
+	}
+});
 	
 });
+
