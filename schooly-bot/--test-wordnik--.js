@@ -8,7 +8,7 @@ var defineUrl = 'definitions?limit=100&includeRelated=true&useCanonical=false&in
 var rhymeUrl = 'relatedWords?useCanonical=false&relationshipTypes=rhyme&limitPerRelationshipType=100';
 var apiUrl = '&api_key=<api>';
 var api = 'd2995fee04930f335d81803552c000b9aab0e63a3813e0326';
-var word = 'nart';
+var word = 'bbbbb';
 
 
 
@@ -42,39 +42,37 @@ request(urlDefineBuild, function (error, response, body) {
 
 var urlInitBuild = searchUrl+apiUrl;
 var acArray = [];
+var acObj = {};
 var acLetter = word.split("");
+var requests = 0;
 
 var acResult = _.map(acLetter, function(currLetter) {
+	requests++;
 	urlAcBuild = urlInitBuild.replace(/<search>/gi, currLetter).replace(/<api>/gi, api);
 	console.log(currLetter);
-	//acronymTime(urlAcBuild);
 	request(urlAcBuild, function (error, response, body) {
-		//if (error || response.statusCode !== 200 || body.length <= 2){
-		//	console.log('Try again, I got nothing for you.');
-		//}else{
-			
-			var acData = JSON.parse(body);
-			acArray.push(acData.searchResults[0].word);
-			//console.log(acArray);
-		//}
-	});
-});
-
-console.log(acResult);
-
-
-function acronymTime(url){
-	request(url, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2){
-			console.log('Try again, I got nothing for you.');
+			acObj[acLetter.indexOf(currLetter)] = "?";
 		}else{
 			var acData = JSON.parse(body);
-
-			//acArray.push(
-			return acData.searchResults[0].word;
-			console.log(acArray);
+			acObj[acLetter.indexOf(currLetter)] = acData.searchResults[acLetter.indexOf(currLetter)].word;
+			console.log(acObj);
+			requests--;
+			console.log(requests);
+			if(requests == 0) {acronymTime(acObj);}
 		}
+
 	});
+	
+});
+
+
+function acronymTime(acObj){
+
+	var acString = _.map(acObj, function(num) { return num; }).join(" ");
+	console.log(acObj);
+	console.log(acString);
+
 
 }
 
