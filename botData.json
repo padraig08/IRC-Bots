@@ -27,6 +27,33 @@
 	"commands": "qdb"
 },
 
+"mad" : {
+	"commands": "mad",
+	"status": ["Mad",
+			"Not mad",
+			"I Was So Mad, by Mercer Mayer",
+			"Platinum mad",
+			"Mad In China",
+			"Get mad, get mad, get mad!",
+			"u mad",
+			"Mad as a hatter",
+			"y u mad",
+			"Absolute madman",
+			"Mad, though not obese",
+			"Stark raving mad",
+			"Barking mad",
+			"I ain't even mad",
+			"Breaking Mad",
+			"Zinda, his face black, his eyes red",
+			"le rage face",
+			"M A D",
+			"Born to be Mad",
+			"Sees Mad Max as a role model",
+			"Mad to the Bone",
+			"Giga Mad Breaker",
+			"Mad as Hell, and not going to take it any more"]
+},
+
 "translate" : {
 	"commands": ["translate","howtotranslate","engrish"],
 	"language":  ["ar",
@@ -91,7 +118,9 @@
 			"ur",
 			"vi",
 			"zh-CHS",
-			"zh-CHT"]},
+			"zh-CHT"]
+},
+
 "urls" : {
 	"reddit": "http://www.reddit.com/r/",
 	"subs": { 
@@ -99,6 +128,7 @@
 		"gif":["gifs","combinedgifs","blackpeoplegifs","whitepeoplegifs","animegifs","shittyreactiongifs","chemicalreactiongifs","reactiongifs","kramergifs","georgegifs","perfectLoops","HighQualityGifs"]},
 	"commands": ["img","gif","howtobonk","Clonk", "rando"]
 },
+
 "dmx" : {
 	"commands": "dmx",
 	"phrases": ["X GON' GIVE IT TO YA",
@@ -136,15 +166,11 @@
 			"https://www.youtube.com/watch?v=8hgmW4B9wVs",
 			"https://www.youtube.com/watch?v=47G3SK8QEhQ"]
 },
-"gouf" : {
-	"commands": "gouf",
-	"items": ["https://www.youtube.com/watch?v=CPqomrYO960",
-			"https://www.youtube.com/watch?v=nKqs1JLDbp4",
-			"https://www.youtube.com/watch?v=ts7--zxXXKQ"]
-},
+
 "ugh" : {
 	"commands": "ugh",
-	"items": ["https://www.youtube.com/watch?v=jq9JaTp7pFo",
+	"items": ["ugh indeed",
+			"https://www.youtube.com/watch?v=jq9JaTp7pFo",
 			"https://www.youtube.com/watch?v=d5ZvzIOO6aU",
 			"https://www.youtube.com/watch?v=BYpIG2lSzCI",
 			"https://www.youtube.com/watch?v=u_hrzfKGZ0U",
@@ -159,8 +185,7 @@
   			"https://www.youtube.com/watch?v=nABMJ4791c0",
   			"https://www.youtube.com/watch?v=Z0zLSVVRPpo",
   			"https://www.youtube.com/watch?v=ujt1ogxcuNM",
-  			"https://www.youtube.com/watch?v=mEqleusCerc",
-			"ugh indeed"]
+  			"https://www.youtube.com/watch?v=mEqleusCerc"]
 },
 
 "randomMsg": {
@@ -195,9 +220,9 @@
 				"DMX grrr cannon",
 				"The Clonkening",
 				"fuckin' ball pit",
-				"secret of the ooze",
+				"Secret of the Ooze",
 				"Gorillas wearing jetpacks with no concept of how to use a jetpack",
-				"Drill, that is the drill that will pierce the heavens",
+				"Drill, the drill that will pierce the heavens",
 				"J-Pop Kill Squad",
 				"Regulation issued Bonkgiver",
 				"Five Finger Slam Bringer",

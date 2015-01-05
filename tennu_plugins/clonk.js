@@ -11,7 +11,7 @@ var clonkPlugin = {
                 'command': [
                     'Send BonkBot to the shadow realm',
                     ' ',
-                    'To the shadow realm. (must be Paddy.)'
+                    'To the shadow realm. (bot owner only)'
                 ]
             },
 
