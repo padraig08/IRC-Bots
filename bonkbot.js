@@ -136,9 +136,10 @@ function engrishThatShit(string, to, command) {
 function timeToBonk(command) {
 	var from = command.nickname;
 	var target = command.args.join(" ");
-	var calc = getRandomInt(0,100);
-	var result = getRandomInt(0,randomMsg.result.length - 1);
-	var attacker = getRandomInt(0,randomMsg.attacker.length - 1);
+	var calc = getRandomInt(0, 100);
+	var result = getRandomInt(0, randomMsg.result.length - 1);
+	var attacker = getRandomInt(0, randomMsg.attacker.length - 1);
+	
 	var calcMsg = calc.toString() + "% of ";
 	var resultMsg = randomMsg.result[result];
 	var attackerMsg = randomMsg.attacker[attacker];
@@ -266,7 +267,7 @@ var kind= '';
 
 bot.on("join", function(message) {
 	if (message.nickname == "Bonk-Bot") {
-		bot.say(message.channel, "BonkBot Online.... use #howtobonk for instructions and running modules");
+		bot.say(message.channel, "BonkBot Online.... use !howtobonk for instructions and running modules");
 	} else {
 		checkOP(message.nickname);
 	}
@@ -309,7 +310,7 @@ bot.on('!gouf', function (command) {
 	bot.say(command.channel, gouf.items[goufChosenVid]);
 });
 
-bot.on('!hbomb',function (command) {
+bot.on('!hbomb', function (command) {
 	var timeTilHBOMB = hbombcount(null, new Date(2015, 0, 16)).toString();
 	var randTimer = getRandomInt(0, countdown.items.length - 1);
 	var HBOMBstr = countdown.items[randTimer];
