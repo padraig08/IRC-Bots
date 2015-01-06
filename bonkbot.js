@@ -387,7 +387,7 @@ bot.on('!rhyme', function (command) {
 			bot.say(command.channel, 'Try another word, I got no rhymes for you.');
 		} else {
 			var rhymeData = JSON.parse(body);
-			var randRhyme = getRandomInt(0, rhymeData[0].words.length - 1;);
+			var randRhyme = getRandomInt(0, rhymeData[0].words.length - 1);
 			var randRhymePos = getRandomInt(0, rhymePos.items.length - 1);
 			var chosenRhyme = rhymePos.items[randRhymePos];
 			var replaceRhyme =  chosenRhyme.replace(/rhymed/gi, rhymeData[0].words[randRhyme]).replace(/word/gi,command.args.join("").toUpperCase());
