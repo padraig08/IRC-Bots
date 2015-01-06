@@ -24,7 +24,7 @@ var howToBonkPlugin = {
                         "Note: If you want to translate Romaji Japanese, end the text with ~",
                         "Use !engrish to translate text to a designated or random language then back to English-- see what gets lost in translation!",
                         "--Tweets--",
-                        "Use !tweet [text] or !twit [text] to search for a random tweet with that string of text, and add |[location] for location-based searches",
+                        "Use !tweet [text] to search for a random tweet with that string of text, and add |[location] for location-based searches",
                         "Use !fanfic to pull a random @fanfiction_txt post from the past 200",
 						"--Mad--",
 						"Use !mad when you're unsure how mad someone is"]);
