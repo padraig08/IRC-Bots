@@ -159,8 +159,8 @@ function userTweet(command) {
 	var AllTweets = [];
 	var currentTweets = [];
 
-	Tw.get('statuses/user_timeline', {screen_name: 'fanfiction_txt', count:'200', exclude_replies:'true', include_rts:'false'}, function(err, data, response) {
-		var randTweet = getRandomInt(0,data.length - 1);
+	Tw.get("statuses/user_timeline", {screen_name: "fanfiction_txt", count:"200", exclude_replies:"true", include_rts:'false'}, function(err, data, response) {
+		var randTweet = getRandomInt(0, data.length - 1);
 		var arrTweet = data[randTweet].text.replace( /\n/g, "`" ).split( "`" );
 		console.log(arrTweet);
 		bot.say(command.channel, "Fanfiction_txt: " + arrTweet);
@@ -174,8 +174,8 @@ function searchDaTweet (searchString, command) {
 	} else if (_.contains(searchString, "|")) {
 		var searchArray = searchString.split("|");
 		geo.geocode(searchArray[1], function(err, data) {
-			if (data.status == 'OK') {
-				Tw.get('search/tweets', {q: searchString, count:'100', geocode: data.results[0].geometry.location.lat + ', ' + data.results[0].geometry.location.lng + ',10mi'}, function(err, data, response) {
+			if (data.status == "OK") {
+				Tw.get("search/tweets", {q: searchString, count:"100", geocode: data.results[0].geometry.location.lat + ", " + data.results[0].geometry.location.lng + ",10mi"}, function(err, data, response) {
 					if (data.statuses.length > 0) {
 						var randTweet = getRandomInt(0,data.statuses.length - 1);
 						var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
@@ -190,7 +190,7 @@ function searchDaTweet (searchString, command) {
 			}
 		});
 	} else {
-		Tw.get('search/tweets', {q: searchString, count:'100'}, function(err, data, response) {
+		Tw.get("search/tweets", {q: searchString, count:"100"}, function(err, data, response) {
 			if (data.statuses.length > 0) {
 				var randTweet = getRandomInt(0,data.statuses.length - 1);
 				var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
@@ -263,30 +263,30 @@ var bot = irc.Client(network, {Logger: Logger});
 
 bot.connect();
 
-var kind= '';
+var kind = "";
 
 bot.on("join", function(message) {
 	if (message.nickname == "Bonk-Bot") {
-		bot.say(message.channel, "BonkBot Online.... use !howtobonk for instructions and running modules");
+		bot.say(message.channel, "BonkBot on-line... use !howtobonk for instructions and running modules");
 	} else {
 		checkOP(message.nickname);
 	}
 });
 
-bot.on("quit",function(message) {
+bot.on("quit", function(message) {
 	//console.log(util.inspect(message));
 	var removeName = _.where(nameList, {'name': message.nickname});
 	nameList = _.without(nameList, removeName[0]);
 });
 
-bot.on("names",function(message) {
+bot.on("names", function(message) {
 	console.log(util.inspect(message));
 	for (var key in message.names) {
 		checkOP(key);
 	}
 });
 
-bot.on("nick",function(message) {
+bot.on("nick", function(message) {
 	console.log(util.inspect(message));
 	var removeName = _.where(nameList, {'name': message.old});
 	nameList = _.without(nameList, removeName[0]);
@@ -295,66 +295,71 @@ bot.on("nick",function(message) {
 
 //Commands//
 
-bot.on('!mad', function(command) {
+bot.on("!mad", function(command) {
+	var target = command.args.join(" ");
 	var madChosenStatus = getRandomInt(0, mad.status.length - 1);
-	bot.say(command.channel, mad.status[madChosenStatus]);
+	if (_.isEmpty(target)) {
+		bot.say(command.channel, "Mad status: [X] " + mad.status[madChosenStatus]);
+	} else {
+		bot.say(command.channel, "Mad status for " + target + " [X] " + mad.status[madChosenStatus]);
+	}
 });
 
-bot.on('!dmx', function(command) {
+bot.on("!dmx", function(command) {
 	var dmxChosenPhrase = getRandomInt(0, dmx.phrases.length - 1);
 	bot.say(command.channel, dmx.phrases[dmxChosenPhrase]);
 });
 
-bot.on('!gouf', function (command) {
+bot.on("!gouf", function (command) {
 	var goufChosenVid = getRandomInt(0, gouf.items.length - 1);
 	bot.say(command.channel, gouf.items[goufChosenVid]);
 });
 
-bot.on('!hbomb', function (command) {
+bot.on("!hbomb", function (command) {
 	var timeTilHBOMB = hbombcount(null, new Date(2015, 0, 16)).toString();
 	var randTimer = getRandomInt(0, countdown.items.length - 1);
 	var HBOMBstr = countdown.items[randTimer];
-	bot.say(command.channel, HBOMBstr.replace("<time>",timeTilHBOMB));
+	bot.say(command.channel, HBOMBstr.replace("<time>", timeTilHBOMB));
 });
 
-bot.on('!ugh', function (command) {
+bot.on("!ugh", function (command) {
 	var ughRand = getRandomInt(0, ugh.items.length - 1);
 	bot.say(command.channel, ugh.items[ughRand]);
 });
 
-bot.on('!qdb', function (command) {
+bot.on("!qdb", function (command) {
 	var randQDB = getRandomInt(1, 642);
 	bot.say(command.channel, "http://qdb.zero9f9.com/quote.php?id=" + randQDB );
 });
 
-bot.on('!battlebonk', function (command) {
+bot.on("!battlebonk", function (command) {
 	timeToBonk(command);
 });
 
-bot.on('!img', function (command) {
+bot.on("!img", function (command) {
 	kind = urls.subs.img;
 	randImg(kind, command.channel);
 });
 
-bot.on('!gif', function (command) {
+bot.on("!gif", function (command) {
 	kind = urls.subs.gif;
 	randImg(kind, command.channel);
 });
 
-bot.on('!rando', function (command) {
+bot.on("!rando", function (command) {
 	randoSub(command.args[0], command.channel);
 });
 
-bot.on('!translate', function (command) {
+bot.on("!translate", function (command) {
 	var res = command.args.join(" ").split("/");
 	if (_.isEmpty(res[1])) {
-		detectThatShit(res[0], null , command);
+		detectThatShit(res[0], null, command);
 	} else {
 		detectThatShit(res[0], res[1], command);
 	}
 });
 
-bot.on('!engrish', function (command) {
+bot.on("!engrish", function (command) {
 	var res = command.args.join(" ").split("/");
 	if (_.isEmpty(res[1])) {
 		var result = getRandomInt(0, translate.engrish.length - 1);
@@ -365,26 +370,26 @@ bot.on('!engrish', function (command) {
 	}
 });
 
-bot.on('!fanfic', function (command) {
+bot.on("!fanfic", function (command) {
 	userTweet(command);
 });        
 
-bot.on('!tweet', function (command) {
+bot.on("!tweet", function (command) {
 	searchDaTweet(command.args.join(" "), command);
 });
 
-bot.on('error', function (message) {
+bot.on("error", function (message) {
 	console.log(message);
 });
 
-bot.on('!rhyme', function (command) {
-		var rhymeWord = command.args.join("");
-		var urlRhymeBuild = word.wordUrl + word.rhymeUrl + word.apiUrl;
-		var urlRhymeBuild = urlRhymeBuild.replace(/<word>/gi, rhymeWord).replace(/<api>/gi, word.api);
+bot.on("!rhyme", function (command) {
+	var rhymeWord = command.args.join("");
+	var urlRhymeBuild = word.wordUrl + word.rhymeUrl + word.apiUrl;
+	var urlRhymeBuild = urlRhymeBuild.replace(/<word>/gi, rhymeWord).replace(/<api>/gi, word.api);
 
 	request(urlRhymeBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2) {
-			bot.say(command.channel, 'Try another word, I got no rhymes for you.');
+			bot.say(command.channel, "Try another word, I've got no rhymes for you.");
 		} else {
 			var rhymeData = JSON.parse(body);
 			var randRhyme = getRandomInt(0, rhymeData[0].words.length - 1);
@@ -396,29 +401,29 @@ bot.on('!rhyme', function (command) {
 	});	
 });
 
-bot.on('!define', function (command) {
+bot.on("!define", function (command) {
 	var defineWord = command.args.join("");
 	var urlDefineBuild = word.wordUrl + word.defineUrl + word.apiUrl;
 	var urlDefineBuild = urlDefineBuild.replace(/<word>/gi, defineWord).replace(/<api>/gi, word.api);
 
 	request(urlDefineBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2) {
-			bot.say(command.channel, 'Try another word, I got no definitions for you.');
+			bot.say(command.channel, "Try another word, I've got no definitions for you.");
 		} else {
 			var defineData = JSON.parse(body);
 			var randDefine = getRandomInt(0, defineData.length - 1);
 			bot.say(command.channel, defineData[randDefine].word + " [" + defineData[randDefine].partOfSpeech + "] : " + defineData[randDefine].text);
 		}
-	});	
+	});
 });
 
-bot.on('!example', function (command) {
+bot.on("!example", function (command) {
 	var exampleWord = command.args.join("");
 	var urlExampleBuild = word.wordUrl + word.exampleUrl + word.apiUrl;
 	var urlExampleBuild = urlExampleBuild.replace(/<word>/gi, exampleWord).replace(/<api>/gi, word.api);
 	request(urlExampleBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2) {
-			console.log('Try another word. I got no examples for you, jack.');
+			console.log("Try another word, I've got no examples for you.");
 		} else {
 			var exampleData = JSON.parse(body);
 			var randExample = getRandomInt(0, exampleData.examples.length - 1);
