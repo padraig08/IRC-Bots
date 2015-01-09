@@ -5,8 +5,10 @@ var _= require('lodash-node');
 var wordUrl = 'http://api.wordnik.com:80/v4/word.json/<word>/';
 var exampleUrl = 'examples?includeDuplicates=false&useCanonical=false&skip=0&limit=100';
 var searchUrl = 'http://api.wordnik.com:80/v4/words.json/search/<search>*?caseSensitive=false&minCorpusCount=5&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=1&maxLength=-1&skip=0&limit=1000';
-var defineUrl = 'definitions?limit=100&includeRelated=true&useCanonical=false&includeTags=false';
+var defineUrl = 'definitions?limit=100&includeRelated=true&useCanonical=true&includeTags=false';
 var rhymeUrl = 'relatedWords?useCanonical=false&relationshipTypes=rhyme&limitPerRelationshipType=100';
+var pronUrl = 'pronunciations?useCanonical=false&limit=50';
+var audioUrl = 'audio?useCanonical=false&limit=50';
 var apiUrl = '&api_key=<api>';
 var api = 'd2995fee04930f335d81803552c000b9aab0e63a3813e0326';
 var word = 'mad';
@@ -65,6 +67,28 @@ request(urlForecast, function (error,response, body){
 	}
 });
 
+var urlPronBuild = wordUrl+pronUrl+apiUrl;
+var urlPronBuild = urlPronBuild.replace(/<word>/gi, word).replace(/<api>/gi, api);
+request(urlPronBuild, function (error, response, body) {
+	if (error || response.statusCode !== 200 || body.length <= 2){
+		console.log('Try another word, I got no pronunciations for you, jack.');
+	}else{
+		var pronData = JSON.parse(body);
+		console.log(pronData);
+	}
+});
+
+
+var urlAudioBuild = wordUrl+audioUrl+apiUrl;
+var urlAudioBuild = urlAudioBuild.replace(/<word>/gi, word).replace(/<api>/gi, api);
+request(urlAudioBuild, function (error, response, body) {
+	if (error || response.statusCode !== 200 || body.length <= 2){
+		console.log('Try another word, I got nothign to say to you.');
+	}else{
+		var pronData = JSON.parse(body);
+		console.log(pronData);
+	}
+});
 
 /*
 var urlInitBuild = searchUrl+apiUrl;
