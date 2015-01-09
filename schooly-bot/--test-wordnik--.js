@@ -23,7 +23,7 @@ request(urlRhymeBuild, function (error, response, body) {
 	}else{
 		var rhymeData = JSON.parse(body);
 		var rhymeCount = rhymeData[0].words.length-1;
-		console.log(rhymeData[0].words);
+		//console.log(rhymeData[0].words);
 	}
 });
 
@@ -36,7 +36,7 @@ request(urlDefineBuild, function (error, response, body) {
 	}else{
 		var defineData = JSON.parse(body);
 		//console.log(defineData[0].word+" ["+defineData[0].partOfSpeech+"] : "+defineData[0].text);
-		console.log(defineData);
+		//console.log(defineData);
 	}
 });
 
@@ -51,6 +51,20 @@ request(urlExampleBuild, function (error, response, body) {
 		//console.log(exampleData.examples[0].text);
 	}
 });
+
+var urlForecast ="https://api.forecast.io/forecast/a0826bcd5ec330beb7cc075b10f2e9c7/48.890123,-121.945702,2015-01-15T12:00:00";
+request(urlForecast, function (error,response, body){
+	if (error || response.statusCode !== 200 || body.length <= 2){
+		console.log('Error, bro :'+ error);
+	}else{
+		var forecastData = JSON.parse(body);
+		var forecastHBOMB = forecastData.hourly.data[11];
+		var date = new Date(forecastHBOMB.time*1000);
+		var time = date.getMonth()+1+"/"+date.getDate()+"/"+date.getFullYear();
+		console.log("HBOMB Forecast: "+forecastHBOMB.summary+" - "+forecastHBOMB.temperature+" - Humidity : "+forecastHBOMB.humidity*100+"% - Precipitation : "+forecastHBOMB.precipType+" | "+time);
+	}
+});
+
 
 /*
 var urlInitBuild = searchUrl+apiUrl;

@@ -29,7 +29,9 @@ var howToBonkPlugin = {
                         "use #engrish to translate text to a designated language or random language then back to english. See what gets lost in translation!",
                         "--Twit--",
                         "use #twit <string> to search for a random tweet with that string. Add |<location> for location based searches.",
-                        "use #fanfic to pull a random fanfiction_txt post from the past 200."]);
+                        "use #fanfic to pull a random fanfiction_txt post from the past 200.",
+                        "--Words--",
+                        "use #define <word> to get definitions, use #rhyme <word> to get rhymes, and use #example <word> to see the word in a sentence."]);
                 },
                     '!howtotranslate':function (command){
                         client.say(command.nickname,["Use #translate <text>/<language code> to translate.",

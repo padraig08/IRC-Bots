@@ -27,14 +27,7 @@ hbombcount = require("countdown"),
 twitter = require('twit'),
 geo = require ('geocoder'),
 c = require('irc-colors'),
-util = require('util'),
-rhyme = require('rhyme-plus'),
-Wordnik = require('wordnik');
-
-var word = new Wordnik({
-    api_key: botConfig.wordConfig.wordnikKey
-});
-
+util = require('util');
 
 var Tw = new twitter({
     consumer_key: botConfig.twConfig.consumer_key,
@@ -441,10 +434,10 @@ bot.on('!rhyme', function (command){
 			bot.say(command.channel,'Try another word, I got no rhymes for you.');
 		}else{
 			var rhymeData = JSON.parse(body);
-			var randRhyme = getRandomInt(0,rhymeData[0].words.length-1;);
+			var randRhyme = getRandomInt(0,rhymeData[0].words.length-1);
 			var randRhymePos = getRandomInt(0, rhymePos.items.length-1);
 			var chosenRhyme = rhymePos.items[randRhymePos];
-			var replaceRhyme =  chosenRhyme.replace(/rhymed/gi, rhymeData[0].words[randRhyme]).replace(/word/gi,command.args.join("").toUpperCase());
+			var replaceRhyme =  chosenRhyme.replace(/rhymed/gi, rhymeData[0].words[randRhyme]).toUpperCase().replace(/word/gi,command.args.join("").toUpperCase());
 			bot.say(command.channel, replaceRhyme);
 		}
 	});	
@@ -472,13 +465,29 @@ var urlExampleBuild = word.wordUrl+word.exampleUrl+word.apiUrl;
 var urlExampleBuild = urlExampleBuild.replace(/<word>/gi, exampleWord).replace(/<api>/gi, word.api);
 request(urlExampleBuild, function (error, response, body) {
 	if (error || response.statusCode !== 200 || body.length <= 2){
-		console.log('Try another word. I got no examples for you, jack.');
+		bot.say(command.channel,'Try another word. I got no examples for you, jack.');
 	}else{
 		var exampleData = JSON.parse(body);
 		var randExample = getRandomInt(0, exampleData.examples.length-1);
-		bot.say(command.channel, exampleData.examples[randExample].text);
+		bot.say(command.channel, exampleData.examples[randExample].text+ " -"+exampleData.examples[randExample].year+", "+exampleData.examples[randExample].title);
 	}
 });
 	
+});
+
+
+bot.on('!hbombforecast', function (command){
+	var urlForecast ="https://api.forecast.io/forecast/a0826bcd5ec330beb7cc075b10f2e9c7/48.890123,-121.945702,2015-01-17T12:00:00";
+	request(urlForecast, function (error,response, body){
+		if (error || response.statusCode !== 200 || body.length <= 2){
+			console.log('Error, bro :'+ error);
+		}else{
+			var forecastData = JSON.parse(body);
+			var forecastHBOMB = forecastData.hourly.data[11];
+			var date = new Date(forecastHBOMB.time*1000);
+			var time = date.getMonth()+1+"/"+date.getDate()+"/"+date.getFullYear();
+			bot.say(command.channel,"HBOMB Forecast: "+forecastHBOMB.summary+" - "+forecastHBOMB.temperature+" - Humidity : "+forecastHBOMB.humidity*100+"% - Precipitation : "+forecastHBOMB.precipType+" | "+time);
+		}
+	});
 });
 
