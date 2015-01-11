@@ -17,6 +17,7 @@ var countdown = botData.countdown,
 
 // Get the lib
 var irc = require('tennu'),
+bonksync = require('async'),
 network = require('./netConfig.json'),
 request = require('request'),
 _ = require('lodash-node'),
@@ -28,6 +29,10 @@ twitter = require('twit'),
 geo = require ('geocoder'),
 c = require('irc-colors'),
 util = require('util');
+
+var letterPattern = new RegExp('[a-zA-Z]');
+var requests = 0;
+var acObj = {};
 
 var Tw = new twitter({
     consumer_key: botConfig.twConfig.consumer_key,
@@ -141,10 +146,55 @@ transClient.initialize_token(function(keys){
 			});
 		});
 	});
+}
 
-
+function loopAcro(c, n, callback) {
+	
+	var urlAcBuild = word.searchUrl+word.apiUrl;
+	
+	urlAcBuild = urlAcBuild.replace(/<search>/gi, c).replace(/<api>/gi, word.api);
+	
+	if(letterPattern.test(c)){
+	
+	request(urlAcBuild, function (error, response, body) {
+		
+		if (error || response.statusCode !== 200 || body.length <= 2){
 			
+			acObj[n] = c;
+		}else{
+			
+			var acData = JSON.parse(body);
+			
+			var randAcro = getRandomInt(0, acData.searchResults.length-1);
+			
+			acObj[n] = acData.searchResults[randAcro].word;
+			
+			callback();
+			
+		}
+		
+	});
+	
+	}else{
+		
+		acObj[n] = c;
+		
+		callback();
+		
+	}
+}
 
+function syncAcro(command, acLetter){
+	acObj = {};
+	requests = 0;
+
+	bonksync.each(acLetter, function(n, callback) {
+		requests++;
+		loopAcro(n,requests,callback);
+	}, function(err) {
+		var acString = _.map(acObj, function(num) { return num; }).join(" ");
+		bot.say(command.channel, acString.toUpperCase());
+	});
 }
 
 function timeToBonk(command)
@@ -491,3 +541,38 @@ bot.on('!hbombforecast', function (command){
 	});
 });
 
+bot.on('!acro', function (command){
+	var acroWord = command.args.join("");
+	var acLetter = acroWord.split("");
+	syncAcro(command, acLetter);
+});
+
+bot.on('!speak', function (command){
+	var audioWord = command.args.join("");
+	var urlAudioBuild = word.wordUrl+word.audioUrl+word.apiUrl;
+	var urlAudioBuild = urlAudioBuild.replace(/<word>/gi, audioWord).replace(/<api>/gi, word.api);
+	request(urlAudioBuild, function (error, response, body) {
+		if (error || response.statusCode !== 200 || body.length <= 2){
+			bot.say(command.channel,'Try another word. I got nothing to say to you, fucko.');
+		}else{
+			var audioData = JSON.parse(body);
+			var randAudio = getRandomInt(0, audioData.length-1);
+			bot.say(command.channel, audioData[randAudio].fileUrl);
+		}
+	});
+});
+
+bot.on('!pron', function (command){
+	var pronWord = command.args.join("");
+	var urlPronBuild = word.wordUrl+word.pronUrl+word.apiUrl;
+	var urlPronBuild = urlPronBuild.replace(/<word>/gi, pronWord).replace(/<api>/gi, word.api);
+	request(urlPronBuild, function (error, response, body) {
+		if (error || response.statusCode !== 200 || body.length <= 2){
+			bot.say(command.channel,'Try another word. I got no pronunciations for you, guy.');
+		}else{
+			var pronData = JSON.parse(body);
+			var randPron = getRandomInt(0, pronData.length-1);
+			bot.say(command.channel, pronData[randPron].raw);
+		}
+	});
+});

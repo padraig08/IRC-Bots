@@ -12,13 +12,9 @@ var pronUrl = 'pronunciations?useCanonical=false&limit=50';
 var audioUrl = 'audio?useCanonical=false&limit=50';
 var apiUrl = '&api_key=<api>';
 var api = 'd2995fee04930f335d81803552c000b9aab0e63a3813e0326';
-var word = 'read';
+var word = 'boooooob';
 
 
-function getRandomInt(min,max){
-	var rando = Math.floor(Math.random() * (max - min +1)) + min;
-	return rando;
-}
 
 
 var urlRhymeBuild = wordUrl+rhymeUrl+apiUrl;
@@ -76,10 +72,10 @@ var urlPronBuild = wordUrl+pronUrl+apiUrl;
 var urlPronBuild = urlPronBuild.replace(/<word>/gi, word).replace(/<api>/gi, api);
 request(urlPronBuild, function (error, response, body) {
 	if (error || response.statusCode !== 200 || body.length <= 2){
-		console.log('Try another word, I got no pronunciations for you, jack.');
+		//console.log('Try another word, I got no pronunciations for you, jack.');
 	}else{
 		var pronData = JSON.parse(body);
-		console.log(pronData[0].raw);
+		//console.log(pronData);
 	}
 });
 
@@ -88,57 +84,59 @@ var urlAudioBuild = wordUrl+audioUrl+apiUrl;
 var urlAudioBuild = urlAudioBuild.replace(/<word>/gi, word).replace(/<api>/gi, api);
 request(urlAudioBuild, function (error, response, body) {
 	if (error || response.statusCode !== 200 || body.length <= 2){
-		console.log('Try another word, I got nothign to say to you.');
+		//console.log('Try another word, I got nothign to say to you.');
 	}else{
-		var audioData = JSON.parse(body);
-		console.log(audioData[0].fileUrl);
+		var pronData = JSON.parse(body);
+		//console.log(pronData);
 	}
 });
 
-/*
+
 var urlInitBuild = searchUrl+apiUrl;
 var acArray = [];
 var acObj = {};
 var acLetter = word.split("");
 var letterPattern = new RegExp('[a-zA-Z]');
-var requests = 0;
 
 
 
-var loopAcro = function(c, n, callback) {
+var loopAcro = function(currLetter) {
+	var c = currLetter;
 	var urlAcBuild = urlInitBuild.replace(/<search>/gi, c).replace(/<api>/gi, api);
 	console.log(c);
 	if(letterPattern.test(c)){
 	request(urlAcBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2){
 			//acObj[acLetter.indexOf(currLetter)] = "?";
-			acObj[acLetter.indexOf(c)] = c;
+			acArray.push('?');
 		}else{
 			var acData = JSON.parse(body);
-			acObj[n] = acData.searchResults[0].word;
-			//acArray.push(acData.searchResults[0].word);
-			//console.log(acObj);
-			callback();
+			acArray.push(acData.searchResults[0].word);
+			console.log(acArray);
 		}
 
 	});
 	}else{
-		acObj[n] = c;
-		callback();
+		acArray.push(c);
 	}
 };
 
 
 
 function acronymTime(acObj){
-	console.log(acObj);
-	
+	//var acString = _.map(acObj, function(num) { return num; }).join(" ");
+	console.log("AcT: "+acObj);
+	//console.log(acString);
 }
 
-async.each(acLetter, function(n, callback) {
-	requests++;
-	loopAcro(n,requests,callback);
+async.eachLimit(acLetter, 1, function(n, callback) {
+
+	loopAcro(n);
+	callback();
+
 }, function(err) {
-	var acString = _.map(acObj, function(num) { return num; }).join(" ");
-	console.log(acString.toUpperCase());
-});*/
+  
+  console.log(err+ " After All: "+acArray);
+  // acronymTime(acObj);
+
+});
