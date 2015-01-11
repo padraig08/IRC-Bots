@@ -1,24 +1,26 @@
 {
-	"countdown" : {
+	"countdown": {
 		"commands": "hbomb",
-		"items" : ["According to my calculations, HBOMB is in approximately <time>",
+		"items": ["According to my calculations, HBOMB is in approximately <time>.",
 				"Great Scott! It's <time> 'til HBOMB!",
 				"Anomaly detected. Mt. Baker. T-minus <time>. Enact HBOMB protcol.",
-				"\"In <time>, my plan will come to pass. Those fools.\" -The Ghost of Rowboat",
+				"\"In <time>, my plan will come to pass. Those fools.\" --The Ghost of Rowboat",
 				"Finally, after <time>, I'm free! Time to conquer HBOMB!"]
 	},
 
 	"word": {
-		"wordUrl" : "http://api.wordnik.com:80/v4/word.json/<word>/",
-		"exampleUrl" : "examples?includeDuplicates=false&useCanonical=false&skip=0&limit=100",
-		"searchUrl" : "http://api.wordnik.com:80/v4/words.json/search/<search>*?caseSensitive=false&minCorpusCount=5&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=1&maxLength=-1&skip=0&limit=1000",
+		"wordUrl": "http://api.wordnik.com:80/v4/word.json/<word>/",
+		"exampleUrl": "examples?includeDuplicates=false&useCanonical=false&skip=0&limit=100",
+		"searchUrl": "http://api.wordnik.com:80/v4/words.json/search/<search>*?caseSensitive=false&minCorpusCount=5&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=1&maxLength=-1&skip=0&limit=1000",
 		"defineUrl": "definitions?limit=100&includeRelated=true&useCanonical=true&includeTags=false",
-		"rhymeUrl" : "relatedWords?useCanonical=false&relationshipTypes=rhyme&limitPerRelationshipType=100",
-		"apiUrl" : "&api_key=<api>",
-		"api" : "d2995fee04930f335d81803552c000b9aab0e63a3813e0326"
+		"pronUrl": "pronunciations?useCanonical=false&limit=50",
+		"audioUrl": "audio?useCanonical=false&limit=50",
+		"rhymeUrl": "relatedWords?useCanonical=false&relationshipTypes=rhyme&limitPerRelationshipType=100",
+		"apiUrl": "&api_key=<api>",
+		"api": "d2995fee04930f335d81803552c000b9aab0e63a3813e0326"
 	},
 
-	"rhymePos" :{
+	"rhymePos": {
 		"items": ["word rhymed",
 			"rhymed word",
 			"rhymed AND word",
@@ -29,18 +31,19 @@
 			"rhymed, word, TSD"]
 	},
 
-	"Tweet" : {
+	"Tweet": {
 		"commands": ["twit", "fanfic", "tweet"] 
 	},
 
-	"qdb" : {
+	"qdb": {
 		"commands": "qdb"
 	},
 
-	"mad" : {
+	"mad": {
 		"commands": "mad",
 		"status": ["Mad",
 				"Not mad",
+				"Mildly miffed",
 				"Perceptibly perturbed",
 				"Fully flustered",
 				"I Was So Mad, by Mercer Mayer",
@@ -136,9 +139,9 @@
 	"urls" : {
 		"reddit": "http://www.reddit.com/r/",
 		"subs": { 
-			"img": ["pics","photoshopbattles","OldSchoolCool","dataisbeautiful","DIY","AnimalsBeingJerks","thathappened"], 
-"gif":["gifs","combinedgifs","blackpeoplegifs","whitepeoplegifs","animegifs","shittyreactiongifs","chemicalreactiongifs","reactiongifs","kramergifs","georgegifs","perfectLoops","HighQualityGifs"]},
-		"commands": ["img","gif","howtobonk","Clonk", "rando"]
+			"img": ["pics", "photoshopbattles", "OldSchoolCool", "dataisbeautiful", "DIY", "AnimalsBeingJerks", "thathappened"],
+			"gif": ["gifs", "combinedgifs", "blackpeoplegifs", "whitepeoplegifs", "animegifs", "reactiongifs", "shittyreactiongifs", "chemicalreactiongifs", "kramergifs", "georgegifs", "perfectLoops", "HighQualityGifs"]},
+		"commands": ["img", "gif", "howtobonk", "Clonk", "rando"]
 	},
 
 	"dmx" : {

@@ -17,6 +17,7 @@ var countdown = botData.countdown,
 
 // Get the lib
 var irc = require('tennu'),
+	bonksync = require('async'),
 	network = require('./netConfig.json'),
 	request = require('request'),
 	_ = require('lodash-node'),
@@ -28,6 +29,10 @@ var irc = require('tennu'),
 	geo = require ('geocoder'),
 	c = require('irc-colors'),
 	util = require('util');
+
+var letterPattern = new RegExp('[a-zA-Z]');
+var requests = 0;
+var acObj = {};
 
 var Tw = new twitter({
 	consumer_key: botConfig.twConfig.consumer_key,
@@ -61,7 +66,6 @@ function checkOP(name) {
 }
 
 function detectThatShit(string, to, command) {
-
 	if (string.charAt(string.length - 1) == "~") {
 		string = romaji.toHiragana(string);
 		params = { text: string };
@@ -108,7 +112,7 @@ function translateThatShit(string, to, from, command) {
 function engrishThatShit(string, to, command) {
 	params1 = {
 		text: string,
-		from: 'en',
+		from: "en",
 		to: to
 	};
 
@@ -118,12 +122,48 @@ function engrishThatShit(string, to, command) {
 			params2 = {
 				text: engrish1,
 				from: to,
-				to: 'en'
+				to: "en"
 			};
 			transClient.translate(params2, function(err, data) {
 				bot.say(command.channel, "Engrish: " + data.latinise());
 			});
 		});
+	});
+}
+
+function loopAcro(c, n, callback) {
+	
+	var urlAcBuild = word.searchUrl + word.apiUrl;
+	
+	urlAcBuild = urlAcBuild.replace(/<search>/gi, c).replace(/<api>/gi, word.api);
+	
+	if (letterPattern.test(c)) {
+		request(urlAcBuild, function (error, response, body) {
+			if (error || response.statusCode !== 200 || body.length <= 2) {
+				acObj[n] = c;
+			} else {
+				var acData = JSON.parse(body);
+				var randAcro = getRandomInt(0, acData.searchResults.length-1);
+				acObj[n] = acData.searchResults[randAcro].word;
+				callback();
+			}
+		});
+	} else {
+		acObj[n] = c;
+		callback();
+	}
+}
+
+function syncAcro(command, acLetter){
+	acObj = {};
+	requests = 0;
+
+	bonksync.each(acLetter, function(n, callback) {
+		requests++;
+		loopAcro(n, requests, callback);
+	}, function(err) {
+		var acString = _.map(acObj, function(num) { return num; }).join(" ");
+		bot.say(command.channel, acString.toUpperCase());
 	});
 }
 
@@ -161,7 +201,7 @@ function userTweet(command) {
 	});
 }
 
-function searchDaTweet (searchString, command) {
+function searchTweet (searchString, command) {
 	console.log(searchString);
 	if (_.isEmpty(searchString)) {
 		bot.say(command.channel, "No text provided. Come on man, you're better than this.");
@@ -199,22 +239,22 @@ function searchDaTweet (searchString, command) {
 
 function randImg(kind, where) {
 		var subreddit = getRandomInt(0, kind.length - 1);
-		var urlBuild = urls.reddit + kind[subreddit] + '/random/.json';
+		var urlBuild = urls.reddit + kind[subreddit] + "/random/.json";
 		subSelect(urlBuild, where);
 }
 
 function randoSub(sub, where) {
 	//console.log("sub is:"+" | "+sub+" | ", sub.length);
-	var urlBuild = '';
+	var urlBuild = "";
 	if (_.isEmpty(sub)) {
-		var urlRand = urls.reddit + 'random/';
+		var urlRand = urls.reddit + "random/";
 		request(urlRand, function (error, response, body) {
 			urlBuild = response.request.uri.href + "random/.json";
 			//console.log(urlBuild);
 			subSelect(urlBuild, where);
 		});
 	} else {
-		urlBuild = urls.reddit + sub + '/random/.json';
+		urlBuild = urls.reddit + sub + "/random/.json";
 		subSelect(urlBuild, where);	
 	}
 }
@@ -269,7 +309,7 @@ bot.on("join", function(message) {
 
 bot.on("quit", function(message) {
 	//console.log(util.inspect(message));
-	var removeName = _.where(nameList, {'name': message.nickname});
+	var removeName = _.where(nameList, {"name": message.nickname});
 	nameList = _.without(nameList, removeName[0]);
 });
 
@@ -282,7 +322,7 @@ bot.on("names", function(message) {
 
 bot.on("nick", function(message) {
 	console.log(util.inspect(message));
-	var removeName = _.where(nameList, {'name': message.old});
+	var removeName = _.where(nameList, {"name": message.old});
 	nameList = _.without(nameList, removeName[0]);
 	checkOP(message.new);
 });
@@ -369,7 +409,7 @@ bot.on("!fanfic", function (command) {
 });        
 
 bot.on("!tweet", function (command) {
-	searchDaTweet(command.args.join(" "), command);
+	searchTweet(command.args.join(" "), command);
 });
 
 bot.on("error", function (message) {
@@ -437,6 +477,42 @@ bot.on("!hbombforecast", function (command) {
 			var date = new Date(forecastHBOMB.time * 1000);
 			var time = date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear();
 			bot.say(command.channel, "HBOMB Forecast: " + forecastHBOMB.summary + " - " + forecastHBOMB.temperature + " - Humidity : " + forecastHBOMB.humidity * 100 + "% - Precipitation : " + forecastHBOMB.precipType + " | " + time);
+		}
+	});
+});
+
+bot.on("!acro", function (command){
+	var acroWord = command.args.join("");
+	var acLetter = acroWord.split("");
+	syncAcro(command, acLetter);
+});
+
+bot.on("!speak", function (command){
+	var audioWord = command.args.join("");
+	var urlAudioBuild = word.wordUrl + word.audioUrl + word.apiUrl;
+	var urlAudioBuild = urlAudioBuild.replace(/<word>/gi, audioWord).replace(/<api>/gi, word.api);
+	request(urlAudioBuild, function (error, response, body) {
+		if (error || response.statusCode !== 200 || body.length <= 2){
+			bot.say(command.channel, "Try another word. I have nothing to say to you.");
+		} else {
+			var audioData = JSON.parse(body);
+			var randAudio = getRandomInt(0, audioData.length - 1);
+			bot.say(command.channel, audioData[randAudio].fileUrl);
+		}
+	});
+});
+
+bot.on("!pron", function (command){
+	var pronWord = command.args.join("");
+	var urlPronBuild = word.wordUrl + word.pronUrl + word.apiUrl;
+	var urlPronBuild = urlPronBuild.replace(/<word>/gi, pronWord).replace(/<api>/gi, word.api);
+	request(urlPronBuild, function (error, response, body) {
+		if (error || response.statusCode !== 200 || body.length <= 2){
+			bot.say(command.channel, "Try another word. I've got no pronunciations for you, guy.");
+		} else {
+			var pronData = JSON.parse(body);
+			var randPron = getRandomInt(0, pronData.length - 1);
+			bot.say(command.channel, pronData[randPron].raw);
 		}
 	});
 });
