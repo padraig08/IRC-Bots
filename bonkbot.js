@@ -153,7 +153,7 @@ function userTweet(command) {
 	var AllTweets = [];
 	var currentTweets = [];
 
-	Tw.get("statuses/user_timeline", {screen_name: "fanfiction_txt", count: "200", exclude_replies: "true", include_rts: "false"'}, function(err, data, response) {
+	Tw.get("statuses/user_timeline", {screen_name: "fanfiction_txt", count: "200", exclude_replies: "true", include_rts: "false"}, function(err, data, response) {
 		var randTweet = getRandomInt(0, data.length - 1);
 		var arrTweet = data[randTweet].text.replace( /\n/g, "`" ).split( "`" );
 		console.log(arrTweet);
