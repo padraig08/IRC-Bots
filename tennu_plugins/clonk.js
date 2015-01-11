@@ -3,13 +3,13 @@ var clonkPlugin = {
         return {
             handlers: {
                 "!clonk": function (command) {
-                    client.quit("It's Bonk Tonight!");
+                    client.quit("Goodbye world");
                    }
             },
 
             help: {
                 "command": [
-                    "Send BonkBot to the shadow realm",
+                    "Send the bot to the shadow realm",
                     " ",
                     "To the shadow realm. (bot owner only)"]
             },
