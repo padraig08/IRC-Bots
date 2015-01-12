@@ -30,13 +30,15 @@ var howToBonkPlugin = {
 						"Use !rhyme [word] to get a rhyming word",
 						"Use !example [word] to see the word in a sentence",
 						"--Mad--",
-						"Use !mad when you're unsure how mad someone is"]);
+						"Use !mad when you're unsure how mad someone is",
+						"--Care--",
+						"Use !care to determine how much to care about something"]);
 				},
 
 					"!howtotranslate": function (command){
 						client.say(command.nickname,
 							["Use !translate [text]/[language code] to translate.",
-							"---Full List of Language Codes---",
+							"--Full List of Language Codes--",
 							"ar: Arabic"+" | "+"bg: Bulgarian"+" | "+"ca: Catalan"+" | "+"zh-CHS: Chinese"+" | "+"cs: Czech"+" | "+"da: Danish"+" | "+"nl: Dutch"+" | "+"en: English"+" | "+"et: Estonian"+" | "+"fi: Finnish"+" | "+"fr: French"+" | "+"de: German"+" | "+"el: Greek"+" | "+"ht: Haitian Creole"+" | "+"he: Hebrew"+" | "+"hi: Hindi"+" | "+"mww: Hmong Daw"+" | "+"hu: Hungarian"+" | "+"id: Indonesian"+" | "+"it: Italian",
 							"ja: Japanese"+" | "+"tlh: Klingon"+" | "+"ko: Korean"+" | "+"lv: Latvian"+" | "+"lt: Lithuanian"+" | "+"ms: Malay"+" | "+"mt: Maltese"+" | "+"no: Norwegian"+" | "+"fa: Persian"+" | "+"pl: Polish"+" | "+"pt: Portuguese"+" | "+"ro: Romanian"+" | "+"ru: Russian"+" | "+"sk: Slovak"+" | "+"sl: Slovenian"+" | "+"es: Spanish"+" | "+"sv: Swedish"+" | "+"th: Thai"+" | "+"tr: Turkish"+" | "+"uk: Ukrainian"+" | "+"ur: Urdu"+" | "+"vi: Vietnamese"+" | "+"cy: Welsh"]);
 					}

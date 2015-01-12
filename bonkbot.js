@@ -1,6 +1,6 @@
-var botConfig = require('./botConfig.json');
+var botConfig = require("./botConfig.json");
 
-var botData = require('./botData.json');
+var botData = require("./botData.json");
 
 var countdown = botData.countdown,
 	Tweet = botData.Tweet,
@@ -15,22 +15,21 @@ var countdown = botData.countdown,
 	word = botData.word;
 	mad = botData.mad;
 
-// Get the lib
-var irc = require('tennu'),
-	bonksync = require('async'),
-	network = require('./netConfig.json'),
-	request = require('request'),
-	_ = require('lodash-node'),
-	MsTranslator = require('mstranslator'),
-	latin = require('./node_modules/latinise/latinise'),
+var irc = require("tennu"),
+	bonksync = require("async"),
+	network = require("./netConfig.json"),
+	request = require("request"),
+	_ = require("lodash-node"),
+	MsTranslator = require("mstranslator"),
+	latin = require("./node_modules/latinise/latinise"),
 	romaji = require("hepburn"),
 	hbombcount = require("countdown"),
-	twitter = require('twit'),
-	geo = require ('geocoder'),
-	c = require('irc-colors'),
-	util = require('util');
+	twitter = require("twit"),
+	geo = require ("geocoder"),
+	c = require("irc-colors"),
+	util = require("util");
 
-var letterPattern = new RegExp('[a-zA-Z]');
+var letterPattern = new RegExp("[a-zA-Z]");
 var requests = 0;
 var acObj = {};
 
@@ -49,7 +48,7 @@ var transClient = new MsTranslator({
 var clonkometer = 0;
 var offQuestion = false;
 var nameList = [];
-var stripOP = '^[@&#+$~%!*?](.*)$';
+var stripOP = "^[@&#+$~%!*?](.*)$";
 
 function getRandomInt(min,max) {
 	var rando = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -171,20 +170,44 @@ function timeToBonk(command) {
 	var from = command.nickname;
 	var target = command.args.join(" ");
 	var calc = getRandomInt(0, 100);
+	
+	if (_.isEmpty(target)) {
+		var noName = true;								// no nick was given
+		var bonkingSelf = false;
+		bot.say(command.channel, "What, no name?");
+		var selfBonkFate = getRandomInt(0, 100);		// determine whether to bonk command issuer
+		if (selfBonkFate >= 66) {
+			// prepare to bonk the command issuer
+			target = from;
+			from = "this bot's own personal ";
+			var bonkingSelf = true;						
+		}
+	} else {
+		from = from + "'s ";
+	}
+	
+	// console.log("no name: ", noName, "bonking self: ", bonkingSelf, "what are the odds: ", selfBonkFate);
+	
+	if (noName && !(bonkingSelf)) {
+		bot.say(command.channel, "You're lucky I don't bonk you!");
+		return;
+	}
+	
 	var result = getRandomInt(0, randomMsg.result.length - 1);
 	var attacker = getRandomInt(0, randomMsg.attacker.length - 1);
-	
+		
 	var calcMsg = calc.toString() + "% of ";
 	var resultMsg = randomMsg.result[result];
 	var attackerMsg = randomMsg.attacker[attacker];
+		
+	clonk = c.brown("Battlebonk results: " + calcMsg + target + "'s clonkers " + resultMsg + " because of " + from + attackerMsg);
 	
-	clonk = c.brown("Battlebonk results: " + calcMsg + target + "'s clonkers " + resultMsg + " by " + from + "'s " + attackerMsg);
 	bot.say(command.channel, clonk);
 	var recalcColor = Math.round((calc * (randomMsg.colors.length - 1)) / 100);
 	var recalcAssess = Math.round((calc * (randomMsg.assess.length - 1)) / 100);
 	//var assessColor = "c."+randomMsg.colors[recalcColor];
 	var assessment = randomMsg.assess[recalcAssess];
-	console.log(assessment);
+	//console.log(assessment);
 	
 	bot.say(command.channel, "Battlebonk Status: " + c.red(assessment));
 }
@@ -265,7 +288,7 @@ function subSelect(urlBuild, where) {
 			if (!error && response.statusCode == 200 && invalidSub === null) {
 				var redditData = JSON.parse(body);
 				var dataUrl = redditData[0].data.children[0].data;
-				//econsole.log(dataUrl);
+				//console.log(dataUrl);
 				if (dataUrl.over_18 === true) {
 					bot.say(where, "Warning: The following is NSFW/NSFL");
 				}
@@ -327,19 +350,54 @@ bot.on("nick", function(message) {
 	checkOP(message.new);
 });
 
-//Commands//
+// Commands
 
-bot.on("!mad", function(command) {
+bot.on("!care", function (command) {
+	var careAmount = getRandomInt(0, 101);
+	var careMsg = "Care-o-meter: ";
+	
+	if (careAmount >= 0 && careAmount <= 9) {
+		careMsg = careMsg + "(' ' ') not even registering";
+	}
+	if (careAmount >= 10 && careAmount <= 21) {
+		careMsg = careMsg + "(\\ ' ')";
+	}
+	if (careAmount >= 22 && careAmount <= 33) {
+		careMsg = careMsg + "('\\' ')";
+	}
+	if (careAmount >= 34 && careAmount <= 45) {
+		careMsg = careMsg + "(' \\ ')";
+	}
+	if (careAmount >= 46 && careAmount <= 54) {
+		careMsg = careMsg + "(' | ') meh";
+	}
+	if (careAmount >= 55 && careAmount <= 72) {
+		careMsg = careMsg + "(' / ')";
+	}
+	if (careAmount >= 73 && careAmount <= 88) {
+		careMsg = careMsg + "(' '/')";
+	}
+	if (careAmount >= 89 && careAmount <= 98) {
+		careMsg = careMsg + "(' ' /)";
+	}
+	if (careAmount >= 99) {
+		careMsg = careMsg + "(' ' ')/ so much care it broke the meter";
+	}
+	
+	bot.say(command.channel, careMsg);
+});
+
+bot.on("!mad", function (command) {
 	var target = command.args.join(" ");
 	var madChosenStatus = getRandomInt(0, mad.status.length - 1);
 	if (_.isEmpty(target)) {
 		bot.say(command.channel, "Mad status: [X] " + mad.status[madChosenStatus]);
 	} else {
-		bot.say(command.channel, "Mad status for " + target + " [X] " + mad.status[madChosenStatus]);
+		bot.say(command.channel, "Mad status for " + target + ": [X] " + mad.status[madChosenStatus]);
 	}
 });
 
-bot.on("!dmx", function(command) {
+bot.on("!dmx", function (command) {
 	var dmxChosenPhrase = getRandomInt(0, dmx.phrases.length - 1);
 	bot.say(command.channel, dmx.phrases[dmxChosenPhrase]);
 });
@@ -481,13 +539,13 @@ bot.on("!hbombforecast", function (command) {
 	});
 });
 
-bot.on("!acro", function (command){
+bot.on("!acro", function (command) {
 	var acroWord = command.args.join("");
 	var acLetter = acroWord.split("");
 	syncAcro(command, acLetter);
 });
 
-bot.on("!speak", function (command){
+bot.on("!speak", function (command) {
 	var audioWord = command.args.join("");
 	var urlAudioBuild = word.wordUrl + word.audioUrl + word.apiUrl;
 	var urlAudioBuild = urlAudioBuild.replace(/<word>/gi, audioWord).replace(/<api>/gi, word.api);
@@ -502,7 +560,7 @@ bot.on("!speak", function (command){
 	});
 });
 
-bot.on("!pron", function (command){
+bot.on("!pron", function (command) {
 	var pronWord = command.args.join("");
 	var urlPronBuild = word.wordUrl + word.pronUrl + word.apiUrl;
 	var urlPronBuild = urlPronBuild.replace(/<word>/gi, pronWord).replace(/<api>/gi, word.api);
