@@ -149,39 +149,43 @@ transClient.initialize_token(function(keys){
 }
 
 function loopAcro(c, n, callback) {
-	
 	var urlAcBuild = word.searchUrl+word.apiUrl;
-	
 	urlAcBuild = urlAcBuild.replace(/<search>/gi, c).replace(/<api>/gi, word.api);
-	
 	if(letterPattern.test(c)){
-	
 	request(urlAcBuild, function (error, response, body) {
-		
 		if (error || response.statusCode !== 200 || body.length <= 2){
-			
 			acObj[n] = c;
-		}else{
-			
-			var acData = JSON.parse(body);
-			
-			var randAcro = getRandomInt(0, acData.searchResults.length-1);
-			
-			acObj[n] = acData.searchResults[randAcro].word;
-			
-			callback();
-			
+		}else{	
+			var acData = JSON.parse(body);	
+			var randAcro = getRandomInt(0, acData.searchResults.length-1);	
+			acObj[n] = acData.searchResults[randAcro].word;	
+			callback();	
 		}
-		
 	});
-	
 	}else{
-		
 		acObj[n] = c;
-		
 		callback();
-		
 	}
+}
+
+function loopsyn(c, callback){
+
+	var urlThesaurBuild = word.wordUrl+word.thesaurUrl+word.apiUrl;
+	var urlsynBuild = urlThesaurBuild.replace(/<word>/gi, c).replace(/<api>/gi, api);
+	console.log(c);
+	request(urlsynBuild, function (error, response, body) {
+		if (error || response.statusCode !== 200 || body.length <= 2){
+			synArray.push(c);
+			callback();
+			//acObj[acLetter.indexOf(c)] = c;
+		}else{
+			var synData = JSON.parse(body);
+			synArray.push(synData[0].words[0]);
+			//acArray.push(acData.searchResults[0].word);
+			callback();
+		}
+
+	});
 }
 
 function syncAcro(command, acLetter){
@@ -194,6 +198,15 @@ function syncAcro(command, acLetter){
 	}, function(err) {
 		var acString = _.map(acObj, function(num) { return num; }).join(" ");
 		bot.say(command.channel, acString.toUpperCase());
+	});
+}
+
+function syncSyn(command){
+	var synArray = [];
+	async.each(command.args, function(n, callback) {
+		loopSyn(n,callback);
+	}, function(err) {
+		bot.say(command.channel, synArray.join(" "));
 	});
 }
 
@@ -546,6 +559,11 @@ bot.on('!acro', function (command){
 	var acLetter = acroWord.split("");
 	syncAcro(command, acLetter);
 });
+
+bot.on('!syn', function (command){
+	syncSyn(command);
+});
+
 
 bot.on('!speak', function (command){
 	var audioWord = command.args.join("");
