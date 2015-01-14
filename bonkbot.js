@@ -168,25 +168,20 @@ function loopAcro(c, n, url, callback) {
 	}
 }
 
-function loopSyn(c, callback){
-	console.log("1");
-
+function loopSyn(c, n, callback){
 	var urlThesaurBuild = word.wordUrl+word.thesaurUrl+word.apiUrl;
-	console.log("6");
 	urlThesaurBuild = urlThesaurBuild.replace(/<word>/gi, c).replace(/<api>/gi, word.api);
-	console.log("7");
-
-	console.log(c);
-	console.log("8");
-	
 	request(urlThesaurBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2){
-			synArray.push(c);
+			synObj[acLetter.indexOf(c)] = c;
+			//synArray.push(c);
 			callback();
-			//acObj[acLetter.indexOf(c)] = c;
+			
 		}else{
 			var synData = JSON.parse(body);
-			synArray.push(synData[0].words[0]);
+			var randSyn = getRandomInt(0, synData[0].words.length-1);	
+			synObj[n] = synData[0].words[randSyn];
+			//synArray.push(synData[0].words[0]);
 			//acArray.push(acData.searchResults[0].word);
 			callback();
 		}
@@ -217,16 +212,17 @@ function syncAcro(command, acLetter){
 }
 
 function syncSyn(command){
-	console.log("1");
-	synArray = [];
-	console.log("2");
-	
+	synObj = {};
+	requests = 0;
+
 	bonksync.each(command.args, function(n, callback) {
-	console.log(command.args);
-		loopSyn(n,callback);
+	requests++;
+	//console.log(command.args);
+		loopSyn(n, requests,callback);
 	}, function(err) {
-	console.log("4");
-		bot.say(command.channel, synArray.join(" "));
+		var synString = _.map(synObj, function(num) { return num; }).join(" ");
+		bot.say(command.channel, synString.toUpperCase());
+		//bot.say(command.channel, synArray.join(" "));
 	});
 }
 
