@@ -173,7 +173,7 @@ function loopSyn(c, n, callback){
 	urlThesaurBuild = urlThesaurBuild.replace(/<word>/gi, c).replace(/<api>/gi, word.api);
 	request(urlThesaurBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2){
-			synObj[acLetter.indexOf(c)] = c;
+			synObj[n] = c;
 			//synArray.push(c);
 			callback();
 			

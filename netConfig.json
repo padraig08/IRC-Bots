@@ -1,9 +1,9 @@
 {
 	"server":"irc.teamschoolyd.org",
-	"nickname":"Bronk-Bot1",
+	"nickname":"Bonk-Bot",
 	"username":"Bonk-Bot",
 	"realname":"Bonky",
 	"command-trigger":"#",
-	"channels":["#bots"],
+	"channels":["#tsd"],
 	"plugins": ["howtobonk", "clonk"]
 }
