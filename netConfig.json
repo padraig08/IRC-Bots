@@ -1,7 +1,7 @@
 {
 	"server":"irc.teamschoolyd.org",
 	"nickname":"ClonkBot",
-	"username":"BonkBot",
+	"username":"Bonk_Bot",
 	"realname":"Bonkles",
 	"command-trigger":"!",
 	"channels":["#bots"],
