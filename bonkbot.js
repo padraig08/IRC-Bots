@@ -31,6 +31,7 @@ var irc = require("tennu"),
 var letterPattern = new RegExp("[a-zA-Z]");
 var requests = 0;
 var acObj = {};
+var synArray = [];
 
 var Tw = new twitter({
 	consumer_key: botConfig.twConfig.consumer_key,
@@ -129,27 +130,44 @@ function engrishThatShit(string, to, command) {
 	});
 }
 
-function loopAcro(c, n, callback) {
-	
-	var urlAcBuild = word.searchUrl + word.apiUrl;
-	
-	urlAcBuild = urlAcBuild.replace(/<search>/gi, c).replace(/<api>/gi, word.api);
-	
-	if (letterPattern.test(c)) {
-		request(urlAcBuild, function (error, response, body) {
-			if (error || response.statusCode !== 200 || body.length <= 2) {
-				acObj[n] = c;
-			} else {
-				var acData = JSON.parse(body);
-				var randAcro = getRandomInt(0, acData.searchResults.length-1);
-				acObj[n] = acData.searchResults[randAcro].word;
-				callback();
-			}
-		});
-	} else {
+function loopAcro(c, n, url, callback) {
+	url = url.replace(/<search>/gi, c).replace(/<api>/gi, word.api);
+	if(letterPattern.test(c)){
+	request(url, function (error, response, body) {
+		if (error || response.statusCode !== 200 || body.length <= 2){
+			acObj[n] = c;
+		}else{	
+			var acData = JSON.parse(body);	
+			var randAcro = getRandomInt(0, acData.searchResults.length-1);	
+			acObj[n] = acData.searchResults[randAcro].word;	
+			callback();	
+		}
+	});
+	}else{
 		acObj[n] = c;
 		callback();
 	}
+}
+
+function loopSyn(c, n, callback){
+	var urlThesaurBuild = word.wordUrl+word.thesaurUrl+word.apiUrl;
+	urlThesaurBuild = urlThesaurBuild.replace(/<word>/gi, c).replace(/<api>/gi, word.api);
+	request(urlThesaurBuild, function (error, response, body) {
+		if (error || response.statusCode !== 200 || body.length <= 2){
+			synObj[n] = c;
+			//synArray.push(c);
+			callback();
+			
+		}else{
+			var synData = JSON.parse(body);
+			var randSyn = getRandomInt(0, synData[0].words.length-1);	
+			synObj[n] = synData[0].words[randSyn];
+			//synArray.push(synData[0].words[0]);
+			//acArray.push(acData.searchResults[0].word);
+			callback();
+		}
+
+	});
 }
 
 function syncAcro(command, acLetter){
@@ -158,10 +176,34 @@ function syncAcro(command, acLetter){
 
 	bonksync.each(acLetter, function(n, callback) {
 		requests++;
-		loopAcro(n, requests, callback);
+		  if (requests == 1){
+		   urlAcroBuild = word.searchUrl+word.acroFirstUrl+word.apiUrl;
+		   loopAcro(n,requests, urlAcroBuild, callback);
+		  }else if (requests == 2 || requests == acLetter.length-1){
+		   urlAcroBuild = word.searchUrl+word.acroLastUrl+word.apiUrl;
+		   loopAcro(n,requests, urlAcroBuild, callback);
+		  }else {
+		   urlAcroBuild = word.searchUrl+word.acroAnyUrl+word.apiUrl;
+		   loopAcro(n,requests, urlAcroBuild, callback);
+		  }
 	}, function(err) {
 		var acString = _.map(acObj, function(num) { return num; }).join(" ");
 		bot.say(command.channel, acString.toUpperCase());
+	});
+}
+
+function syncSyn(command) {
+	synObj = {};
+	requests = 0;
+
+	bonksync.each(command.args, function(n, callback) {
+		requests++;
+		//console.log(command.args);
+		loopSyn(n, requests,callback);
+	}, function(err) {
+		var synString = _.map(synObj, function(num) { return num; }).join(" ");
+		bot.say(command.channel, synString.toUpperCase());
+		//bot.say(command.channel, synArray.join(" "));
 	});
 }
 
@@ -520,6 +562,10 @@ bot.on("!acro", function (command) {
 	var acroWord = command.args.join("");
 	var acLetter = acroWord.split("");
 	syncAcro(command, acLetter);
+});
+
+bot.on("!syn", function (command) {
+	syncSyn(command);
 });
 
 bot.on("!speak", function (command) {
