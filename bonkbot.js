@@ -1,5 +1,6 @@
 var botConfig = require('./botConfig.json'),
-botData = require('./botData.json');
+botData = require('./botData.json'),
+regex = require('./regex.js');
 
 var countdown = botData.countdown,
 	Tweet = botData.Tweet,
@@ -218,7 +219,13 @@ function syncSyn(command){
 	bonksync.each(command.args, function(n, callback) {
 	requests++;
 	//console.log(command.args);
+		if (specMatch.test(n) || numMatch.test(n)){
+			console.log('got it');
+		loopSyn('fuck', requests,callback);
+		}else{
 		loopSyn(n, requests,callback);
+		}
+		//loopSyn(n, requests,callback);
 	}, function(err) {
 		var synString = _.map(synObj, function(num) { return num; }).join(" ");
 		bot.say(command.channel, synString.toUpperCase());
