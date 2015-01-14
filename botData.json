@@ -1,13 +1,4 @@
 {
-	"countdown": {
-		"commands": "hbomb",
-		"items" : ["According to my calculations, HBOMB is in approximately <time>.",
-				"Great Scott! it's <time> til HBOMB!",
-				"Anomaly detected. Mt. Baker. T-minus <time>. Enact HBOMB protcol.",
-				"\"In <time>, my plan will come to pass. Those fools.\" --The Ghost of Rowboat",
-				"Finally, after <time>, I'm free! Time to conquer HBOMB!"]
-	},
-
 	"word": {
 		"wordUrl": "http://api.wordnik.com:80/v4/word.json/<word>/",
 		"exampleUrl": "examples?includeDuplicates=false&useCanonical=false&skip=0&limit=100",

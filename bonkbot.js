@@ -23,7 +23,6 @@ var irc = require("tennu"),
 	MsTranslator = require("mstranslator"),
 	latin = require("./node_modules/latinise/latinise"),
 	romaji = require("hepburn"),
-	hbombcount = require("countdown"),
 	twitter = require("twit"),
 	geo = require ("geocoder"),
 	c = require("irc-colors"),
@@ -407,13 +406,6 @@ bot.on("!gouf", function (command) {
 	bot.say(command.channel, gouf.items[goufChosenVid]);
 });
 
-bot.on("!hbomb", function (command) {
-	var timeTilHBOMB = hbombcount(null, new Date(2015, 0, 16)).toString();
-	var randTimer = getRandomInt(0, countdown.items.length - 1);
-	var HBOMBstr = countdown.items[randTimer];
-	bot.say(command.channel, HBOMBstr.replace("<time>", timeTilHBOMB));
-});
-
 bot.on("!ugh", function (command) {
 	var ughRand = getRandomInt(0, ugh.items.length - 1);
 	bot.say(command.channel, ugh.items[ughRand]);
@@ -520,21 +512,6 @@ bot.on("!example", function (command) {
 			var exampleData = JSON.parse(body);
 			var randExample = getRandomInt(0, exampleData.examples.length - 1);
 			bot.say(command.channel, exampleData.examples[randExample].text + " -" + exampleData.examples[randExample].year + ", " + exampleData.examples[randExample].title);
-		}
-	});
-});
-
-bot.on("!hbombforecast", function (command) {
-	var urlForecast = "https://api.forecast.io/forecast/a0826bcd5ec330beb7cc075b10f2e9c7/48.890123,-121.945702,2015-01-17T12:00:00";
-	request(urlForecast, function (error, response, body) {
-		if (error || response.statusCode !== 200 || body.length <= 2) {
-			console.log("Error retrieving forecast:" + error);
-		} else {
-			var forecastData = JSON.parse(body);
-			var forecastHBOMB = forecastData.hourly.data[11];
-			var date = new Date(forecastHBOMB.time * 1000);
-			var time = date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear();
-			bot.say(command.channel, "HBOMB Forecast: " + forecastHBOMB.summary + " - " + forecastHBOMB.temperature + " - Humidity : " + forecastHBOMB.humidity * 100 + "% - Precipitation : " + forecastHBOMB.precipType + " | " + time);
 		}
 	});
 });
