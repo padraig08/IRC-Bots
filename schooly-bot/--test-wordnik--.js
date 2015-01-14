@@ -114,7 +114,7 @@ async.each(thesaurArray, function(n, callback) {
 
 function loopsyn(c, callback){
 
-	var urlThesaurBuild = wordUrl+thesaurUrl+apiUrl;
+	var urlThesaurBuild = word.wordUrl+word.thesaurUrl+word.apiUrl;
 	
 	var urlsynBuild = urlThesaurBuild.replace(/<word>/gi, c).replace(/<api>/gi, api);
 	

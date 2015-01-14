@@ -33,6 +33,7 @@ util = require('util');
 var letterPattern = new RegExp('[a-zA-Z]');
 var requests = 0;
 var acObj = {};
+var synArray = [];
 
 var Tw = new twitter({
     consumer_key: botConfig.twConfig.consumer_key,
@@ -148,11 +149,10 @@ transClient.initialize_token(function(keys){
 	});
 }
 
-function loopAcro(c, n, callback) {
-	var urlAcBuild = word.searchUrl+word.apiUrl;
-	urlAcBuild = urlAcBuild.replace(/<search>/gi, c).replace(/<api>/gi, word.api);
+function loopAcro(c, n, url, callback) {
+	url = url.replace(/<search>/gi, c).replace(/<api>/gi, word.api);
 	if(letterPattern.test(c)){
-	request(urlAcBuild, function (error, response, body) {
+	request(url, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2){
 			acObj[n] = c;
 		}else{	
@@ -168,12 +168,18 @@ function loopAcro(c, n, callback) {
 	}
 }
 
-function loopsyn(c, callback){
+function loopSyn(c, callback){
+	console.log("1");
 
 	var urlThesaurBuild = word.wordUrl+word.thesaurUrl+word.apiUrl;
-	var urlsynBuild = urlThesaurBuild.replace(/<word>/gi, c).replace(/<api>/gi, api);
+	console.log("6");
+	urlThesaurBuild = urlThesaurBuild.replace(/<word>/gi, c).replace(/<api>/gi, word.api);
+	console.log("7");
+
 	console.log(c);
-	request(urlsynBuild, function (error, response, body) {
+	console.log("8");
+	
+	request(urlThesaurBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2){
 			synArray.push(c);
 			callback();
@@ -194,7 +200,16 @@ function syncAcro(command, acLetter){
 
 	bonksync.each(acLetter, function(n, callback) {
 		requests++;
-		loopAcro(n,requests,callback);
+		  if (requests == 1){
+		   urlAcroBuild = word.searchUrl+word.acroFirstUrl+word.apiUrl;
+		   loopAcro(n,requests, urlAcroBuild, callback);
+		  }else if (requests == 2 || requests == acLetter.length-1){
+		   urlAcroBuild = word.searchUrl+word.acroLastUrl+word.apiUrl;
+		   loopAcro(n,requests, urlAcroBuild, callback);
+		  }else {
+		   urlAcroBuild = word.searchUrl+word.acroAnyUrl+word.apiUrl;
+		   loopAcro(n,requests, urlAcroBuild, callback);
+		  }
 	}, function(err) {
 		var acString = _.map(acObj, function(num) { return num; }).join(" ");
 		bot.say(command.channel, acString.toUpperCase());
@@ -202,10 +217,15 @@ function syncAcro(command, acLetter){
 }
 
 function syncSyn(command){
-	var synArray = [];
-	async.each(command.args, function(n, callback) {
+	console.log("1");
+	synArray = [];
+	console.log("2");
+	
+	bonksync.each(command.args, function(n, callback) {
+	console.log(command.args);
 		loopSyn(n,callback);
 	}, function(err) {
+	console.log("4");
 		bot.say(command.channel, synArray.join(" "));
 	});
 }
