@@ -58,7 +58,7 @@ function checkOP(name) {
 	if (opPattern.test(name)) {
 		name = name.slice(1);
 	}
-	var newName = { 'name': name };
+	var newName = {"name": name };
 	nameList.push(newName);
 }
 
@@ -70,8 +70,8 @@ function detectThatShit(string, to, command) {
 	params = { text: string	};
 	}
 	
-	transClient.initialize_token(function(keys) {
-		transClient.detect(params, function(err, data) {
+	transClient.initialize_token(function (keys) {
+		transClient.detect(params, function (err, data) {
 			if (_.isEmpty(to)) {
 				translateThatShit(string, "en", data, command);
 			} else {
@@ -88,8 +88,8 @@ function translateThatShit(string, to, from, command) {
 		to: to
 	};
 	
-	transClient.initialize_token(function(keys) {
-		transClient.translate(params, function(err, data) {
+	transClient.initialize_token(function (keys) {
+		transClient.translate(params, function (err, data) {
 			if (data.indexOf("ArgumentOutOfRangeException:") == -1) {
 				if (to == "ja") {
 					data = romaji.fromKana(data);
@@ -113,15 +113,15 @@ function engrishThatShit(string, to, command) {
 		to: to
 	};
 
-	transClient.initialize_token(function(keys) {
-		transClient.translate(params1, function(err, data) {
+	transClient.initialize_token(function (keys) {
+		transClient.translate(params1, function (err, data) {
 			var engrish1 = data;
 			params2 = {
 				text: engrish1,
 				from: to,
 				to: "en"
 			};
-			transClient.translate(params2, function(err, data) {
+			transClient.translate(params2, function (err, data) {
 				bot.say(command.channel, "Engrish: " + data.latinise());
 			});
 		});
@@ -172,7 +172,7 @@ function syncAcro(command, acLetter) {
 	acObj = {};
 	requests = 0;
 
-	bonksync.each(acLetter, function(n, callback) {
+	bonksync.each(acLetter, function (n, callback) {
 		requests++;
 		  if (requests == 1) {
 		   urlAcroBuild = word.searchUrl + word.acroFirstUrl + word.apiUrl;
@@ -184,8 +184,8 @@ function syncAcro(command, acLetter) {
 		   urlAcroBuild = word.searchUrl + word.acroAnyUrl + word.apiUrl;
 		   loopAcro(n, requests, urlAcroBuild, callback);
 		  }
-	}, function(err) {
-		var acString = _.map(acObj, function(num) { return num; }).join(" ");
+	}, function (err) {
+		var acString = _.map(acObj, function (num) { return num; }).join(" ");
 		bot.say(command.channel, acString.toUpperCase());
 	});
 }
@@ -194,7 +194,7 @@ function syncSyn(command) {
 	synObj = {};
 	requests = 0;
 
-	bonksync.each(command.args, function(n, callback) {
+	bonksync.each(command.args, function (n, callback) {
 		requests++;
 		//console.log(command.args);
 		if (specMatch.test(n) || numMatch.test(n)) {
@@ -204,8 +204,8 @@ function syncSyn(command) {
 			loopSyn(n, requests,callback);
 		}
 		//loopSyn(n, requests,callback);
-	}, function(err) {
-		var synString = _.map(synObj, function(num) { return num; }).join(" ");
+	}, function (err) {
+		var synString = _.map(synObj, function (num) { return num; }).join(" ");
 		bot.say(command.channel, synString.toUpperCase());
 		//bot.say(command.channel, synArray.join(" "));
 	});
@@ -217,11 +217,13 @@ function timeToBonk(command) {
 	var calc = getRandomInt(0, 100);
 	
 	if (_.isEmpty(target)) {
-		var noName = true;								// no nick was given
+		// no nick was given
+		var noName = true;
 		var bonkingSelf = false;
 		bot.say(command.channel, "What, no name?");
-		var selfBonkFate = getRandomInt(0, 100);		// determine whether to bonk command issuer
-		if (selfBonkFate >= 66) {
+		// determine whether to bonk command issuer
+		var selfBonkFate = getRandomInt(0, 100);
+		if (selfBonkFate >= 75) {
 			// prepare to bonk the command issuer
 			target = from;
 			from = "this bot's own personal ";
@@ -261,10 +263,10 @@ function userTweet(command) {
 	var AllTweets = [];
 	var currentTweets = [];
 
-	Tw.get("statuses/user_timeline", {screen_name: "fanfiction_txt", count: "200", exclude_replies: "true", include_rts: "false"}, function(err, data, response) {
+	Tw.get("statuses/user_timeline", {screen_name: "fanfiction_txt", count: "200", exclude_replies: "true", include_rts: "false"}, function (err, data, response) {
 		var randTweet = getRandomInt(0, data.length - 1);
 		var arrTweet = data[randTweet].text.replace( /\n/g, "`").split("`");
-		console.log(arrTweet);
+		//console.log(arrTweet);
 		bot.say(command.channel, "Fanfiction_txt: " + arrTweet);
 	});
 }
@@ -275,7 +277,7 @@ function searchTweet (searchString, command) {
 		bot.say(command.channel, "No text provided. Come on man, you're better than this.");
 	} else if (_.contains(searchString, "|")) {
 		var searchArray = searchString.split("|");
-		geo.geocode(searchArray[1], function(err, data) {
+		geo.geocode(searchArray[1], function (err, data) {
 			if (data.status == "OK") {
 				Tw.get("search/tweets", {q: searchString, count:"100", geocode: data.results[0].geometry.location.lat + ", " + data.results[0].geometry.location.lng + ",10mi"}, function (err, data, response) {
 					if (data.statuses.length > 0) {
@@ -284,7 +286,7 @@ function searchTweet (searchString, command) {
 						console.log(arrTweet);
 						bot.say(command.channel, "Tweet from " + data.statuses[randTweet].user.screen_name + " : " + arrTweet + " (http://twitter.com/" + data.statuses[randTweet].user.screen_name + "/status/" + data.statuses[randTweet].id_str + ")");
 					} else {
-						bot.say(command.channel, "No tweets found, that's pretty shitty.");
+						bot.say(command.channel, "No tweets found");
 					}
 				});
 			} else {
@@ -292,11 +294,11 @@ function searchTweet (searchString, command) {
 			}
 		});
 	} else {
-		Tw.get("search/tweets", {q: searchString, count:"100"}, function(err, data, response) {
+		Tw.get("search/tweets", {q: searchString, count: "100"}, function (err, data, response) {
 			if (data.statuses.length > 0) {
 				var randTweet = getRandomInt(0,data.statuses.length - 1);
 				var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
-				console.log(arrTweet);
+				//console.log(arrTweet);
 				bot.say(command.channel, "Tweet from " + data.statuses[randTweet].user.screen_name + " : " + arrTweet + " (http://twitter.com/" + data.statuses[randTweet].user.screen_name + "/status/" + data.statuses[randTweet].id_str + ")");
 			} else {
 				bot.say(command.channel, "No tweets found");
@@ -367,7 +369,7 @@ bot.connect();
 
 var kind = "";
 
-bot.on("join", function(message) {
+bot.on("join", function (message) {
 	if (message.nickname == "Bonk_Bot") {
 		bot.say(message.channel, "BonkBot on-line... use !howtobonk for instructions and running modules");
 	} else {
@@ -375,20 +377,20 @@ bot.on("join", function(message) {
 	}
 });
 
-bot.on("quit", function(message) {
+bot.on("quit", function (message) {
 	//console.log(util.inspect(message));
 	var removeName = _.where(nameList, {"name": message.nickname});
 	nameList = _.without(nameList, removeName[0]);
 });
 
-bot.on("names", function(message) {
+bot.on("names", function (message) {
 	console.log(util.inspect(message));
 	for (var key in message.names) {
 		checkOP(key);
 	}
 });
 
-bot.on("nick", function(message) {
+bot.on("nick", function (message) {
 	console.log(util.inspect(message));
 	var removeName = _.where(nameList, {"name": message.old});
 	nameList = _.without(nameList, removeName[0]);
