@@ -147,7 +147,7 @@ function loopAcro(c, n, url, callback) {
 	}
 }
 
-function loopSyn(c, n, callback){
+function loopSyn(c, n, callback) {
 	var urlThesaurBuild = word.wordUrl+word.thesaurUrl + word.apiUrl;
 	urlThesaurBuild = urlThesaurBuild.replace(/<word>/gi, c).replace(/<api>/gi, word.api);
 	request(urlThesaurBuild, function (error, response, body) {
@@ -177,7 +177,7 @@ function syncAcro(command, acLetter) {
 		  if (requests == 1) {
 		   urlAcroBuild = word.searchUrl + word.acroFirstUrl + word.apiUrl;
 		   loopAcro(n, requests, urlAcroBuild, callback);
-		  } else if (requests == 2 || requests == acLetter.length-1) {
+		  } else if (requests == 2 || requests == acLetter.length - 1) {
 		   urlAcroBuild = word.searchUrl + word.acroLastUrl + word.apiUrl;
 		   loopAcro(n, requests, urlAcroBuild, callback);
 		  } else {
@@ -574,7 +574,7 @@ bot.on("!speak", function (command) {
 	var urlAudioBuild = word.wordUrl + word.audioUrl + word.apiUrl;
 	var urlAudioBuild = urlAudioBuild.replace(/<word>/gi, audioWord).replace(/<api>/gi, word.api);
 	request(urlAudioBuild, function (error, response, body) {
-		if (error || response.statusCode !== 200 || body.length <= 2){
+		if (error || response.statusCode !== 200 || body.length <= 2) {
 			bot.say(command.channel, "Try another word. I have nothing to say to you.");
 		} else {
 			var audioData = JSON.parse(body);
@@ -589,7 +589,7 @@ bot.on("!pron", function (command) {
 	var urlPronBuild = word.wordUrl + word.pronUrl + word.apiUrl;
 	var urlPronBuild = urlPronBuild.replace(/<word>/gi, pronWord).replace(/<api>/gi, word.api);
 	request(urlPronBuild, function (error, response, body) {
-		if (error || response.statusCode !== 200 || body.length <= 2){
+		if (error || response.statusCode !== 200 || body.length <= 2) {
 			bot.say(command.channel, "Try another word. I've got no pronunciations for you, guy.");
 		} else {
 			var pronData = JSON.parse(body);
