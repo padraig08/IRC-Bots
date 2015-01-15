@@ -453,11 +453,6 @@ bot.on("!dmx", function (command) {
 	bot.say(command.channel, dmx.phrases[dmxChosenPhrase]);
 });
 
-bot.on("!gouf", function (command) {
-	var goufChosenVid = getRandomInt(0, gouf.items.length - 1);
-	bot.say(command.channel, gouf.items[goufChosenVid]);
-});
-
 bot.on("!ugh", function (command) {
 	var ughRand = getRandomInt(0, ugh.items.length - 1);
 	bot.say(command.channel, ugh.items[ughRand]);
