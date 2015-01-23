@@ -436,7 +436,7 @@ bot.on('!hbomb',function (command){
     var randTimer = getRandomInt(0,countdown.items.length-1);
     var HBOMBstr = countdown.items[randTimer];
     bot.say(command.channel, "This is a memorial, that "+timeTilHBOMB+" ago, we won HBOMB.");
-    bot.say(command.channel, "Pics: http://imgur.com/a/qvitD , http://imgur.com/a/SjnrQ , http://imgur.com/a/infFt");
+    bot.say(command.channel, "Pics: http://imgur.com/a/qvitD , http://imgur.com/a/SjnrQ , http://imgur.com/a/infFt , http://imgur.com/a/0p5VM");
     bot.say(command.channel, "Speech: http://tinyurl.com/qywork4");
 
 });
@@ -631,7 +631,6 @@ bot.on('!pax',function (command){
     var timeTilPAX = hbombcount(null ,new Date(2015, 7, 28)).toString();
     bot.say(command.channel, "Tentatively, in "+timeTilPAX+", we will PAX.");
 });
-
 
 bot.on('!dorj',function (command){
     bot.say(command.channel, "Employing emergency D.O.R.J.");
