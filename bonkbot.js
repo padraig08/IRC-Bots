@@ -31,6 +31,9 @@ geo = require ('geocoder'),
 c = require('irc-colors'),
 util = require('util');
 
+//var specMatch = new RegExp(/[$-/:-?{-~!"^_`\[\]]/);
+//var numMatch = new RegExp(/[\d]/);
+
 var letterPattern = new RegExp('[a-zA-Z]');
 var requests = 0;
 var acObj = {};
@@ -432,7 +435,10 @@ bot.on('!hbomb',function (command){
     var timeTilHBOMB = hbombcount(null ,new Date(2015, 0, 16)).toString();
     var randTimer = getRandomInt(0,countdown.items.length-1);
     var HBOMBstr = countdown.items[randTimer];
-    bot.say(command.channel, HBOMBstr.replace("<time>",timeTilHBOMB));
+    bot.say(command.channel, "This is a memorial, that "+timeTilHBOMB+" ago, we won HBOMB.");
+    bot.say(command.channel, "Pics: http://imgur.com/a/qvitD , http://imgur.com/a/SjnrQ , http://imgur.com/a/infFt");
+    bot.say(command.channel, "Speech: http://tinyurl.com/qywork4");
+
 });
 bot.on('!ugh', function (command){
     var ughRand = getRandomInt(0,ugh.items.length-1);
@@ -577,16 +583,19 @@ bot.on('!hbombforecast', function (command){
 	});
 });
 
+
+/*
 bot.on('!acro', function (command){
 	var acroWord = command.args.join("");
 	var acLetter = acroWord.split("");
 	syncAcro(command, acLetter);
 });
 
+
 bot.on('!syn', function (command){
 	syncSyn(command);
 });
-
+*/
 
 bot.on('!speak', function (command){
 	var audioWord = command.args.join("");
@@ -616,4 +625,15 @@ bot.on('!pron', function (command){
 			bot.say(command.channel, pronData[randPron].raw);
 		}
 	});
+});
+
+bot.on('!pax',function (command){
+    var timeTilPAX = hbombcount(null ,new Date(2015, 7, 28)).toString();
+    bot.say(command.channel, "Tentatively, in "+timeTilPAX+", we will PAX.");
+});
+
+
+bot.on('!dorj',function (command){
+    bot.say(command.channel, "Employing emergency D.O.R.J.");
+    bot.say(command.channel, ".dorj");
 });
