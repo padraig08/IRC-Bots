@@ -1,0 +1,37 @@
+.blockitem {
+background: green;
+border: 1px solid white;
+border-image-source: initial;
+border-image-slice: initial;
+border-image-width: initial;
+border-image-outset: initial;
+border-image-repeat: initial;
+}
+
+.schitem {
+padding-left: 10px;
+padding-top: 15px;
+padding-bottom: 15px;
+}
+
+.singleitem {
+background: red;
+border: 1px solid black;
+border-image-source: initial;
+border-image-slice: initial;
+border-image-width: initial;
+border-image-outset: initial;
+border-image-repeat: initial;
+}
+
+div#schedule {
+margin-right: 20px;
+}
+
+.blockitem ul li {
+list-style-type: none;
+}
+.blockitem ul {
+margin: 0px;
+padding: 0px;
+}
