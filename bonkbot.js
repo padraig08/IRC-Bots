@@ -636,3 +636,7 @@ bot.on('!dorj',function (command){
     bot.say(command.channel, "Employing emergency D.O.R.J.");
     bot.say(command.channel, ".dorj");
 });
+
+bot.on('!anime',function (command){
+    bot.say(command.channel, "http://www.watchcartoononline.com/outlaw-star-episode-2-english-dubbed");
+});
