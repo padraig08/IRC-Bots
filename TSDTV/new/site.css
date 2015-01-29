@@ -3,8 +3,26 @@
     src: url(Iori.otf);
 }
 
+@font-face {
+    font-family: walkman;
+    src: url(walkman.ttf);
+}
+
+@font-face {
+    font-family: sharpie;
+    src: url(sharpie.ttf);
+}
+
+
 body{
-    font-family: gundam, helvetica;
+    font-family: helvetica;
+    background:midnightblue;
+    color:white;
+    margin:0;
+}
+
+.nowPlaying .singleItem {
+background: black;
 }
 
 .blockitem {
@@ -33,7 +51,11 @@ border-image-outset: initial;
 border-image-repeat: initial;
 }
 
-div#schedule {
+#schedule .singleitem{
+	font-family: sharpie;
+}
+
+#schedule {
 margin-right: 20px;
 }
 
@@ -45,16 +67,42 @@ margin: 0px;
 padding: 0px;
 }
 
+.vlcsidebar{
+	width:75%;
+	float:left;
+}
+
+.schsidebar h2{
+	font-family: walkman, impact;
+letter-spacing: 2px;
+text-align: center;
+font-size: 40px;
+line-height: 50px;
+margin: 0;
+text-shadow: -1px -1px 1px #fff, 1px 1px 10px #000;
+color: #C7C7C7;
+-webkit-mask-image: url(metal.jpg);
+	-o-mask-image: url(metal.jpg);
+	-moz-mask-image: url(metal.jpg);
+	mask-image:  url(metal.jpg);
+}
+
 .schsidebar{
+
+	width: 24%;
+	position: fixed;
+	right: 0;
+	height: 100%;
+
 	z-index: 0;
-	background: #191970;  
-    background: -webkit-gradient(linear, left top, left bottombottom, color-stop(31%,#191970), color-stop(100%,#4D4D98));  
-    background: -webkit-linear-gradient(top,  #191970 31%,#4D4D98 100%);  
-    background: -moz-linear-gradient(top,  #191970 31%, #4D4D98 100%);  
-    background: -o-linear-gradient(top,  #191970 31%,#4D4D98 100%);  
-    background: -ms-linear-gradient(top,  #191970 31%,#4D4D98 100%);  
-    background: linear-gradient(to bottombottom,  #191970 31%,#4D4D98 100%);  
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#191970', endColorstr='#4D4D98',GradientType=0 );
+	background: #292990;  
+    background: -webkit-gradient(linear, left top, left bottombottom, color-stop(31%,#292990), color-stop(100%,#4D4D98));  
+    background: -webkit-linear-gradient(top,  #292990 31%,#4D4D98 100%);  
+    background: -moz-linear-gradient(top,  #292990 31%, #4D4D98 100%);  
+    background: -o-linear-gradient(top,  #292990 31%,#4D4D98 100%);  
+    background: -ms-linear-gradient(top,  #292990 31%,#4D4D98 100%);  
+    background: linear-gradient(to bottombottom,  #292990 31%,#4D4D98 100%);  
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#292990', endColorstr='#4D4D98',GradientType=0 );
 }
 
 .button, .button:before, .button:after {
