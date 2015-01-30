@@ -21,6 +21,12 @@ body{
     margin:0;
 }
 
+.nowPlaying {
+background: url(metal.jpg);
+padding: 30px;
+font-family: gundam;
+}
+
 .nowPlaying .singleItem {
 background: black;
 }
@@ -42,8 +48,6 @@ padding-bottom: 15px;
 }
 
 .singleitem {
-background: red;
-border: 1px solid black;
 border-image-source: initial;
 border-image-slice: initial;
 border-image-width: initial;
@@ -52,7 +56,7 @@ border-image-repeat: initial;
 }
 
 #schedule .singleitem{
-	font-family: sharpie;
+	font-family: Helvetica;
 }
 
 #schedule {
@@ -68,7 +72,6 @@ padding: 0px;
 }
 
 .vlcsidebar{
-	width:75%;
 	float:left;
 }
 
@@ -88,8 +91,6 @@ color: #C7C7C7;
 }
 
 .schsidebar{
-
-	width: 24%;
 	position: fixed;
 	right: 0;
 	height: 100%;
