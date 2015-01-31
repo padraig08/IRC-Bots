@@ -633,8 +633,7 @@ bot.on('!pax',function (command){
 });
 
 bot.on('!dorj',function (command){
-    bot.say(command.channel, "Employing emergency D.O.R.J.");
-    bot.say(command.channel, ".dorj");
+    bot.say(command.channel, "YA TA! http://i.imgur.com/z3E28VS.jpg");
 });
 
 bot.on('!anime',function (command){

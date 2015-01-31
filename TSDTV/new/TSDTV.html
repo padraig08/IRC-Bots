@@ -3,25 +3,15 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>TSDTV</title>
 
-    <script src="./TSDTV_files/jquery-latest.js">
-    </script>
-    <script>
-        var schedule_call = function() {
-            $.get('/tsdtv/np',{},function(responseText) {
-                $('#schedule').html(responseText);
-            });
-        };
-
-        var interval = 1000 * 10; // every 20 seconds
-
-        setInterval(schedule_call, interval);
-    </script>
+    <script src="jquery-latest.js"></script>
+    <script src="jquery.allofthelights-min.js" type="text/javascript"></script>
+    <script src="tsdtv.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href ="./bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href ="./site.css">
 </head>
 <body>
     <div class="vlcsidebar col-sm-9">
-        <embed autoplay="yes" farget="http://irc.teamschoolyd.org:8090/tsdtv.flv" loop="true" name="VLC" type="application/x-vlc-plugin" volume="100" height="750" width="100%" id="vlc">
+        <embed autoplay="yes" target="http://irc.teamschoolyd.org:8090/tsdtv.flv" loop="true" name="VLC" type="application/x-vlc-plugin" volume="100" height="750" width="100%" id="vlc">
     </div>
     <div class="schsidebar col-sm-3">
         <h2>Schedule</h2>
@@ -34,12 +24,12 @@
         
         <div id="schedule col-sm-12">
         <h4 class=" queueTitle col-sm-12">The Queue</h4>
-        <div class="scheduleList">
-            <div class="schItem singleItem ">
+        <div class="scheduleList col-sm-12">
+            <div class="schItem singleItem col-sm-12">
                 <div class="showTime">13:50 EST</div><div class="showTitle"><div class="titleName">SDF_Macross</div><div class="episodeName">09_-_Miss_Macross</div></div>
             </div>           
             
-            <div class="schItem blockItem">
+            <div class="schItem blockItem col-sm-12">
                 <div class="showTime">22:00 EST</div>  
                 <div class="showTitle">
                     Midnight Mecha
@@ -50,14 +40,30 @@
                     </ul>
                 </div>
             </div>
+
+            <div class="schItem singleItem col-sm-12">
+                <div class="showTime">13:50 EST</div><div class="showTitle"><div class="titleName">SDF_Macross</div><div class="episodeName">09_-_Miss_Macross</div></div>
+            </div>
+            <div class="schItem singleItem col-sm-12">
+                <div class="showTime">13:50 EST</div><div class="showTitle"><div class="titleName">SDF_Macross</div><div class="episodeName">09_-_Miss_Macross</div></div>
+            </div>
+            <div class="schItem singleItem col-sm-12">
+                <div class="showTime">13:50 EST</div><div class="showTitle"><div class="titleName">SDF_Macross</div><div class="episodeName">09_-_Miss_Macross</div></div>
+            </div>
+            <div class="schItem singleItem col-sm-12">
+                <div class="showTime">13:50 EST</div><div class="showTitle"><div class="titleName">SDF_Macross</div><div class="episodeName">09_-_Miss_Macross</div></div>
+            </div>
+            <div class="schItem singleItem col-sm-12">
+                <div class="showTime">13:50 EST</div><div class="showTitle"><div class="titleName">SDF_Macross</div><div class="episodeName">09_-_Miss_Macross</div></div>
+            </div>
         </div>
         </div>
         <div class="controls col-sm-12">
-            <div class="col-sm-12">Current Viewers: <span class= "currentViewers">4</span></div>
-            <div class="playBtn btn"></div>
-            <div class="muteBtn btn"></div>
-            <div class="fullscrBtn btn"></div>
-            <div class="lightBtn btn"></div>
+            <div class="currViewers col-sm-12">Current Viewers: <span class= "currViewersCount">4</span></div>
+            <div class="play btn glyphicon glyphicon-play"></div>
+            <div class="mute btn glyphicon glyphicon-volume-off"></div>
+            <div class="full btn glyphicon glyphicon-fullscreen"></div>
+            <div class="lightBtn btn glyphicon glyphicon-sunglasses light-switch switch"></div>
         </div>
     </div>
 
