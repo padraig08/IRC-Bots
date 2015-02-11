@@ -260,22 +260,45 @@ function timeToBonk(command)
 
 }
 
-function userTweet(command){
+function userTweet(command, userString){
 
-var AllTweets = [];
-var currentTweets = [];
+if (_.isEmpty(userString)){
+		bot.say(command.channel, "No user provided. Come on man, you're better than this.");
 
-	Tw.get('statuses/user_timeline', {screen_name: 'fanfiction_txt', count:'200', exclude_replies:'true', include_rts:'false'}, function(err, data, response){
-			var randTweet = getRandomInt(0,data.length-1);
-			var arrTweet = data[randTweet].text.replace( /\n/g, "`" ).split( "`" );
-			console.log(arrTweet);
-			bot.say(command.channel, "Fanfiction_txt: " +arrTweet);
+	}else{
+	var userArray = userString.split("|");
+	Tw.get('statuses/user_timeline', {screen_name: userArray[0], count:'200', exclude_replies:'true', include_rts:'false'}, function(err, data, response){
+			if (err === null){
+				if(_.contains(userString,"|")){
+					switch (userArray[1]) {
+    					case 'name':
+        					bot.say(command.channel,  data[randTweet].user.screen_name +"'s Name: "data[0].user.name);
+        				break;
+    					case 'description':
+        					bot.say(command.channel,  data[randTweet].user.screen_name +"'s Bio: "data[0].user.description);
+        				break;
+        				case 'location':
+        					bot.say(command.channel,  data[randTweet].user.screen_name +"'s Location: "data[0].user.location);
+        				break;
+    					case 'count':
+        					bot.say(command.channel,  data[randTweet].user.screen_name +"'s Tweet Count: "data[0].user.status_count);
+        				break;
+    					default:
+        				console.log('You gotta give me something to look up, brah.');
+					}}else{
+						var randTweet = getRandomInt(0,data.length-1);
+						var arrTweet = data[randTweet].text.replace( /\n/g, "`" ).split( "`" );
+						console.log(arrTweet);
+						//bot.say(command.channel,  data[randTweet].user.screen_name +": " +arrTweet);
+			}}else{
+				console.log("ERROR: try again, you fucked this up somehow.");
+			}
 		});
+}
 
 }
 
 function searchDaTweet (searchString, command) {
-	console.log(searchString);
 	if (_.isEmpty(searchString)){
 		bot.say(command.channel, "No text provided. Come on man, you're better than this.");
 
@@ -286,11 +309,16 @@ function searchDaTweet (searchString, command) {
 			if(data.status == 'OK'){
 				Tw.get('search/tweets', {q: searchString, count:'100', geocode: data.results[0].geometry.location.lat+','+data.results[0].geometry.location.lng+',10mi'}, 
 				function(err, data, response){
-					if(data.statuses.length > 0){
-					var randTweet = getRandomInt(0,data.statuses.length-1);
-					var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
-					console.log(arrTweet);
-					bot.say(command.channel, "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+ arrTweet +" (http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+")");
+					if (err === null){
+						if(data.statuses.length > 0){
+						var randTweet = getRandomInt(0,data.statuses.length-1);
+						var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
+						console.log(arrTweet);
+						bot.say(command.channel, "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+ arrTweet +" (http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+")");
+					}else{
+						bot.say(command.channel, "ERROR: you fucked this up duder.");
+						console.log(err);		
+					}
 				}else{
 					bot.say(command.channel, "No tweets found, that's pretty shitty.");
 
@@ -307,14 +335,19 @@ function searchDaTweet (searchString, command) {
 
 	Tw.get('search/tweets', {q: searchString, count:'100'}, function(err, data, response){
 		if(data.statuses.length > 0){
-			var randTweet = getRandomInt(0,data.statuses.length-1);
-			var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
-			console.log(arrTweet);
-			bot.say(command.channel, "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+arrTweet+" (http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+")");
+			if (err === null){
+				var randTweet = getRandomInt(0,data.statuses.length-1);
+				var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
+				console.log(arrTweet);
+				bot.say(command.channel, "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+arrTweet+" (http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+")");
 			}else{
-					bot.say(command.channel, "No tweets found, that's pretty shitty.");
+				bot.say(command.channel, "ERROR: you fucked this up duder.");
+				console.log(err);		
+			}
+		}else{
+				bot.say(command.channel, "No tweets found, that's pretty shitty.");
 
-				}
+		}
 	});
 	}
 }
@@ -498,7 +531,7 @@ bot.on('!twit', function (command) {
 });
 
 bot.on('!fanfic', function (command){
-    userTweet(command);
+    userTweet(command, 'Fanfiction_txt');
 });        
 
 bot.on('!tweet', function (command){
@@ -639,3 +672,7 @@ bot.on('!dorj',function (command){
 bot.on('!anime',function (command){
     bot.say(command.channel, "http://www.watchcartoononline.com/outlaw-star-episode-2-english-dubbed");
 });
+
+bot.on('!tweep', function (command){
+    userTweet(command, command.args.join(""));
+});        
