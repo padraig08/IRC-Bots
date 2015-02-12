@@ -51,6 +51,16 @@
 			"YOU CAN'T rhymed THE word"]
 	},
 
+"tricked":{
+	"items":["https://www.youtube.com/watch?v=dzA6kMTbUQI",
+			"https://www.youtube.com/watch?v=4fWyzwo1xg0",
+			"https://www.youtube.com/watch?v=4N3N1MlvVc4",
+			"https://www.youtube.com/watch?v=SmVAWKfJ4Go",
+			"https://www.youtube.com/watch?v=EzgGTTtR0kc",
+			"https://www.youtube.com/watch?v=gHmQGR99XbA",
+			"https://www.youtube.com/watch?v=OLHd4BQIiGw"]
+	},
+
 "Tweet" : {
 	"commands": ["twit", "fanfic", "tweet"] 
 },
