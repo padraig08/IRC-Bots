@@ -433,7 +433,11 @@ var Logger = function () {
 var bot = irc.Client(network, logger);
 bot.connect();
 
-	var kind= '';
+logger.stream({ start: -1 }).on('log', function(log) {
+	console.log(log);  
+});
+
+var kind= '';
 
 
 
