@@ -1,9 +1,9 @@
 {
-	"server":"grizzly.bearcopter.com",
-	"nickname":"Bonk-Bot",
+	"server":"irc.teamschoolyd.org",
+	"nickname":"Bonk-Bot1",
 	"username":"Bonk-Bot",
 	"realname":"Bonky",
 	"command-trigger":"#",
-	"channels":["#chat"],
+	"channels":["#bots"],
 	"plugins": ["howtobonk", "clonk"]
 }

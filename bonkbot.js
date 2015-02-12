@@ -14,8 +14,7 @@ var countdown = botData.countdown,
 	randomMsg = botData.randomMsg,
 	av = botData.av,
 	rhymePos = botData.rhymePos,
-	word = botData.word
-	tricked = botData.tricked;
+	word = botData.word;
 
 // Get the lib
 var irc = require('tennu'),
@@ -431,7 +430,7 @@ var Logger = function () {
 };
 */
 
-var bot = irc.Client(network);
+var bot = irc.Client(network, logger);
 bot.connect();
 
 	var kind= '';
@@ -693,7 +692,3 @@ bot.on('!anime',function (command){
 bot.on('!tweep', function (command){
     userTweet(command, command.args.join(""));
 });        
-bot.on('!tricked', function (command){
-    var trixRand = getRandomInt(0,tricked.items.length-1);
-    bot.say(command.channel, tricked.items[trixRand]);
-});
