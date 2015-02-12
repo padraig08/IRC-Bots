@@ -18,6 +18,7 @@ var countdown = botData.countdown,
 
 // Get the lib
 var irc = require('tennu'),
+winston = require('winston'),
 bonksync = require('async'),
 network = require('./netConfig.json'),
 request = require('request'),
@@ -50,6 +51,13 @@ var transClient = new MsTranslator({
       client_id: botConfig.transConfig.client_id
       , client_secret: botConfig.transConfig.client_secret
     });
+
+var logger = new (winston.Logger)({
+    transports: [
+      new (winston.transports.Console)(),
+      new (winston.transports.File)({ filename: 'irc-log.log' })
+    ]
+  });
 
 var clonkometer = 0;
 var offQuestion = false;
@@ -269,29 +277,36 @@ if (_.isEmpty(userString)){
 	var userArray = userString.split("|");
 	Tw.get('statuses/user_timeline', {screen_name: userArray[0], count:'200', exclude_replies:'true', include_rts:'false'}, function(err, data, response){
 			if (err === null){
-				if(_.contains(userString,"|")){
-					switch (userArray[1]) {
-    					case 'name':
-        					bot.say(command.channel,  data[randTweet].user.screen_name +"'s Name: "data[0].user.name);
-        				break;
-    					case 'description':
-        					bot.say(command.channel,  data[randTweet].user.screen_name +"'s Bio: "data[0].user.description);
-        				break;
-        				case 'location':
-        					bot.say(command.channel,  data[randTweet].user.screen_name +"'s Location: "data[0].user.location);
-        				break;
-    					case 'count':
-        					bot.say(command.channel,  data[randTweet].user.screen_name +"'s Tweet Count: "data[0].user.status_count);
-        				break;
-    					default:
-        				console.log('You gotta give me something to look up, brah.');
-					}}else{
-						var randTweet = getRandomInt(0,data.length-1);
-						var arrTweet = data[randTweet].text.replace( /\n/g, "`" ).split( "`" );
-						console.log(arrTweet);
-						//bot.say(command.channel,  data[randTweet].user.screen_name +": " +arrTweet);
-			}}else{
-				console.log("ERROR: try again, you fucked this up somehow.");
+				if(!_.isEmpty(data[0])){
+					if(_.contains(userString,"|")){
+						switch (userArray[1]) {
+    						case 'name':
+        						bot.say(command.channel,  data[0].user.screen_name +"'s Name: "+data[0].user.name);
+        					break;
+    						case 'description':
+        						bot.say(command.channel,  data[0].user.screen_name +"'s Bio: "+data[0].user.description);
+        					break;
+        					case 'location':
+        						bot.say(command.channel,  data[0].user.screen_name +"'s Location: "+data[0].user.location);
+        					break;
+    						case 'count':
+        						bot.say(command.channel,  data[0].user.screen_name +"'s Tweet Count: "+data[0].user.statuses_count);
+        					break;
+    						default:
+        						bot.say(command.channel,'You gotta give me something to look up, brah.');
+						}}else{
+							var randTweet = getRandomInt(0,data.length-1);
+							var arrTweet = data[randTweet].text.replace( /\n/g, "`" ).split( "`" );
+							//console.log(arrTweet);
+							bot.say(command.channel,  data[randTweet].user.screen_name +": " +arrTweet);
+						}
+					}else{
+						bot.say(command.channel,"ERROR: you chose an account with no tweets. Try again, doucher.");
+					}
+
+		}else{
+				bot.say(command.channel,"ERROR: try again, you fucked this up somehow.");
+				console.log(err);
 			}
 		});
 }
@@ -313,7 +328,7 @@ function searchDaTweet (searchString, command) {
 						if(data.statuses.length > 0){
 						var randTweet = getRandomInt(0,data.statuses.length-1);
 						var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
-						console.log(arrTweet);
+						//console.log(arrTweet);
 						bot.say(command.channel, "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+ arrTweet +" (http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+")");
 					}else{
 						bot.say(command.channel, "ERROR: you fucked this up duder.");
@@ -334,18 +349,18 @@ function searchDaTweet (searchString, command) {
 	}else{
 
 	Tw.get('search/tweets', {q: searchString, count:'100'}, function(err, data, response){
+		if (err === null){
 		if(data.statuses.length > 0){
-			if (err === null){
 				var randTweet = getRandomInt(0,data.statuses.length-1);
 				var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
 				console.log(arrTweet);
 				bot.say(command.channel, "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+arrTweet+" (http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+")");
 			}else{
-				bot.say(command.channel, "ERROR: you fucked this up duder.");
-				console.log(err);		
+					bot.say(command.channel, "No tweets found, that's pretty shitty.");	
 			}
 		}else{
-				bot.say(command.channel, "No tweets found, that's pretty shitty.");
+			bot.say(command.channel, "ERROR: you fucked this up duder.");
+				console.log(err);	
 
 		}
 	});
@@ -399,13 +414,13 @@ function subSelect(urlBuild, where){
 	);
 }
 
+/*
 var print = console.log.bind(console);
 
 var Logger = function () {
     return {
         debug: print,
         info: print,
-        note: print,
         notice: print,
         warning: print,
         crit: print,
@@ -413,8 +428,9 @@ var Logger = function () {
         emerg: print
     }
 };
+*/
 
-var bot = irc.Client(network, {Logger: Logger});
+var bot = irc.Client(network);
 bot.connect();
 
 	var kind= '';
