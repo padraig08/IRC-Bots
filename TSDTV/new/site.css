@@ -1,0 +1,324 @@
+@font-face {
+    font-family: gundam;
+    src: url(Iori.otf);
+}
+
+@font-face {
+    font-family: walkman;
+    src: url(walkman.ttf);
+}
+
+@font-face {
+    font-family: sharpie;
+    src: url(sharpie.ttf);
+}
+
+@font-face {
+    font-family: emboss;
+    src: url(embosst1.ttf);
+}
+
+body{
+    font-family: helvetica;
+    background:midnightblue;
+    color:white;
+    margin:0;
+}
+
+.playBtn{
+	
+}
+
+.nowPlaying {
+
+background: rgb(255,255,255); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(255,255,255,0.3) 0%, rgba(160,160,160,0.5) 50%, rgba(170,170,170,0.5) 51%, rgba(158,158,158,0.75) 100%), url(metal.jpg); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.3)), color-stop(50%,rgba(160,160,160,0.5)), color-stop(51%,rgba(170,170,170,0.5)), color-stop(100%,rgba(158,158,158,0.75))), url(metal.jpg); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(255,255,255,0.3) 0%,rgba(160,160,160,0.5) 50%,rgba(170,170,170,0.5) 51%,rgba(158,158,158,0.75) 100%), url(metal.jpg); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(255,255,255,0.3) 0%,rgba(160,160,160,0.5) 50%,rgba(170,170,170,0.5) 51%,rgba(158,158,158,0.75) 100%), url(metal.jpg); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(255,255,255,0.3) 0%,rgba(160,160,160,0.5) 50%,rgba(170,170,170,0.5) 51%,rgba(158,158,158,0.75) 100%), url(metal.jpg); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(255,255,255,0.3) 0%,rgba(160,160,160,0.5) 50%,rgba(170,170,170,0.5) 51%,rgba(158,158,158,0.75) 100%), url(metal.jpg); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#9e9e9e',GradientType=0 ); /* IE6-9 */
+
+box-shadow: inset 0 2px 3px rgba(255,255,255,0.13), 0 5px 8px rgba(0,0,0,0.3), 0 10px 10px 4px rgba(0,0,0,0.3);
+
+padding: 30px;
+font-family: gundam;
+}
+
+.nowPlaying .singleItem {
+background: black;
+}
+
+.nowPlaying .titleName{
+	font-size:20px;
+}
+
+.nowPlaying .episodeName{
+	font-size:16px;
+}
+
+.nowPlaying .showTime{
+	font-size: 20px;
+}
+
+.blockitem {
+background: rgb(0, 7, 137);
+border-image-source: initial;
+border-image-slice: initial;
+border-image-width: initial;
+border-image-outset: initial;
+border-image-repeat: initial;
+}
+
+.schitem {
+padding-left: 10px;
+padding-top: 15px;
+padding-bottom: 15px;
+}
+
+.singleitem {
+    background: rgb(0, 85, 199);
+border-image-source: initial;
+border-image-slice: initial;
+border-image-width: initial;
+border-image-outset: initial;
+border-image-repeat: initial;
+}
+
+#schedule .singleitem{
+	font-family: Helvetica;
+}
+
+#schedule {
+margin-right: 20px;
+}
+
+.blockitem ul li {
+list-style-type: none;
+}
+.blockitem ul {
+margin: 0px;
+padding: 0px;
+}
+
+.vlcsidebar{
+	float:left;
+}
+
+.schsidebar h2{
+	font-family: walkman, impact;
+letter-spacing: 2px;
+text-align: center;
+font-size: 40px;
+line-height: 50px;
+margin: 0;
+text-shadow: -1px -1px 1px #fff, 1px 1px 10px #000;
+color: #C7C7C7;
+}
+
+.schsidebar{
+	position: fixed;
+	right: 0;
+	height: 100%;
+
+	z-index: 0;
+	background: #292990;  
+    background: -webkit-gradient(linear, left top, left bottombottom, color-stop(31%,#292990), color-stop(100%,#4D4D98));  
+    background: -webkit-linear-gradient(top,  #292990 31%,#4D4D98 100%);  
+    background: -moz-linear-gradient(top,  #292990 31%, #4D4D98 100%);  
+    background: -o-linear-gradient(top,  #292990 31%,#4D4D98 100%);  
+    background: -ms-linear-gradient(top,  #292990 31%,#4D4D98 100%);  
+    background: linear-gradient(to bottombottom,  #292990 31%,#4D4D98 100%);  
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#292990', endColorstr='#4D4D98',GradientType=0 );
+}
+
+.button, .button:before, .button:after {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.button {
+    font-family: 'pictos';
+    font-size: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: rgba(0,0,0,0.5);
+    text-shadow: rgba(0,0,0,0.1) 0px -2px 1px, rgb(255,255,255) 0px 1px 2px;
+    
+    width: 60px;
+    height: 60px;
+    padding: 10px;
+    margin: 50px auto;
+    position: static;
+    z-index: 50;
+    cursor: pointer;
+    margin-top: 50px;
+    
+    background-color: transparent;
+    border: rgba(0,0,0,0.5) 1px solid;
+    border-top-color: rgba(0,0,0,0.1);
+    border-left-color: rgba(0,0,0,0.2);
+    border-right-color: rgba(0,0,0,0.2);
+    border-bottom-color: rgba(0,0,0,0.5);
+    box-shadow: inset rgba(255,255,255,0.5) -5px -30px 10px,
+                inset rgba(255,255,255,0.5) 0px 30px 10px,
+                inset rgba(255,255,255,1) 0px 2px 1px,
+                rgba(0,0,0,0.4) 0px 10px 15px;
+    -webkit-transition: -webkit-box-shadow 0s ease-in-out;
+     -khtml-transition:  -khtml-box-shadow 0s ease-in-out;
+       -moz-transition:    -moz-box-shadow 0s ease-in-out;
+         -o-transition:      -o-box-shadow 0s ease-in-out;
+            transition:         box-shadow 0s ease-in-out;
+    
+    background-image:   -webkit-radial-gradient(  50%   0%,  8% 50%, hsla(0,0%,100%,.2) 0%, hsla(0,0%,100%,0) 100%),
+                        -webkit-radial-gradient(  50% 100%, 12% 50%, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,0) 100%),
+                        -webkit-radial-gradient(   0%  50%, 50%  7%, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,0) 100%),
+                        -webkit-radial-gradient( 100%  50%, 50%  5%, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,0) 100%),
+                        
+                        -webkit-repeating-radial-gradient(  50% 50%, 100% 100%, hsla(0,0%,  0%,0) 0%, hsla(0,0%,  0%,0)   3%, hsla(0,0%,  0%,.1) 3.5%),
+                        -webkit-repeating-radial-gradient(  50% 50%, 100% 100%, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,0)   6%, hsla(0,0%,100%,.1) 7.5%),
+                        -webkit-repeating-radial-gradient(  50% 50%, 100% 100%, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,0) 1.2%, hsla(0,0%,100%,0) 2.2%);
+                        
+}
+
+.button:before, .button:after {
+    content: "";
+    display: block;
+    position: absolute;
+}
+
+.button:before {
+    z-index: -50;
+    width: 60px;
+    height: 64px;
+    
+    margin-top: -10px;
+    margin-left: -11px;
+    
+    background: #666666;
+    background: -moz-linear-gradient(left, #666666 0%, #bbbbbb 50%, #666666 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#666666), color-stop(50%,#bbbbbb), color-stop(100%,#666666));
+    background: -webkit-linear-gradient(left, #666666 0%,#bbbbbb 50%,#666666 100%);
+    background: -o-linear-gradient(left, #666666 0%,#bbbbbb 50%,#666666 100%);
+    background: -ms-linear-gradient(left, #666666 0%,#bbbbbb 50%,#666666 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#666666', endColorstr='#666666',GradientType=1 );
+    background: linear-gradient(left, #666666 0%,#bbbbbb 50%,#666666 100%);
+    
+    box-shadow: #000 0px 0px 2px;
+}
+.button:after {
+    z-index: -100;
+    width: 70px;
+    height: 70px;
+    margin-top: -60px;
+    margin-left: -16px;
+    background: rgba(0,0,0,0.1);
+    
+    box-shadow: inset rgba(255,255,255,0.1) 0px -5px 5px,
+                rgba(0,0,0,0.1) 0px 3px 3px,
+                rgba(255,255,255,0.05) 0px -3px 3px;
+}
+.button:hover {
+    color: rgba(0,0,0,0.6);
+    text-shadow: rgb(255,255,255) 0px 0px 3px;
+    box-shadow: inset rgba(255,255,255,0.4) 0px -30px 15px,
+                inset rgba(255,255,255,0.2) -25px 25px 10px,
+                inset rgba(255,255,255,1) 0px 2px 1px,
+                rgba(0,0,0,0.4) 0px 10px 15px;
+}
+.button:active {
+    margin-top: 46px;
+    color: #fff;
+    box-shadow: inset rgba(255,255,255,0.4) 0px -30px 15px,
+                inset rgba(255,255,255,0.2) -25px 25px 10px,
+                inset rgba(255,255,255,1) 0px 2px 1px,
+                rgba(0,0,0,0.4) 0px 2px 3px;
+}
+.button:active:before {
+    height: 60px;
+    margin-top: -11px;
+}
+.button:active:after {
+    margin-top: -56px;
+}
+
+.btn{
+background: url(metal.jpg);
+height: 100px;
+border: 1px solid black;
+width: 25%;
+float: left;
+position: relative;
+min-height: 1px;
+padding-right: 15px;
+padding-left: 15px;
+color: black;
+font-size: 50px;
+text-shadow: 0px 1px 1px #FFFFFF;
+color: rgba(37, 37, 37, 0.7);
+padding-top: 10px;
+}
+.btn:active{
+    background:linear-gradient(rgba(0, 0, 0, 0.2),rgba(0, 0, 0, 0.2)),url(metal.jpg);
+}
+
+.controls{
+	background: black;
+    position: absolute;
+bottom: 10px;
+width: 90%;
+
+}
+
+.queueTitle{
+	font-family: emboss;
+	background: black;
+padding: 6px;
+text-align: center;
+}
+
+.showTime{
+	width: 25%;
+	float: left;
+	position: relative;
+min-height: 1px;
+padding-right: 15px;
+padding-left: 15px;
+
+}
+
+.showTitle{
+	width: 75%;
+	float: left;
+	position: relative;
+min-height: 1px;
+padding-right: 15px;
+padding-left: 15px;
+}
+.nowPlaying .singleItem{
+padding-left: 10px;
+padding-top: 15px; 
+padding-bottom: 15px;
+}
+
+.scheduleList .schItem {
+margin-bottom: 20px;
+box-shadow: inset 0 2px 3px rgba(255,255,255,0.13), 0 1px 1px rgba(0,0,0,0.3), 0 4px 4px 1px rgba(0,0,0,0.3);
+}
+
+.scheduleList{
+    max-height: 45%;
+overflow-y: scroll;
+border-bottom: 1px solid;
+}
+
+.currViewers{
+    text-align: center;
+font-size: 20px;
+font-family: walkman;
+
+}

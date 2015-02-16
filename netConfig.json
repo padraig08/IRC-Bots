@@ -4,6 +4,10 @@
 	"username":"Bonk_Bot",
 	"realname":"Bonkles",
 	"command-trigger":"!",
+	"nickname":"Bonk-Bot1",
+	"username":"Bonk-Bot",
+	"realname":"Bonky",
+	"command-trigger":"#",
 	"channels":["#bots"],
 	"plugins": ["howtobonk", "clonk"]
 }

@@ -37,6 +37,20 @@
 		"commands": "qdb"
 	},
 
+	"tricked": {
+		"items": ["https://www.youtube.com/watch?v=dzA6kMTbUQI",
+			"https://www.youtube.com/watch?v=4fWyzwo1xg0",
+			"https://www.youtube.com/watch?v=4N3N1MlvVc4",
+			"https://www.youtube.com/watch?v=SmVAWKfJ4Go",
+			"https://www.youtube.com/watch?v=EzgGTTtR0kc",
+			"https://www.youtube.com/watch?v=gHmQGR99XbA",
+			"https://www.youtube.com/watch?v=OLHd4BQIiGw"]
+	},
+
+	"Tweet": {
+		"commands": ["twit", "fanfic", "tweet"]
+	},
+
 	"mad": {
 		"commands": "mad",
 		"status": ["Mad",
@@ -132,7 +146,7 @@
 				"th",
 				"ur",
 				"vi"]},
-	"urls" : {
+	"urls": {
 		"reddit": "http://www.reddit.com/r/",
 		"subs": {
 			"img": ["pics", "photoshopbattles", "OldSchoolCool", "dataisbeautiful", "gunpla", "DIY", "AnimalsBeingJerks", "thathappened", "picturesofiansleeping", "notinteresting"],
@@ -141,7 +155,7 @@
 	"commands": ["img", "gif", "howtobonk", "Clonk", "rando"]
 	},
 
-	"dmx" : {
+	"dmx": {
 		"commands": "dmx",
 		"phrases": ["X GON' GIVE IT TO YA",
 					"DONE WAITIN' FOR YA TO GET IT ON YA OWN, X GON' DELIVER TO YA",
@@ -181,7 +195,7 @@
 					"https://www.youtube.com/watch?v=47G3SK8QEhQ"]
 	},
 
-	"ugh" : {
+	"ugh": {
 	"commands": "ugh",
 	"items": ["ugh indeed",
 			"https://www.youtube.com/watch?v=jq9JaTp7pFo",
@@ -193,14 +207,15 @@
 			"https://www.youtube.com/watch?v=F_XaIuw6K6Q",
 			"https://www.youtube.com/watch?v=2AlCdvfhuAs",
 			"https://www.youtube.com/watch?v=9AAVyWsNTtI",
-			"https://www.youtube.com/watch?v=Saqdb0T-hTM",
-			"https://www.youtube.com/watch?v=hzpQH43lMXA",
-			"https://www.youtube.com/watch?v=Fgg9m7nOMT8",
-			"https://www.youtube.com/watch?v=nABMJ4791c0",
-			"https://www.youtube.com/watch?v=Z0zLSVVRPpo",
-			"https://www.youtube.com/watch?v=ujt1ogxcuNM",
-			"https://www.youtube.com/watch?v=mEqleusCerc"]
+ 			"https://www.youtube.com/watch?v=Saqdb0T-hTM",
+ 			"https://www.youtube.com/watch?v=hzpQH43lMXA",
+  			"https://www.youtube.com/watch?v=Fgg9m7nOMT8",
+  			"https://www.youtube.com/watch?v=nABMJ4791c0",
+  			"https://www.youtube.com/watch?v=Z0zLSVVRPpo",
+  			"https://www.youtube.com/watch?v=ujt1ogxcuNM",
+  			"https://www.youtube.com/watch?v=mEqleusCerc"]
 	},
+
 
 	"randomMsg": {
 		"attacker": ["Armada",

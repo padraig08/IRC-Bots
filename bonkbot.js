@@ -10,23 +10,29 @@ var Tweet = botData.Tweet,
 	ugh = botData.ugh,
 	randomMsg = botData.randomMsg,
 	rhymePos = botData.rhymePos,
-	word = botData.word,
+	word = botData.word
+	tricked = botData.tricked;
 	mad = botData.mad;
 
-var irc = require("tennu"),
-	bonksync = require("async"),
-	network = require("./netConfig.json"),
-	request = require("request"),
-	_ = require("lodash-node"),
-	MsTranslator = require("mstranslator"),
-	latin = require("./node_modules/latinise/latinise"),
-	romaji = require("hepburn"),
-	twitter = require("twit"),
-	geo = require ("geocoder"),
-	c = require("irc-colors"),
-	util = require("util");
+var irc = require('tennu'),
+	winston = require('winston'),
+	bonksync = require('async'),
+	network = require('./netConfig.json'),
+	request = require('request'),
+	_ = require('lodash-node'),
+	MsTranslator = require('mstranslator'),
+	latin = require('./node_modules/latinise/latinise'),
+	romaji = require('hepburn'),
+	hbombcount = require("countdown"),
+	twitter = require('twit'),
+	geo = require ('geocoder'),
+	c = require('irc-colors'),
+	util = require('util');
 
-var letterPattern = new RegExp("[a-zA-Z]");
+//var specMatch = new RegExp(/[$-/:-?{-~!"^_`\[\]]/);
+//var numMatch = new RegExp(/[\d]/);
+
+var letterPattern = new RegExp('[a-zA-Z]');
 var requests = 0;
 var acObj = {};
 var synArray = [];
@@ -42,6 +48,13 @@ var transClient = new MsTranslator({
 	client_id: botConfig.transConfig.client_id,
 	client_secret: botConfig.transConfig.client_secret
 });
+
+var logger = new (winston.Logger)({
+    transports: [
+      new (winston.transports.Console)(),
+      new (winston.transports.File)({ filename: 'irc-log.log' })
+    ]
+  });
 
 var clonkometer = 0;
 var offQuestion = false;
@@ -134,14 +147,16 @@ function loopAcro(c, n, url, callback) {
 	request(url, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2) {
 			acObj[n] = c;
-		} else {	
+		}
+		else {	
 			var acData = JSON.parse(body);	
 			var randAcro = getRandomInt(0, acData.searchResults.length - 1);	
 			acObj[n] = acData.searchResults[randAcro].word;	
 			callback();	
 		}
 	});
-	} else {
+	}
+	else {
 		acObj[n] = c;
 		callback();
 	}
@@ -156,7 +171,8 @@ function loopSyn(c, n, callback) {
 			//synArray.push(c);
 			callback();
 			
-		} else {
+		}
+		else {
 			var synData = JSON.parse(body);
 			var randSyn = getRandomInt(0, synData[0].words.length - 1);	
 			synObj[n] = synData[0].words[randSyn];
@@ -174,16 +190,18 @@ function syncAcro(command, acLetter) {
 
 	bonksync.each(acLetter, function (n, callback) {
 		requests++;
-		  if (requests == 1) {
-		   urlAcroBuild = word.searchUrl + word.acroFirstUrl + word.apiUrl;
-		   loopAcro(n, requests, urlAcroBuild, callback);
-		  } else if (requests == 2 || requests == acLetter.length - 1) {
-		   urlAcroBuild = word.searchUrl + word.acroLastUrl + word.apiUrl;
-		   loopAcro(n, requests, urlAcroBuild, callback);
-		  } else {
-		   urlAcroBuild = word.searchUrl + word.acroAnyUrl + word.apiUrl;
-		   loopAcro(n, requests, urlAcroBuild, callback);
-		  }
+		if (requests == 1) {
+			urlAcroBuild = word.searchUrl + word.acroFirstUrl + word.apiUrl;
+			loopAcro(n, requests, urlAcroBuild, callback);
+		}
+		else if (requests == 2 || requests == acLetter.length - 1) {
+			urlAcroBuild = word.searchUrl + word.acroLastUrl + word.apiUrl;
+			loopAcro(n, requests, urlAcroBuild, callback);
+		}
+		else {
+			urlAcroBuild = word.searchUrl + word.acroAnyUrl + word.apiUrl;
+			loopAcro(n, requests, urlAcroBuild, callback);
+		}
 	}, function (err) {
 		var acString = _.map(acObj, function (num) { return num; }).join(" ");
 		bot.say(command.channel, acString.toUpperCase());
@@ -200,7 +218,8 @@ function syncSyn(command) {
 		if (specMatch.test(n) || numMatch.test(n)) {
 			console.log('got it');
 			loopSyn('fuck', requests,callback);
-		} else {
+		}
+		else {
 			loopSyn(n, requests,callback);
 		}
 		//loopSyn(n, requests,callback);
@@ -229,7 +248,8 @@ function timeToBonk(command) {
 			from = "this bot's own personal ";
 			var bonkingSelf = true;						
 		}
-	} else {
+	}
+	else {
 		from = from + "'s ";
 	}
 	
@@ -242,11 +262,12 @@ function timeToBonk(command) {
 	
 	var result = getRandomInt(0, randomMsg.result.length - 1);
 	var attacker = getRandomInt(0, randomMsg.attacker.length - 1);
-		
+	
+	// build the bonk message
 	var calcMsg = calc.toString() + "% of ";
 	var resultMsg = randomMsg.result[result];
 	var attackerMsg = randomMsg.attacker[attacker];
-		
+	
 	clonk = c.brown("Battlebonk results: " + calcMsg + target + "'s clonkers " + resultMsg + " because of " + from + attackerMsg);
 	
 	bot.say(command.channel, clonk);
@@ -259,9 +280,50 @@ function timeToBonk(command) {
 	bot.say(command.channel, "Battlebonk Status: " + c.red(assessment));
 }
 
-function userTweet(command) {
-	var AllTweets = [];
-	var currentTweets = [];
+function userTweet(command, userString) {
+	if (_.isEmpty(userString)) {
+		bot.say(command.channel, "No user provided. Come on man, you're better than this.");
+	}
+	else {
+		var userArray = userString.split("|");
+		Tw.get('statuses/user_timeline', {screen_name: userArray[0], count:'200', exclude_replies:'true', include_rts:'false'}, function(err, data, response) {
+			if (err === null) {
+				if (!_.isEmpty(data[0])) {
+					if (_.contains(userString,"|")) {
+						switch (userArray[1]) {
+							case 'name':
+        						bot.say(command.channel, data[0].user.screen_name +"'s Name: "+data[0].user.name);
+        					break;
+    						case 'description':
+        						bot.say(command.channel, data[0].user.screen_name +"'s Bio: "+data[0].user.description);
+        					break;
+        					case 'location':
+        						bot.say(command.channel, data[0].user.screen_name +"'s Location: "+data[0].user.location);
+        					break;
+    						case 'count':
+        						bot.say(command.channel, data[0].user.screen_name +"'s Tweet Count: "+data[0].user.statuses_count);
+        					break;
+    						default:
+        						bot.say(command.channel, "You gotta give me something to look up, brah.");
+						}
+					}
+					else {
+						var randTweet = getRandomInt(0,data.length-1);
+						var arrTweet = data[randTweet].text.replace( /\n/g, "`" ).split( "`" );
+						//console.log(arrTweet);
+						bot.say(command.channel, data[randTweet].user.screen_name +": " +arrTweet);
+					}
+				}
+				else {
+					bot.say(command.channel,"ERROR: You chose an account with no tweets.");
+				}
+			}
+			else {
+				bot.say(command.channel,"ERROR: Try again, you messed this up somehow.");
+				console.log(err);
+			}
+		});
+	}
 
 	Tw.get("statuses/user_timeline", {screen_name: "fanfiction_txt", count: "200", exclude_replies: "true", include_rts: "false"}, function (err, data, response) {
 		var randTweet = getRandomInt(0, data.length - 1);
@@ -271,37 +333,54 @@ function userTweet(command) {
 	});
 }
 
-function searchTweet (searchString, command) {
-	console.log(searchString);
-	if (_.isEmpty(searchString)) {
+function searchDaTweet (searchString, command) {
+	if (_.isEmpty(searchString)){
 		bot.say(command.channel, "No text provided. Come on man, you're better than this.");
-	} else if (_.contains(searchString, "|")) {
+	}
+	else if (_.contains(searchString, "|")) {
 		var searchArray = searchString.split("|");
-		geo.geocode(searchArray[1], function (err, data) {
-			if (data.status == "OK") {
-				Tw.get("search/tweets", {q: searchString, count:"100", geocode: data.results[0].geometry.location.lat + ", " + data.results[0].geometry.location.lng + ",10mi"}, function (err, data, response) {
-					if (data.statuses.length > 0) {
-						var randTweet = getRandomInt(0,data.statuses.length - 1);
-						var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`").split("`");
-						console.log(arrTweet);
-						bot.say(command.channel, "Tweet from " + data.statuses[randTweet].user.screen_name + " : " + arrTweet + " (http://twitter.com/" + data.statuses[randTweet].user.screen_name + "/status/" + data.statuses[randTweet].id_str + ")");
-					} else {
-						bot.say(command.channel, "No tweets found");
+		geo.geocode(searchArray[1], function(err, data) {
+			if (data.status == 'OK') {
+				Tw.get('search/tweets', {q: searchString, count:'100', geocode: data.results[0].geometry.location.lat+','+data.results[0].geometry.location.lng+',10mi'}, 
+				function(err, data, response) {
+					if (err === null) {
+						if(data.statuses.length > 0) {
+							var randTweet = getRandomInt(0,data.statuses.length-1);
+							var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
+							//console.log(arrTweet);
+							bot.say(command.channel, "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+ arrTweet +" (http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+")");
+						}
+						else {
+							bot.say(command.channel, "ERROR: You fucked this up duder.");
+							console.log(err);
+						}
+					}
+					else {
+						bot.say(command.channel, "No tweets found, that's pretty shitty.");
 					}
 				});
-			} else {
+			}
+			else {
 				bot.say(command.channel, "Location not found, or like an error happened. I don't know, man.");
 			}
 		});
-	} else {
-		Tw.get("search/tweets", {q: searchString, count: "100"}, function (err, data, response) {
-			if (data.statuses.length > 0) {
-				var randTweet = getRandomInt(0,data.statuses.length - 1);
-				var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
-				//console.log(arrTweet);
-				bot.say(command.channel, "Tweet from " + data.statuses[randTweet].user.screen_name + " : " + arrTweet + " (http://twitter.com/" + data.statuses[randTweet].user.screen_name + "/status/" + data.statuses[randTweet].id_str + ")");
-			} else {
-				bot.say(command.channel, "No tweets found");
+	}
+	else {
+		Tw.get('search/tweets', {q: searchString, count:'100'}, function(err, data, response) {
+			if (err === null) {
+				if (data.statuses.length > 0) {
+					var randTweet = getRandomInt(0,data.statuses.length-1);
+					var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
+					console.log(arrTweet);
+					bot.say(command.channel, "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+arrTweet+" (http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+")");
+				}
+				else {
+					bot.say(command.channel, "No tweets found, that's pretty shitty.");
+				}
+			}
+			else {
+				bot.say(command.channel, "ERROR: You fucked this up duder.");
+				console.log(err);
 			}
 		});
 	}
@@ -323,7 +402,8 @@ function randoSub(sub, where) {
 			//console.log(urlBuild);
 			subSelect(urlBuild, where);
 		});
-	} else {
+	}
+	else {
 		urlBuild = urls.reddit + sub + "/random/.json";
 		subSelect(urlBuild, where);	
 	}
@@ -341,33 +421,40 @@ function subSelect(urlBuild, where) {
 				}
 				bot.say(where, dataUrl.title +" from r/" + dataUrl.subreddit + " --- " + dataUrl.url);
 				
-			} else if (invalidSub !== null) {
+			}
+			else if (invalidSub !== null) {
 					bot.say(where, "The listed subreddit is not usable, please try another one.");
 			}
 		}
 	);
 }
 
+/*
 var print = console.log.bind(console);
 
 var Logger = function () {
-	return {
-		debug: print,
-		info: print,
-		note: print,
-		notice: print,
-		warning: print,
-		crit: print,
-		alert: print,
-		emerg: print
-	}
+    return {
+        debug: print,
+        info: print,
+        notice: print,
+        warning: print,
+        crit: print,
+        alert: print,
+        emerg: print
+    }
 };
+*/
 
-var bot = irc.Client(network, {Logger: Logger});
-
+var bot = irc.Client(network);
 bot.connect();
 
-var kind = "";
+logger.stream({ start: -1 }).on('log', function(log) {
+	console.log(log);  
+});
+
+var kind= '';
+
+bot.connect();
 
 bot.on("join", function (message) {
 	if (message.nickname == "Bonk_Bot") {
@@ -400,8 +487,6 @@ bot.on("nick", function (message) {
 bot.on("error", function (message) {
 	console.log(message);
 });
-
-// Commands
 
 bot.on("!care", function (command) {
 	var careAmount = getRandomInt(0, 101);
@@ -477,9 +562,9 @@ bot.on("!gif", function (command) {
 	randImg(kind, command.channel);
 });
 
-bot.on("!rando", function (command) {
-	randoSub(command.args[0], command.channel);
-});
+bot.on("!fanfic", function (command){
+    userTweet(command, 'Fanfiction_txt');
+});        
 
 bot.on("!translate", function (command) {
 	var res = command.args.join(" ").split("/");
@@ -559,15 +644,17 @@ bot.on("!example", function (command) {
 	});
 });
 
-bot.on("!acro", function (command) {
+/*
+bot.on('!acro', function (command){
 	var acroWord = command.args.join("");
 	var acLetter = acroWord.split("");
 	syncAcro(command, acLetter);
 });
 
-bot.on("!syn", function (command) {
+bot.on('!syn', function (command){
 	syncSyn(command);
 });
+*/
 
 bot.on("!speak", function (command) {
 	var audioWord = command.args.join("");
@@ -597,4 +684,22 @@ bot.on("!pron", function (command) {
 			bot.say(command.channel, pronData[randPron].raw);
 		}
 	});
+});
+
+bot.on("!pax", function (command) {
+    var timeTilPAX = hbombcount(null, new Date(2015, 7, 28)).toString();
+    bot.say(command.channel, "Tentatively, in " + timeTilPAX + ", we will PAX.");
+});
+
+bot.on("!dorj", function (command) {
+    bot.say(command.channel, "YA TA! http://i.imgur.com/z3E28VS.jpg");
+});
+
+bot.on("!tweep", function (command) {
+    userTweet(command, command.args.join(""));
+});
+
+bot.on("!tricked", function (command) {
+    var trixRand = getRandomInt(0, tricked.items.length - 1);
+    bot.say(command.channel, ">tfw " + tricked.items[trixRand]);
 });
