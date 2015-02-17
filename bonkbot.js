@@ -31,6 +31,7 @@ hbombcount = require("countdown"),
 twitter = require('twit'),
 geo = require ('geocoder'),
 c = require('irc-colors'),
+cheerio = require('cheerio'),
 util = require('util');
 
 //var specMatch = new RegExp(/[$-/:-?{-~!"^_`\[\]]/);
@@ -55,7 +56,7 @@ var transClient = new MsTranslator({
 
 var logger = new (winston.Logger)({
     transports: [
-      new (winston.transports.Console)(),
+      new (winston.transports.Console)({ level: 'error' }),
       new (winston.transports.File)({ filename: 'irc-log.log' })
     ]
   });
@@ -394,6 +395,22 @@ function randoSub(sub, where){
 
 }
 
+function qdbCheck (command, qdbTop) {
+
+
+var randQDB = getRandomInt(0,qdbTop);
+var qdbRandUrl = "http://qdb.zero9f9.com/quote.php?id="+randQDB;	
+request(qdbRandUrl, function (error, response, body) {
+		if (error || response.statusCode !== 200){
+			console.log(error, response.statusCode);
+			qdbCheck(command, qdbTop);
+		}else{
+		 
+		 bot.say(command.channel, qdbRandUrl);
+		}
+});
+}
+
 function subSelect(urlBuild, where){
 
 	request(urlBuild, function (error, response, body) {
@@ -434,8 +451,8 @@ var Logger = function () {
 var bot = irc.Client(network);
 bot.connect();
 
-logger.stream({ start: -1 }).on('log', function(log) {
-	console.log(log);  
+logger.stream({ start: -1 }).on('error', function(error) {
+	console.log(error);  
 });
 
 var kind= '';
@@ -499,8 +516,18 @@ bot.on('!ugh', function (command){
     bot.say(command.channel, ugh.items[ughRand]);
 });
 bot.on('!qdb', function (command){
-    var randQDB = getRandomInt(1,642);
-    bot.say(command.channel, "http://qdb.zero9f9.com/quote.php?id="+randQDB );
+	request("http://qdb.zero9f9.com/", function (error, response, body) {
+		if (error || response.statusCode !== 200){
+			console.log(error, response.statusCode);
+			bot.say(command.channel, "ERROR: Something's not right with QDB. Maybe it's down.")
+		}else{
+
+			var $ = cheerio.load(body);
+			var match = $('.quoteIDBox a').attr('href');
+			var newMatch = match.replace( /^\D+/g, ''); 
+			qdbCheck(command, newMatch);
+		}
+	});
 });
 
 bot.on('!battlebonk', function (command) {

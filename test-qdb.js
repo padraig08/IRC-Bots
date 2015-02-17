@@ -1,12 +1,9 @@
 var request = require('request'),
 _ = require('lodash-node'),
 cheerio = require('cheerio');
-var number = '620';
 
 
-var Finalurl = "http://qdb.zero9f9.com/quote.php?id="+number;
 var mainUrl = "http://qdb.zero9f9.com/";
-
 request(mainUrl, function (error, response, body) {
 		if (error || response.statusCode !== 200){
 			console.log(error, response.statusCode);
@@ -15,23 +12,27 @@ request(mainUrl, function (error, response, body) {
 			var $ = cheerio.load(body);
 			var match = $('.quoteIDBox a').attr('href');
 			var newMatch = match.replace( /^\D+/g, ''); 
-
-			console.log(newMatch);
+			qdbCheck(newMatch);
 		}
 });
 
+function qdbCheck (qdbTop) {
 
 
-
-
-
-
-
-/*request(url, function (error, response, body) {
+var randQDB = getRandomInt(0,qdbTop);
+var qdbRandUrl = "http://qdb.zero9f9.com/quote.php?id="+randQDB;	
+request(qdbRandUrl, function (error, response, body) {
 		if (error || response.statusCode !== 200){
 			console.log(error, response.statusCode);
+			qdbCheck(qdbTop);
 		}else{
-
-			console.log(body);
+		 
+		 console.log(qdbRandUrl);
 		}
-});*/
+});
+}
+
+function getRandomInt(min,max){
+	var rando = Math.floor(Math.random() * (max - min +1)) + min;
+	return rando;
+}
