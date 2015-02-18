@@ -23,7 +23,7 @@ var irc = require('tennu'),
 	MsTranslator = require('mstranslator'),
 	latin = require('./node_modules/latinise/latinise'),
 	romaji = require('hepburn'),
-	hbombcount = require("countdown"),
+	hbombcount = require('countdown'),
 	twitter = require('twit'),
 	geo = require ('geocoder'),
 	c = require('irc-colors'),
@@ -286,7 +286,7 @@ function userTweet(command, userString) {
 	}
 	else {
 		var userArray = userString.split("|");
-		Tw.get('statuses/user_timeline', {screen_name: userArray[0], count:'200', exclude_replies:'true', include_rts:'false'}, function(err, data, response) {
+		Tw.get('statuses/user_timeline', {screen_name: userArray[0], count: '200', exclude_replies: 'true', include_rts:'false'}, function(err, data, response) {
 			if (err === null) {
 				if (!_.isEmpty(data[0])) {
 					if (_.contains(userString,"|")) {
@@ -351,7 +351,7 @@ function searchDaTweet (searchString, command) {
 							bot.say(command.channel, "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+ arrTweet +" (http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+")");
 						}
 						else {
-							bot.say(command.channel, "ERROR: You fucked this up duder.");
+							bot.say(command.channel, "ERROR: You messed this up duder.");
 							console.log(err);
 						}
 					}
@@ -379,7 +379,7 @@ function searchDaTweet (searchString, command) {
 				}
 			}
 			else {
-				bot.say(command.channel, "ERROR: You fucked this up duder.");
+				bot.say(command.channel, "ERROR: You messed this up duder.");
 				console.log(err);
 			}
 		});
@@ -387,9 +387,9 @@ function searchDaTweet (searchString, command) {
 }
 
 function randImg(kind, where) {
-		var subreddit = getRandomInt(0, kind.length - 1);
-		var urlBuild = urls.reddit + kind[subreddit] + "/random/.json";
-		subSelect(urlBuild, where);
+	var subreddit = getRandomInt(0, kind.length - 1);
+	var urlBuild = urls.reddit + kind[subreddit] + "/random/.json";
+	subSelect(urlBuild, where);
 }
 
 function randoSub(sub, where) {
@@ -459,7 +459,8 @@ bot.connect();
 bot.on("join", function (message) {
 	if (message.nickname == "Bonk_Bot") {
 		bot.say(message.channel, "BonkBot on-line... use !howtobonk for instructions and running modules");
-	} else {
+	}
+	else {
 		checkOP(message.nickname);
 	}
 });
@@ -486,6 +487,18 @@ bot.on("nick", function (message) {
 
 bot.on("error", function (message) {
 	console.log(message);
+});
+
+bot.on("!calc", function (command) {
+	var to_calc = command.args.join(" ");
+	if (to_calc === "" || to_calc === " ") {
+		bot.say(command.channel, "I can't calculate what isn't there.");
+	}
+	else {
+		var calc_func = new Function("inner_eval", "return inner_eval");
+		var result = calc_func(command.args);
+		bot.say(command.channel, result);
+	}
 });
 
 bot.on("!care", function (command) {
@@ -570,7 +583,8 @@ bot.on("!translate", function (command) {
 	var res = command.args.join(" ").split("/");
 	if (_.isEmpty(res[1])) {
 		detectThatShit(res[0], null, command);
-	} else {
+	}
+	else {
 		detectThatShit(res[0], res[1], command);
 	}
 });
@@ -581,7 +595,8 @@ bot.on("!engrish", function (command) {
 		var result = getRandomInt(0, translate.engrish.length - 1);
 		var resultMsg = translate.engrish[result];
 		engrishThatShit(res[0], resultMsg, command);
-	} else {
+	}
+	else {
 		engrishThatShit(res[0], res[1], command);
 	}
 });
@@ -602,7 +617,8 @@ bot.on("!rhyme", function (command) {
 	request(urlRhymeBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2) {
 			bot.say(command.channel, "Try another word, I've got no rhymes for you, ya heard?");
-		} else {
+		}
+		else {
 			var rhymeData = JSON.parse(body);
 			var randRhyme = getRandomInt(0, rhymeData[0].words.length - 1);
 			var randRhymePos = getRandomInt(0, rhymePos.items.length - 1);
@@ -621,7 +637,8 @@ bot.on("!define", function (command) {
 	request(urlDefineBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2) {
 			bot.say(command.channel, "Try another word, I've got no definitions for you.");
-		} else {
+		}
+		else {
 			var defineData = JSON.parse(body);
 			var randDefine = getRandomInt(0, defineData.length - 1);
 			bot.say(command.channel, defineData[randDefine].word + " [" + defineData[randDefine].partOfSpeech + "] : " + defineData[randDefine].text);
@@ -636,7 +653,8 @@ bot.on("!example", function (command) {
 	request(urlExampleBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2) {
 			bot.say(command.channel, "Try another word. I've got no examples for you.");
-		} else {
+		}
+		else {
 			var exampleData = JSON.parse(body);
 			var randExample = getRandomInt(0, exampleData.examples.length - 1);
 			bot.say(command.channel, exampleData.examples[randExample].text + " -" + exampleData.examples[randExample].year + ", " + exampleData.examples[randExample].title);
@@ -663,7 +681,8 @@ bot.on("!speak", function (command) {
 	request(urlAudioBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2) {
 			bot.say(command.channel, "Try another word. I have nothing to say to you.");
-		} else {
+		}
+		else {
 			var audioData = JSON.parse(body);
 			var randAudio = getRandomInt(0, audioData.length - 1);
 			bot.say(command.channel, audioData[randAudio].fileUrl);
@@ -678,7 +697,8 @@ bot.on("!pron", function (command) {
 	request(urlPronBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2) {
 			bot.say(command.channel, "Try another word. I've got no pronunciations for you, guy.");
-		} else {
+		}
+		else {
 			var pronData = JSON.parse(body);
 			var randPron = getRandomInt(0, pronData.length - 1);
 			bot.say(command.channel, pronData[randPron].raw);
