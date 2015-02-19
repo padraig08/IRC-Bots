@@ -394,23 +394,6 @@ function randoSub(sub, where){
 	}
 
 }
-
-function qdbCheck (command, qdbTop) {
-
-
-var randQDB = getRandomInt(0,qdbTop);
-var qdbRandUrl = "http://qdb.zero9f9.com/quote.php?id="+randQDB;	
-request(qdbRandUrl, function (error, response, body) {
-		if (error || response.statusCode !== 200){
-			console.log(error, response.statusCode);
-			qdbCheck(command, qdbTop);
-		}else{
-		 
-		 bot.say(command.channel, qdbRandUrl);
-		}
-});
-}
-
 function subSelect(urlBuild, where){
 
 	request(urlBuild, function (error, response, body) {
@@ -523,9 +506,10 @@ bot.on('!qdb', function (command){
 		}else{
 
 			var $ = cheerio.load(body);
-			var match = $('.quoteIDBox a').attr('href');
-			var newMatch = match.replace( /^\D+/g, ''); 
-			qdbCheck(command, newMatch);
+			var match = $('div.quoteIDBox a').map(function(i, el){ return $(this).attr('href') }).get();
+			var randQDB = getRandomInt(0, match.length-1);
+			var newMatch = "http://qdb.zero9f9.com/quote.php?id=" + match[randQDB].replace( /^\D+/g, ''); 
+			bot.say(command.channel, newMatch);
 		}
 	});
 });
