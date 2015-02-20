@@ -13,7 +13,7 @@ request(mainUrl, function (error, response, body) {
 			var match = $('div.quoteIDBox a').map(function(i, el){ return $(this).attr('href') }).get();
 			var randQDB = getRandomInt(0, match.length-1);
 			var newMatch = "http://qdb.zero9f9.com/quote.php?id=" + match[randQDB].replace( /^\D+/g, '');  
-			console.log(newMatch);
+			console.log(randQDB);
 		}
 });
 
