@@ -9,17 +9,20 @@ request(mainUrl, function (error, response, body) {
 			console.log(error, response.statusCode);
 		}else{
 			var $ = cheerio.load(body);
-			var match = $('.g a').attr('name');
-			console.log(match);
-			//var newMatch = match.replace( /^\D+/g, ''); 
-			//console.log(newMatch);
+			var hboTop = $('div#ind_msglist a').attr('name').replace( /^\D+/g, '');
+			var hboBase = 0;
+
+
+
+
+			hboBase = hboTop * 0.75;
+			hboCheck(hboTop, hboBase);
 		}
 });
 
-/*function qdbCheck (qdbTop) {
+function hboCheck (hboTop, hboBase) {
 
-
-var randQDB = getRandomInt(0,qdbTop);
+var randQDB = getRandomInt(hboBase,hboTop);
 var qdbRandUrl = "http://qdb.zero9f9.com/quote.php?id="+randQDB;	
 request(qdbRandUrl, function (error, response, body) {
 		if (error || response.statusCode !== 200){
