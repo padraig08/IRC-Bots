@@ -40,7 +40,7 @@ function hboCheck (hboTop, hboBase) {
 
 var randHBO = getRandomInt(hboBase,hboTop);
 //randHBO = 12153;
-var hboRandUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl?read="+randHBO;	
+var hboRandUrl = "http://google.com="+randHBO;	
 request(hboRandUrl, function (error, response, body) {
 		if (error || response.statusCode !== 200){
 			console.log(error, response.statusCode);

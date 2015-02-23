@@ -420,14 +420,15 @@ function hboCheck (command, avStatus, hboTop, hboBase) {
 var randHBO = getRandomInt(hboBase,hboTop);
 var hboRandUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl?read="+randHBO;	
 request(hboRandUrl, function (error, response, body) {
+console.log("Request, hboCheck");
 		if (error || response.statusCode !== 200){
-			console.log(error, response.statusCode);
-			hboCheck(command, avStatus,hboTop, hboBase);
+			console.log(error);
+			bot.say(command.channel, "ERROR: HBO is not responding. Claude must be clonking me.");
 		}else{
 			var $ = cheerio.load(body);
 			var hboInvalid = $('big big strong').text();
 		 	if(hboInvalid == "No Message!"){
-		 		console.log('bunk, re-routing')
+		 		console.log('bunk, re-routing');
 		 		hboCheck(command, avStatus, hboTop, hboBase);
 		 	}else{
 		 		var hboTitle = $('div.msg_headln').text();
