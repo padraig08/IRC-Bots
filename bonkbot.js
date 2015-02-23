@@ -422,13 +422,13 @@ var hboRandUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl?read="+randH
 request(hboRandUrl, function (error, response, body) {
 		if (error || response.statusCode !== 200){
 			console.log(error, response.statusCode);
-			hboCheck(hboTop, hboBase);
+			hboCheck(command, avStatus,hboTop, hboBase);
 		}else{
 			var $ = cheerio.load(body);
 			var hboInvalid = $('big big strong').text();
 		 	if(hboInvalid == "No Message!"){
 		 		console.log('bunk, re-routing')
-		 		hboCheck(hboTop, hboBase);
+		 		hboCheck(command, avStatus, hboTop, hboBase);
 		 	}else{
 		 		var hboTitle = $('div.msg_headln').text();
 		 		var hboTitleAlt = $('td.subjectcell b').text();
