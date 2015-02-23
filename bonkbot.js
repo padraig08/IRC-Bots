@@ -331,7 +331,7 @@ function searchDaTweet (searchString, command) {
 						var randTweet = getRandomInt(0,data.statuses.length-1);
 						var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
 						//console.log(arrTweet);
-						bot.say(command.channel, "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+ arrTweet +" (http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+")");
+						bot.say(command.channel, "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+ arrTweet +" ( http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+" )");
 					}else{
 						bot.say(command.channel, "ERROR: you fucked this up duder.");
 						console.log(err);		
@@ -356,7 +356,7 @@ function searchDaTweet (searchString, command) {
 				var randTweet = getRandomInt(0,data.statuses.length-1);
 				var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
 				console.log(arrTweet);
-				bot.say(command.channel, "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+arrTweet+" (http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+")");
+				bot.say(command.channel, "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+arrTweet+" ( http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+" )");
 			}else{
 					bot.say(command.channel, "No tweets found, that's pretty shitty.");	
 			}
@@ -415,7 +415,7 @@ function subSelect(urlBuild, where){
 	);
 }
 
-function hboCheck (command, hboTop, hboBase) {
+function hboCheck (command, avStatus, hboTop, hboBase) {
 
 var randHBO = getRandomInt(hboBase,hboTop);
 var hboRandUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl?read="+randHBO;	
@@ -434,13 +434,57 @@ request(hboRandUrl, function (error, response, body) {
 		 		var hboTitleAlt = $('td.subjectcell b').text();
 		 		var hboPoster = $('span.msg_poster').text();
 		 		var hboPosterAlt = $('td.postercell').first().text().replace("Posted By:","").replace(/<(.*?)>/g,"").trim();
-				var randAV = getRandomInt(0, av.items.length-1);		
-		 		bot.say(command.channel, hboTitle+ hboTitleAlt+ " ("+hboPoster+hboPosterAlt+") "+ hboRandUrl);
-		 		bot.say(command.channel, av.items[randAV].replace(/<user>/gi,hboPoster+hboPosterAlt)); 
+
+		 		if(avStatus == true){
+					var randAV = getRandomInt(0, av.items.length-1);
+					bot.say(command.channel,hboRandUrl);
+		 			bot.say(command.channel, av.items[randAV].replace(/<user>/gi,hboPoster+hboPosterAlt)); 
+		 		}else{
+					bot.say(command.channel, hboTitle+ hboTitleAlt+ " ("+hboPoster+hboPosterAlt+") "+ hboRandUrl);
+		 		}
+		 		
+						
+		 		 
 		 	}
 		 
 		}
 });
+}
+
+function hboRando (command, avStatus){
+
+	var hboUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl";
+request(hboUrl, function (error, response, body) {
+		if (error || response.statusCode !== 200){
+			console.log(error, response.statusCode);
+		}else{
+			var $ = cheerio.load(body);
+			var hboTop = $('div#ind_msglist a').attr('name').replace( /^\D+/g, '');
+			var hboBase = 0;
+			switch (command.args.join(" ")) {
+    						case 'newest':
+    							hboBase = Math.round(hboTop * 0.90);
+        						hboCheck(command, avStatus, hboTop, hboBase);
+        					break;
+    						case 'old':
+    							hboBase = Math.round(hboTop * 0.50);
+    							hboTop = Math.round(hboTop * 0.89);
+        						hboCheck(command,avStatus, hboTop, hboBase);
+        					break;
+        					case 'OLD':
+        						hboBase = Math.round(hboTop * 0.11);
+    							hboTop = Math.round(hboTop * 0.49);
+        						hboCheck(command,avStatus, hboTop, hboBase);
+        					break;
+    						case 'O L D':
+    							hboTop = Math.round(hboTop * 0.10);
+        						hboCheck(command,avStatus, hboTop, hboBase);
+        					break;
+    						default:
+        						hboCheck(command,avStatus, hboTop, hboBase);
+        					}
+        				}
+        			});
 }
 
 /*
@@ -603,40 +647,13 @@ bot.on('error', function (message){
 });
 
 bot.on('!av', function (command){
-
-var hboUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl";
-request(hboUrl, function (error, response, body) {
-		if (error || response.statusCode !== 200){
-			console.log(error, response.statusCode);
-		}else{
-			var $ = cheerio.load(body);
-			var hboTop = $('div#ind_msglist a').attr('name').replace( /^\D+/g, '');
-			var hboBase = 0;
-			switch (command.args.join(" ")) {
-    						case 'newest':
-    							hboBase = Math.round(hboTop * 0.90);
-        						hboCheck(command, hboTop, hboBase);
-        					break;
-    						case 'old':
-    							hboBase = Math.round(hboTop * 0.50);
-    							hboTop = Math.round(hboTop * 0.89);
-        						hboCheck(command, hboTop, hboBase);
-        					break;
-        					case 'OLD':
-        						hboBase = Math.round(hboTop * 0.11);
-    							hboTop = Math.round(hboTop * 0.49);
-        						hboCheck(command, hboTop, hboBase);
-        					break;
-    						case 'O L D':
-    							hboTop = Math.round(hboTop * 0.10);
-        						hboCheck(command, hboTop, hboBase);
-        					break;
-    						default:
-        						hboCheck(command, hboTop, hboBase);
-        					}
-        				}
-        			});
+	hboRando(command,true);
 });
+
+bot.on('!hbo', function (command){
+	hboRando(command,false);
+});
+
 
 bot.on('!rhyme', function (command){
 		var rhymeWord = command.args.join("");
