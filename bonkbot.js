@@ -415,6 +415,34 @@ function subSelect(urlBuild, where){
 	);
 }
 
+function hboCheck (command, hboTop, hboBase) {
+
+var randHBO = getRandomInt(hboBase,hboTop);
+var hboRandUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl?read="+randHBO;	
+request(hboRandUrl, function (error, response, body) {
+		if (error || response.statusCode !== 200){
+			console.log(error, response.statusCode);
+			hboCheck(hboTop, hboBase);
+		}else{
+			var $ = cheerio.load(body);
+			var hboInvalid = $('big big strong').text();
+		 	if(hboInvalid == "No Message!"){
+		 		console.log('bunk, re-routing')
+		 		hboCheck(hboTop, hboBase);
+		 	}else{
+		 		var hboTitle = $('div.msg_headln').text();
+		 		var hboTitleAlt = $('td.subjectcell b').text();
+		 		var hboPoster = $('span.msg_poster').text();
+		 		var hboPosterAlt = $('td.postercell').first().text().replace("Posted By:","").replace(/<(.*?)>/g,"").trim();
+				var randAV = getRandomInt(0, av.items.length-1);		
+		 		bot.say(command.channel, hboTitle+ hboTitleAlt+ " ("+hboPoster+hboPosterAlt+") "+ hboRandUrl);
+		 		bot.say(command.channel, av.items[randAV].replace(/<user>/gi,hboPoster+hboPosterAlt)); 
+		 	}
+		 
+		}
+});
+}
+
 /*
 var print = console.log.bind(console);
 
@@ -575,10 +603,39 @@ bot.on('error', function (message){
 });
 
 bot.on('!av', function (command){
-	var randHBO = getRandomInt(1,1201210);
-	var randAV = getRandomInt(0, av.items.length-1);
-	bot.say(command.channel,"http://carnage.bungie.org/haloforum/halo.forum.pl?read="+randHBO);
-	bot.say(command.channel, av.items[randAV]);
+
+var hboUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl";
+request(hboUrl, function (error, response, body) {
+		if (error || response.statusCode !== 200){
+			console.log(error, response.statusCode);
+		}else{
+			var $ = cheerio.load(body);
+			var hboTop = $('div#ind_msglist a').attr('name').replace( /^\D+/g, '');
+			var hboBase = 0;
+			switch (command.args.join(" ")) {
+    						case 'newest':
+    							hboBase = Math.round(hboTop * 0.90);
+        						hboCheck(command, hboTop, hboBase);
+        					break;
+    						case 'old':
+    							hboBase = Math.round(hboTop * 0.50);
+    							hboTop = Math.round(hboTop * 0.89);
+        						hboCheck(command, hboTop, hboBase);
+        					break;
+        					case 'OLD':
+        						hboBase = Math.round(hboTop * 0.11);
+    							hboTop = Math.round(hboTop * 0.49);
+        						hboCheck(command, hboTop, hboBase);
+        					break;
+    						case 'O L D':
+    							hboTop = Math.round(hboTop * 0.10);
+        						hboCheck(command, hboTop, hboBase);
+        					break;
+    						default:
+        						hboCheck(command, hboTop, hboBase);
+        					}
+        				}
+        			});
 });
 
 bot.on('!rhyme', function (command){
