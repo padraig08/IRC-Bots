@@ -3,8 +3,6 @@ botData = require('./botData.json'),
 regex = require('./regex.js');
 
 var countdown = botData.countdown,
-	Tweet = botData.Tweet,
-	qdb = botData.qdb,
 	translate = botData.translate,
 	urls = botData.urls,
 	dmx = botData.dmx,
@@ -14,13 +12,13 @@ var countdown = botData.countdown,
 	randomMsg = botData.randomMsg,
 	av = botData.av,
 	rhymePos = botData.rhymePos,
-	word = botData.word
+	word = botData.word,
 	tricked = botData.tricked;
 
 // Get the lib
 var irc = require('tennu'),
 winston = require('winston'),
-bonksync = require('async'),
+async = require('async'),
 network = require('./netConfig.json'),
 request = require('request'),
 _ = require('lodash-node'),
@@ -40,7 +38,7 @@ util = require('util');
 var letterPattern = new RegExp('[a-zA-Z]');
 var requests = 0;
 var acObj = {};
-var synArray = [];
+//var synArray = [];
 
 var Tw = new twitter({
     consumer_key: botConfig.twConfig.consumer_key,
@@ -61,14 +59,13 @@ var logger = new (winston.Logger)({
     ]
   });
 
-var clonkometer = 0;
-var offQuestion = false;
+//var clonkometer = 0;
+//var offQuestion = false;
 var nameList = [];
 var stripOP = '^[@&#+$~%!*?](.*)$';
 
 function getRandomInt(min,max){
-	var rando = Math.floor(Math.random() * (max - min +1)) + min;
-	return rando;
+	return Math.floor(Math.random() * (max - min +1)) + min;
 }
 
 function checkOP(name){
@@ -102,7 +99,7 @@ function detectThatShit(string, to, command){
 
 	if(string.charAt(string.length - 1) == "~"){
 	string = romaji.toHiragana(string);
-	params = { text: string };
+	var params = { text: string };
 }else{
 	params = { text: string	};
 }
@@ -120,7 +117,7 @@ function detectThatShit(string, to, command){
 }
 
 function translateThatShit(string, to, from, command){
-	params = { 
+	var params = {
       text: string
       , from: from
       , to: to
@@ -154,8 +151,7 @@ params1 = {
 
 transClient.initialize_token(function(keys){
 			transClient.translate(params1, function(err, data) {
-			var engrish1 = data;
-			params2 = { text: engrish1, from: to, to: 'en'};
+			params2 = { text: data, from: to, to: 'en'};
 			transClient.translate(params2, function(err, data) {
 				bot.say(command.channel,"Engrish: "+data.latinise());
 			});
@@ -207,7 +203,7 @@ function syncAcro(command, acLetter){
 	acObj = {};
 	requests = 0;
 
-	bonksync.each(acLetter, function(n, callback) {
+	async.each(acLetter, function(n, callback) {
 		requests++;
 		  if (requests == 1){
 		   urlAcroBuild = word.searchUrl+word.acroFirstUrl+word.apiUrl;
@@ -229,7 +225,7 @@ function syncSyn(command){
 	synObj = {};
 	requests = 0;
 
-	bonksync.each(command.args, function(n, callback) {
+	async.each(command.args, function(n, callback) {
 	requests++;
 	//console.log(command.args);
 		if (specMatch.test(n) || numMatch.test(n)){
@@ -258,9 +254,9 @@ function timeToBonk(command)
 	var attackerMsg = randomMsg.attacker[attacker];
 
 	
-	clonk = c.brown("Battlebonk results: " + calcMsg + target+"'s clonkers " + resultMsg + " by " + from+"'s " + attackerMsg);
+	var clonk = c.brown("Battlebonk results: " + calcMsg + target+"'s clonkers " + resultMsg + " by " + from+"'s " + attackerMsg);
 	bot.say(command.channel, clonk);
-	var recalcColor = Math.round((calc * (randomMsg.colors.length - 1)) /100);
+	//var recalcColor = Math.round((calc * (randomMsg.colors.length - 1)) /100);
 	var recalcAssess = Math.round((calc *(randomMsg.assess.length - 1)) /100);
 	//var assessColor = "c."+randomMsg.colors[recalcColor];
 	var assessment = randomMsg.assess[recalcAssess];
@@ -659,7 +655,7 @@ bot.on('!hbo', function (command){
 bot.on('!rhyme', function (command){
 		var rhymeWord = command.args.join("");
 		var urlRhymeBuild = word.wordUrl+word.rhymeUrl+word.apiUrl;
-		var urlRhymeBuild = urlRhymeBuild.replace(/<word>/gi, rhymeWord).replace(/<api>/gi, word.api);
+		urlRhymeBuild = urlRhymeBuild.replace(/<word>/gi, rhymeWord).replace(/<api>/gi, word.api);
 
 	request(urlRhymeBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2){
@@ -678,7 +674,7 @@ bot.on('!rhyme', function (command){
 bot.on('!define', function (command){
 	var defineWord = command.args.join("");
 	var urlDefineBuild = word.wordUrl+word.defineUrl+word.apiUrl;
-	var urlDefineBuild = urlDefineBuild.replace(/<word>/gi, defineWord).replace(/<api>/gi, word.api);
+	urlDefineBuild = urlDefineBuild.replace(/<word>/gi, defineWord).replace(/<api>/gi, word.api);
 
 	request(urlDefineBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2){
@@ -694,7 +690,7 @@ bot.on('!define', function (command){
 bot.on('!example', function (command){
 var exampleWord = command.args.join("");
 var urlExampleBuild = word.wordUrl+word.exampleUrl+word.apiUrl;
-var urlExampleBuild = urlExampleBuild.replace(/<word>/gi, exampleWord).replace(/<api>/gi, word.api);
+urlExampleBuild = urlExampleBuild.replace(/<word>/gi, exampleWord).replace(/<api>/gi, word.api);
 request(urlExampleBuild, function (error, response, body) {
 	if (error || response.statusCode !== 200 || body.length <= 2){
 		bot.say(command.channel,'Try another word. I got no examples for you, jack.');
@@ -740,7 +736,7 @@ bot.on('!syn', function (command){
 bot.on('!speak', function (command){
 	var audioWord = command.args.join("");
 	var urlAudioBuild = word.wordUrl+word.audioUrl+word.apiUrl;
-	var urlAudioBuild = urlAudioBuild.replace(/<word>/gi, audioWord).replace(/<api>/gi, word.api);
+	urlAudioBuild = urlAudioBuild.replace(/<word>/gi, audioWord).replace(/<api>/gi, word.api);
 	request(urlAudioBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2){
 			bot.say(command.channel,'Try another word. I got nothing to say to you, fucko.');
@@ -755,7 +751,7 @@ bot.on('!speak', function (command){
 bot.on('!pron', function (command){
 	var pronWord = command.args.join("");
 	var urlPronBuild = word.wordUrl+word.pronUrl+word.apiUrl;
-	var urlPronBuild = urlPronBuild.replace(/<word>/gi, pronWord).replace(/<api>/gi, word.api);
+	urlPronBuild = urlPronBuild.replace(/<word>/gi, pronWord).replace(/<api>/gi, word.api);
 	request(urlPronBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2){
 			bot.say(command.channel,'Try another word. I got no pronunciations for you, guy.');
