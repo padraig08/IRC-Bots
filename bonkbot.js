@@ -37,8 +37,6 @@ util = require('util');
 
 var letterPattern = new RegExp('[a-zA-Z]');
 var requests = 0;
-var acObj = {};
-//var synArray = [];
 
 var Tw = new twitter({
     consumer_key: botConfig.twConfig.consumer_key,
@@ -59,39 +57,17 @@ var logger = new (winston.Logger)({
     ]
   });
 
-//var clonkometer = 0;
-//var offQuestion = false;
-var nameList = [];
-var stripOP = '^[@&#+$~%!*?](.*)$';
-
 function getRandomInt(min,max){
 	return Math.floor(Math.random() * (max - min +1)) + min;
 }
 
-function checkOP(name){
-	
-	var opPattern = new RegExp(stripOP);
-	if (opPattern.test(name)){
-		name = name.slice(1);
-	}
-	var newName = { 'name': name };
-	nameList.push(newName);
-}
-
 function quothTheHyo(command){
-		var hyoString = command.args.join(" ");
         var hyoChosenFact = hyokin.items[getRandomInt(0,hyokin.items.length-1)];
-        var person = hyoString;
+        var person = command.args.join(" ");
  
-        if (_.isEmpty(hyoString)){
-                person = 'Hyokin';
+        if (_.isEmpty(person)) {
+            person = 'Hyokin';
         }
-
-        if (hyoChosenFact.indexOf("<h4time>") > -1){
-        	hyoChosenFact = hyoChosenFact.replace(/<h4time>/gi, hbombcount(null ,new Date(2012, 10, 6)).toString());
-        }
- 
-        //ideally the "%hyo" keyword should be defined elsewhere and referenced via variable here
         bot.say(command.channel, '>' + hyoChosenFact.replace(/Hyokin/gi, person));
 }
 
@@ -484,23 +460,13 @@ request(hboUrl, function (error, response, body) {
         			});
 }
 
-/*
+
 var print = console.log.bind(console);
 
-var Logger = function () {
-    return {
-        debug: print,
-        info: print,
-        notice: print,
-        warning: print,
-        crit: print,
-        alert: print,
-        emerg: print
-    }
-};
-*/
+//Start bot//
 
 var bot = irc.Client(network);
+
 bot.connect();
 
 logger.stream({ start: -1 }).on('error', function(error) {
@@ -594,25 +560,25 @@ bot.on('!hyokin', function (command) {
 });
 
 bot.on('!img', function (command) {
-    kind = urls.subs.img;
-    randImg(kind, command.channel);
+    randImg(urls.subs.img, command.channel);
 });
 
 bot.on('!gif', function (command){
-    kind = urls.subs.gif;
-    randImg(kind, command.channel);
+    randImg(urls.subs.gif, command.channel);
 });
 
 bot.on('!rando', function (command){
-    randoSub(command.args[0], command.channel);
+    randoSub(command.args.join(''), command.channel);
 });
 
 bot.on('!translate', function (command) {
     var res = command.args.join(" ").split("/");
-    if(_.isEmpty(res[1])){
-        detectThatShit(res[0], null ,command);
+    var setLanguage = res[1];
+    var translationString = res[0];
+    if(_.isEmpty(setLanguage)){
+        detectThatShit(translationString, null ,command);
     }else{
-        detectThatShit(res[0],res[1], command);
+        detectThatShit(translationString, setLanguage, command);
     }
 });
 
@@ -639,9 +605,7 @@ bot.on('!tweet', function (command){
     searchDaTweet(command.args.join(" "), command);
 });
 
-bot.on('error', function (message){
-	console.log(message);
-});
+
 
 bot.on('!av', function (command){
 	hboRando(command,true);
@@ -782,4 +746,9 @@ bot.on('!tweep', function (command){
 bot.on('!tricked', function (command){
     var trixRand = getRandomInt(0,tricked.items.length-1);
     bot.say(command.channel, ">tfw "+tricked.items[trixRand]);
+});
+
+
+bot.on('error', function (message){
+    print(message);
 });
