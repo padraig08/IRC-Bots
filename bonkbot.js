@@ -51,8 +51,15 @@ var transClient = new MsTranslator({
 
 var logger = new (winston.Logger)({
     transports: [
-      new (winston.transports.Console)({ level: 'error' }),
-      new (winston.transports.File)({ filename: 'irc-log.log' })
+        new (winston.transports.Console)({ level: "debug"}),
+        new (winston.transports.Console)({level:"info"}),
+        new (winston.transports.Console)({level:"notice"}),
+        new (winston.transports.Console)({level:"warn"}),
+        new (winston.transports.Console)({level:"error"}),
+        new (winston.transports.Console)({level: "crit"}),
+        new (winston.transports.Console)({level:"alert"}),
+        new (winston.transports.Console)({level: "emerg" }),
+        new (winston.transports.File)({ filename: 'irc-log.log' })
     ]
   });
 
