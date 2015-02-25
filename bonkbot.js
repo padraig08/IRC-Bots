@@ -1,6 +1,5 @@
 var botConfig = require('./botConfig.json'),
-botData = require('./botData.json'),
-regex = require('./regex.js');
+botData = require('./botData.json');
 
 var countdown = botData.countdown,
 	translate = botData.translate,
@@ -426,13 +425,13 @@ console.log("Request, hboCheck");
 
 function hboRando (command, avStatus){
 
-	var hboUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl";
-request(hboUrl, function (error, response, body) {
+request("http://carnage.bungie.org/haloforum/halo.forum.pl", function (error, response, body) {
 		if (error || response.statusCode !== 200){
 			console.log(error, response.statusCode);
 		}else{
 			var $ = cheerio.load(body);
 			var hboTop = $('div#ind_msglist a').attr('name').replace( /^\D+/g, '');
+            hboTop = parseInt(hboTop, 10);
 			var hboBase = 0;
 			switch (command.args.join(" ")) {
     						case 'newest':
