@@ -2,9 +2,276 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="460825e1-f0f2-47b0-9f6a-19f85be2b5db" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bonkbot.js" afterPath="$PROJECT_DIR$/bonkbot.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/irc-log.log" afterPath="$PROJECT_DIR$/irc-log.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test-rand.js" afterPath="$PROJECT_DIR$/test-rand.js" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\bin\tennu.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\lib\response.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\API.md" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\CONTRIBUTING.md" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\Gruntfile.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\LICENSE" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\README.md" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\benchmark\package.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\bower.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\bundle.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\changelog.md" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\any.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\assert.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\async.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\bluebird.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\call_get.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\cancel.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\captured_trace.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\catch_filter.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\direct_resolve.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\errors.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\errors_api_rejection.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\es5.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\filter.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\finally.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\generators.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\global.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\map.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\nodeify.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\progress.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\promise.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\promise_array.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\promise_inspection.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\promise_resolver.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\promise_spawn.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\promisify.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\properties_promise_array.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\props.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\queue.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\race.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\reduce.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\schedule.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\settle.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\settled_promise_array.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\some.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\some_promise_array.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\synchronous_inspection.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\thenables.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\timers.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\main\util.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\any.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\assert.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\async.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\bluebird.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\call_get.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\cancel.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\captured_trace.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\catch_filter.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\direct_resolve.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\errors.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\errors_api_rejection.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\es5.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\filter.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\finally.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\generators.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\global.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\map.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\nodeify.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\progress.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\promise.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\promise_array.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\promise_inspection.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\promise_resolver.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\promise_spawn.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\promisify.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\properties_promise_array.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\props.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\queue.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\race.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\reduce.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\schedule.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\settle.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\settled_promise_array.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\some.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\some_promise_array.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\synchronous_inspection.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\thenables.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\timers.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\js\zalgo\util.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\package.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\after-events\node_modules\bluebird\zalgo.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\chunk\.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\chunk\package.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\chunk\readme.md" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\chunk\src\chunk.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\node_modules\chunk\test\tests.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\bin\tennu.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\lib\bisubscriber.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\lib\chunked-message-parser.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\lib\client.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\lib\command-handler.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\lib\events.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\lib\index.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\lib\irc-map.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\lib\listener.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\lib\make-toString.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\lib\message-handler.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\lib\message.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\lib\nickname-tracker.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\lib\null-logger.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\lib\output-socket.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\lib\response.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugin\action\index.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugin\action\join.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugin\channel.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugin\help.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugin\server.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugin\startup.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugin\user.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugins\action\index.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugins\action\join.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugins\channel.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugins\help.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugins\lifecycle.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugins\lifetime.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugins\server.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugins\startup.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\plugins\user.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\client.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\client.sjs.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\command-handler.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\command-handler.sjs.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\integration-lifetime.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\integration-lifetime.sjs.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\integration\client.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\integration\lifecycle.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\message-handler.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\message-handler.sjs.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\message.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\message.sjs.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\output-socket.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\output-socket.sjs.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\plugin-action.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\plugin-help.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\plugin-help.sjs.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\plugin-lifetime.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\plugin-lifetime.sjs.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\plugin-user.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\plugin-user.sjs.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\plugin\help.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\plugin\lifecycle.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\plugin\user.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\response.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\subscriber.js.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\sourcemaps\test\subscriber.sjs.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\tennu_plugins\action\index.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\tennu_plugins\action\join.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Projects\IRC-Bots\node_modules\tennu\tennu_plugins\startup.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/.npmignore" afterPath="$PROJECT_DIR$/node_modules/tennu/.npmignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/irc-socket/.npmignore" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/irc-socket/.npmignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/IRC-Bots.iml" afterPath="$PROJECT_DIR$/.idea/IRC-Bots.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/README.md" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/irc-socket/README.md" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/irc-socket/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/commander/Readme.md" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/commander/Readme.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/any.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/any.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/any.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/any.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/assert.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/assert.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/assert.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/assert.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/async.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/async.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/async.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/async.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/lib/bisubscriber.js" afterPath="$PROJECT_DIR$/node_modules/tennu/lib/bisubscriber.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/call_get.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/call_get.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/call_get.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/call_get.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/cancel.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/cancel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/cancel.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/cancel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/captured_trace.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/captured_trace.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/captured_trace.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/captured_trace.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/catch_filter.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/catch_filter.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/catch_filter.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/catch_filter.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/tennu_plugins/channel.js" afterPath="$PROJECT_DIR$/node_modules/tennu/tennu_plugins/channel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/lib/chunked-message-parser.js" afterPath="$PROJECT_DIR$/node_modules/tennu/lib/chunked-message-parser.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/lib/client.js" afterPath="$PROJECT_DIR$/node_modules/tennu/lib/client.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/lib/command-handler.js" afterPath="$PROJECT_DIR$/node_modules/tennu/lib/command-handler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/direct_resolve.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/direct_resolve.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/direct_resolve.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/direct_resolve.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/es5.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/es5.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/es5.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/es5.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/lib/events.js" afterPath="$PROJECT_DIR$/node_modules/tennu/lib/events.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/filter.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/filter.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/filter.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/filter.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/finally.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/finally.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/finally.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/finally.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/generators.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/generators.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/generators.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/generators.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/global.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/global.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/global.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/global.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/tennu_plugins/help.js" afterPath="$PROJECT_DIR$/node_modules/tennu/tennu_plugins/help.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/lib/index.js" afterPath="$PROJECT_DIR$/node_modules/tennu/lib/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/commander/index.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/commander/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/tennu-plugins/lib/index.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/tennu-plugins/lib/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/lib/irc-map.js" afterPath="$PROJECT_DIR$/node_modules/tennu/lib/irc-map.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/irc-socket/irc-socket.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/irc-socket/irc-socket.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/lib/listener.js" afterPath="$PROJECT_DIR$/node_modules/tennu/lib/listener.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/lib/make-toString.js" afterPath="$PROJECT_DIR$/node_modules/tennu/lib/make-toString.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/map.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/map.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/map.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/map.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/lib/message-handler.js" afterPath="$PROJECT_DIR$/node_modules/tennu/lib/message-handler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/lib/message.js" afterPath="$PROJECT_DIR$/node_modules/tennu/lib/message.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/lib/nickname-tracker.js" afterPath="$PROJECT_DIR$/node_modules/tennu/lib/nickname-tracker.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/nodeify.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/nodeify.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/nodeify.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/nodeify.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/lib/null-logger.js" afterPath="$PROJECT_DIR$/node_modules/tennu/lib/null-logger.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/package.json" afterPath="$PROJECT_DIR$/node_modules/tennu/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/after-events/package.json" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/after-events/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/package.json" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/commander/package.json" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/commander/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/irc-message/package.json" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/irc-message/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/irc-socket/package.json" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/irc-socket/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/lodash/package.json" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/lodash/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/simplesets/package.json" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/simplesets/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/tennu-plugins/package.json" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/tennu-plugins/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/progress.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/progress.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/progress.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/progress.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/promise.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/promise.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/promise.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/promise.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/promise_array.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/promise_array.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/promise_array.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/promise_array.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/promise_resolver.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/promise_resolver.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/promise_resolver.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/promise_resolver.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/promise_spawn.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/promise_spawn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/promise_spawn.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/promise_spawn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/promisify.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/promisify.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/promisify.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/promisify.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/properties_promise_array.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/properties_promise_array.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/properties_promise_array.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/properties_promise_array.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/props.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/props.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/props.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/props.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/queue.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/queue.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/queue.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/queue.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/race.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/race.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/race.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/race.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/readme.md" afterPath="$PROJECT_DIR$/node_modules/tennu/readme.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/tennu-plugins/readme.md" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/tennu-plugins/readme.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/reduce.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/reduce.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/reduce.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/reduce.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/schedule.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/schedule.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/schedule.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/schedule.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/tennu_plugins/server.js" afterPath="$PROJECT_DIR$/node_modules/tennu/tennu_plugins/server.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/settle.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/settle.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/settle.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/settle.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/settled_promise_array.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/settled_promise_array.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/settled_promise_array.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/settled_promise_array.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/some.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/some.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/some.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/some.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/some_promise_array.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/some_promise_array.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/some_promise_array.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/some_promise_array.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/synchronous_inspection.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/synchronous_inspection.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/synchronous_inspection.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/synchronous_inspection.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/.bin/tennu.cmd" afterPath="$PROJECT_DIR$/node_modules/.bin/tennu.cmd" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/.bin/tennu" afterPath="$PROJECT_DIR$/node_modules/.bin/tennu" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/thenables.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/thenables.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/thenables.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/thenables.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/timers.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/timers.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/timers.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/timers.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/tennu_plugins/user.js" afterPath="$PROJECT_DIR$/node_modules/tennu/tennu_plugins/user.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/util.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/main/util.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/util.js" afterPath="$PROJECT_DIR$/node_modules/tennu/node_modules/bluebird/js/zalgo/util.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="IRC-Bots.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,7 +308,7 @@
       <file leaf-file-name="test-rand.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test-rand.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
+            <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="442">
               <caret line="18" column="20" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
               <folding />
             </state>
@@ -51,18 +318,28 @@
       <file leaf-file-name="irc-log.log" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/irc-log.log">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
+            <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="289">
               <caret line="8" column="75" selection-start-line="8" selection-start-column="75" selection-end-line="8" selection-end-column="75" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.27546296" vertical-offset="0" max-vertical-offset="935">
-              <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
+              <caret line="51" column="13" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="754">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -98,10 +375,10 @@
       <list>
         <option value="$PROJECT_DIR$/botData.json" />
         <option value="$PROJECT_DIR$/netConfig.json" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/bonkbot.js" />
         <option value="$PROJECT_DIR$/irc-log.log" />
         <option value="$PROJECT_DIR$/test-rand.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -109,10 +386,10 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="263" />
-    <option name="y" value="29" />
-    <option name="width" value="1400" />
-    <option name="height" value="1000" />
+    <option name="x" value="1592" />
+    <option name="y" value="-8" />
+    <option name="width" value="1616" />
+    <option name="height" value="916" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -242,27 +519,27 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="263" y="29" width="1400" height="1000" extended-state="0" />
-    <editor active="true" />
+    <frame x="1592" y="-8" width="1616" height="916" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21531792" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286517" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -286,6 +563,102 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/bonkbot.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="629" max-vertical-offset="13005">
+          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="63" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-rand.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="442">
+          <caret line="18" column="20" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/irc-log.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="289">
+          <caret line="8" column="75" selection-start-line="8" selection-start-column="75" selection-end-line="8" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="100">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/netConfig.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="238">
+          <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/botData.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4131" max-vertical-offset="6800">
+          <caret line="260" column="124" selection-start-line="260" selection-start-column="124" selection-end-line="260" selection-end-column="124" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bonkbot.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="629" max-vertical-offset="13005">
+          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="63" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-rand.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="442">
+          <caret line="18" column="20" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/irc-log.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="289">
+          <caret line="8" column="75" selection-start-line="8" selection-start-column="75" selection-end-line="8" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="100">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/netConfig.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="238">
+          <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/botData.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4131" max-vertical-offset="6800">
+          <caret line="260" column="124" selection-start-line="260" selection-start-column="124" selection-end-line="260" selection-end-column="124" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/bonkbot.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="7667" max-vertical-offset="12886">
@@ -439,8 +812,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27546296" vertical-offset="0" max-vertical-offset="935">
-          <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
+          <caret line="51" column="13" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="780">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
