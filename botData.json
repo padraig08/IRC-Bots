@@ -1,5 +1,4 @@
 {
-
 	"word": {
 		"wordUrl" : "http://api.wordnik.com:80/v4/word.json/<word>/",
 		"exampleUrl" : "examples?includeDuplicates=false&useCanonical=false&skip=0&limit=100",
@@ -149,8 +148,8 @@
 	"urls": {
 		"reddit": "http://www.reddit.com/r/",
 		"subs": {
-			"img": ["pics", "photoshopbattles", "OldSchoolCool", "dataisbeautiful", "gunpla", "DIY", "AnimalsBeingJerks", "thathappened", "picturesofiansleeping", "notinteresting"],
-			"gif": ["gifs", "combinedgifs", "blackpeoplegifs", "whitepeoplegifs", "animegifs", "shittyreactiongifs", "chemicalreactiongifs", "reactiongifs", "kramergifs", "georgegifs", "perfectLoops", "HighQualityGifs", "SuperSaiyanGifs", "ProWrestlingGIFs"]
+			"img": ["pics", "photoshopbattles", "OldSchoolCool", "dataisbeautiful", "DIY", "AnimalsBeingJerks", "thathappened"],
+			"gif": ["gifs", "combinedgifs", "blackpeoplegifs", "whitepeoplegifs", "animegifs", "shittyreactiongifs", "chemicalreactiongifs", "reactiongifs", "kramergifs", "georgegifs", "perfectLoops", "HighQualityGifs"]
 		},
 	"commands": ["img", "gif", "howtobonk", "Clonk", "rando"]
 	},
@@ -216,11 +215,10 @@
   			"https://www.youtube.com/watch?v=mEqleusCerc"]
 	},
 
-
 	"randomMsg": {
 		"attacker": ["Armada",
 					"Invisibrutes",
-					"Titan nicknamed \"Mr.Bonkle\"",
+					"Titan nicknamed \"Mr. Bonkle\"",
 					"Fisher Price Care Bear War Hero Automaton",
 					"Prince of All Saiyans",
 					"Mechanized 1998 Harlem Globetrotters",
@@ -238,6 +236,7 @@
 					"TDVictoryLap",
 					"Victory Swole",
 					"Captain Battlebonk",
+					"Dr. Prof. Vagueness, DDS",
 					"IRC Avengers",
 					"Tumblr Mercenaries",
 					"Sonic fanfic",
@@ -253,24 +252,25 @@
 					"Gorillas wearing jetpacks with no concept of how to use a jetpack",
 					"Drill, the drill that will pierce the heavens",
 					"J-Pop Kill Squad",
-					"Regulation issued Bonkgiver",
+					"Regulation-issued Bonkgiver",
 					"Five Finger Slam Bringer",
 					"MAKUROSU",
-					"Intense batch of Smellikinesis",
+					"intense batch of Smellikinesis",
 					"good whiff",
-					"Production-ready Gak",
+					"production-ready Gak",
 					"several hundred nuclear warheads",
 					"Weaponized Dubstep",
 					"Vaguemind",
 					"MAXIMUM OGREDRIVE",
 					"Slowjam feat. Lionel Richie",
 					"Tom Cruise Missiles",
-					"Squadron of War Corgis (also known as Worgis)",
+					"squadron of War Corgis (also known as Worgis)",
 					"Sweet Hand of Irony",
 					"guns, because it's too close for missiles",
 					"elder god kept as a pet",
 					"sock with a bar of soap in it",
-					"particular set of skills"],
+					"particular set of skills",
+					"titanium piano dropped from orbit"],
 		"result": ["were taken out to pasture",
 					"have been irrevocably rekt",
 					"were slammed, jammed, thank you maam'd",
@@ -302,7 +302,8 @@
 					"were completely decimated",
 					"have lived up to the name \"live by the bonk, die by the bonk\"",
 					"were bombed back to the stone age, and then bombed forward into the bronze age",
-					"were beaten up, down, and all around"],
+					"were beaten up, down, and all around",
+					"were prevented from diving lostu mind"],
 		"assess": ["#cantbonkthis",
 					"Whadda ya gonna do, drop a bonk on me?",
 					"About Bonking Time",
