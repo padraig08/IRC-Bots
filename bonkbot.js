@@ -510,7 +510,10 @@ bot.on("!calc", function (command) {
 		bot.say(command.channel, "I can't calculate what isn't there.");
 	}
 	else {
-		var calc_func = new Function("inner_eval", "return inner_eval");
+		for (var check = 0; check < to_calc.length; check++) {
+			// check for characters other than spaces, digits, decimal point, and operators
+		}
+		var calc_func = new Function("inner_eval", "return inner_eval;");
 		var result = calc_func(command.args);
 		bot.say(command.channel, result);
 	}
