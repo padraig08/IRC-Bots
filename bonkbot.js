@@ -22,7 +22,7 @@ network = require('./netConfig.json'),
 request = require('request'),
 _ = require('lodash-node'),
 MsTranslator = require('mstranslator'),
-latin = require('./node_modules/latinise/latinise'),
+latinize = require('latinize'),
 romaji = require("hepburn"),
 hbombcount = require("countdown"),
 twitter = require('twit'),
@@ -51,17 +51,25 @@ var transClient = new MsTranslator({
 
 var logger = new (winston.Logger)({
     transports: [
-        new (winston.transports.Console)({ level: "debug"}),
-        new (winston.transports.Console)({level:"info"}),
-        new (winston.transports.Console)({level:"notice"}),
-        new (winston.transports.Console)({level:"warn"}),
-        new (winston.transports.Console)({level:"error"}),
-        new (winston.transports.Console)({level: "crit"}),
-        new (winston.transports.Console)({level:"alert"}),
-        new (winston.transports.Console)({level: "emerg" }),
-        new (winston.transports.File)({ filename: 'irc-log.log' })
+        new (winston.transports.Console)({ level: "debug"},{level:"error"},{level:"notice"},{level:"warn"},{level:"info"},{level:"crit"},{level:"alert"},{level:"emerg"}),
+        new (winston.transports.File)({level:"debug", filename: './irc-log.log' })
     ]
-  });
+});
+
+var print = console.log.bind(console);
+
+var ircLogger = function () {
+    return {
+        debug: print,
+        info: print,
+        notice: print,
+        warning: print,
+        error: print,
+        crit: print,
+        alert: print,
+        emerg: print
+    }
+};
 
 function getRandomInt(min,max){
 	return Math.floor(Math.random() * (max - min +1)) + min;
@@ -107,17 +115,17 @@ function translateThatShit(string, to, from, command){
 	
 	transClient.initialize_token(function(keys){
 			transClient.translate(params, function(err, data) {
-				if(data.indexOf("ArgumentOutOfRangeException:") == -1){
+				if(!err || data !== null){
 					if(to == "ja"){
 						data = romaji.fromKana(data);
 						console.log(data, to, from);
-						bot.say(command.channel,"Translation: "+data.latinise());
+						bot.say(command.channel,"Translation: "+latinize(data));
 					}else{
 						console.log(data, to, from);
-						bot.say(command.channel,"Translation: "+data.latinise());
+						bot.say(command.channel,"Translation: "+latinize(data));
 					}
 				}else{
-        			
+                    logger.error(err);
         			bot.say(command.channel,"ERROR: Please use a supported language code.");
         		}
     		});
@@ -135,7 +143,7 @@ transClient.initialize_token(function(keys){
 			transClient.translate(params1, function(err, data) {
 			params2 = { text: data, from: to, to: 'en'};
 			transClient.translate(params2, function(err, data) {
-				bot.say(command.channel,"Engrish: "+data.latinise());
+				bot.say(command.channel,"Engrish: "+latinize(data));
 			});
 		});
 	});
@@ -396,7 +404,7 @@ function subSelect(urlBuild, where){
 function hboCheck (command, avStatus, hboTop, hboBase) {
 
 var randHBO = getRandomInt(hboBase,hboTop);
-var hboRandUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl?read="+randHBO;	
+//var hboRandUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl?read="+randHBO;
 request(hboRandUrl, function (error, response, body) {
 console.log("Request, hboCheck");
 		if (error || response.statusCode !== 200){
@@ -407,7 +415,7 @@ console.log("Request, hboCheck");
 			var hboInvalid = $('big big strong').text();
 		 	if(hboInvalid == "No Message!"){
 		 		console.log('bunk, re-routing');
-		 		hboCheck(command, avStatus, hboTop, hboBase);
+		 		//hboCheck(command, avStatus, hboTop, hboBase);
 		 	}else{
 		 		var hboTitle = $('div.msg_headln').text();
 		 		var hboTitleAlt = $('td.subjectcell b').text();
@@ -466,12 +474,9 @@ request("http://carnage.bungie.org/haloforum/halo.forum.pl", function (error, re
         			});
 }
 
-
-var print = console.log.bind(console);
-
 //Start bot//
 
-var bot = irc.Client(network);
+var bot = irc.Client(network, {Logger: ircLogger});
 
 bot.connect();
 
@@ -481,14 +486,12 @@ logger.stream({ start: -1 }).on('error', function(error) {
 
 var kind= '';
 
-
-
 bot.on("join", function(message){
 	if(message.nickname == "Bonk-Bot"){
 		bot.say(message.channel,"BonkBot Online.... use #howtobonk for instructions and running modules");
 		
 	}else{
-		checkOP(message.nickname);
+		//checkOP(message.nickname);
 	}
 });
 
@@ -499,7 +502,7 @@ bot.on("quit",function(message){
 });
 
 
-bot.on("names",function(message){
+/*bot.on("names",function(message){
 	console.log(util.inspect(message));
 	for (var key in message.names) {
 		checkOP(key);
@@ -513,7 +516,7 @@ bot.on("nick",function(message){
 	checkOP(message.new);
 	
 });
-
+*/
 
 //Commands//
 
@@ -613,14 +616,14 @@ bot.on('!tweet', function (command){
 
 
 
-bot.on('!av', function (command){
+/*bot.on('!av', function (command){
 	hboRando(command,true);
 });
 
 bot.on('!hbo', function (command){
 	hboRando(command,false);
 });
-
+*/
 
 bot.on('!rhyme', function (command){
 		var rhymeWord = command.args.join("");

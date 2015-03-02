@@ -19,7 +19,9 @@
     "winston": "~0.9.0",
     "wordnik": "~0.0.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "latinize": "^0.1.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
