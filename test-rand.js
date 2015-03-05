@@ -1,6 +1,7 @@
 winston = require('winston');
 _= require('lodash-node');
 async = require('async');
+request = require('request');
 
 
 function getRandomInt(min,max){
@@ -81,6 +82,8 @@ function hboRando (command, avStatus){
     });
 }
 
+//hboForumScrape(true,100000,1000);
+
 function hboForumScrape (/*command,*/ avStatus, hboTop, hboBase) {
 
     async.retry(5, hboCheck, hboFormatPost);
@@ -115,6 +118,9 @@ function hboForumScrape (/*command,*/ avStatus, hboTop, hboBase) {
         });
     }
     function hboFormatPost(err, results) {
+        if(err){
+            logger.error(err);
+        }else{
             var hboTitle = $('div.msg_headln').text();
             var hboTitleAlt = $('td.subjectcell b').text();
             var hboPoster = $('span.msg_poster').text();
@@ -128,5 +134,6 @@ function hboForumScrape (/*command,*/ avStatus, hboTop, hboBase) {
                 console.log( hboTitle + hboTitleAlt + " (" + hboPoster + hboPosterAlt + ") " + hboRandUrl);
             }
         }
+    }
 }
 
