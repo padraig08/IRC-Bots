@@ -72,11 +72,22 @@ var ircLogger = function () {
 };
 
 function getRandomInt(min,max){
-	return Math.floor(Math.random() * (max - min +1)) + min;
+    if((typeof min === "number") && Math.floor(min) === min && (typeof max === "number") && Math.floor(max) === max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }else{
+        //logger.error('min or max number is not a valid number');
+        throw 'min or max number is not a valid number';
+    }
 }
 
 function quothTheHyo(command){
-        var hyoChosenFact = hyokin.items[getRandomInt(0,hyokin.items.length-1)];
+        try {
+            var hyoRandomInt = getRandomInt(0,hyokin.items.length-1);
+        } catch (err) {
+            logger.error(err);
+            return;
+        }
+        var hyoChosenFact = hyokin.items[hyoRandomInt];
         var person = command.args.join(" ");
  
         if (_.isEmpty(person)) {
@@ -156,9 +167,14 @@ function loopAcro(c, n, url, callback) {
 		if (error || response.statusCode !== 200 || body.length <= 2){
 			acObj[n] = c;
 		}else{	
-			var acData = JSON.parse(body);	
-			var randAcro = getRandomInt(0, acData.searchResults.length-1);	
-			acObj[n] = acData.searchResults[randAcro].word;	
+			var acData = JSON.parse(body);
+            try {
+                var acroRandomInt = getRandomInt(0,acData.searchResults.length-1);
+            } catch (err) {
+                logger.error(err);
+                callback('err',null)
+            }
+			acObj[n] = acData.searchResults[acroRandomInt].word;
 			callback();	
 		}
 	});
@@ -179,8 +195,14 @@ function loopSyn(c, n, callback){
 			
 		}else{
 			var synData = JSON.parse(body);
-			var randSyn = getRandomInt(0, synData[0].words.length-1);	
-			synObj[n] = synData[0].words[randSyn];
+            try {
+                var synRandomInt = getRandomInt(0,synData[0].words.length-1);
+            } catch (err) {
+                logger.error(err);
+                callback('err',null)
+            }
+			synObj[n] = synData[0].words[synRandomInt];
+
 			//synArray.push(synData[0].words[0]);
 			//acArray.push(acData.searchResults[0].word);
 			callback();
@@ -236,12 +258,27 @@ function timeToBonk(command)
 {
 	var from = command.nickname;
 	var target = command.args.join(" ");
-	var calc = getRandomInt(0,100);
-	var result = getRandomInt(0,randomMsg.result.length -1);
-	var attacker = getRandomInt(0,randomMsg.attacker.length -1);
-	var calcMsg = calc.toString() + "% of ";
-	var resultMsg = randomMsg.result[result];
-	var attackerMsg = randomMsg.attacker[attacker];
+    try {
+        var calcRandomInt = getRandomInt(0,100);
+    } catch (err) {
+        logger.error(err);
+        callback('err',null)
+    }
+    try {
+        var resultRandomInt = getRandomInt(0,randomMsg.result.length -1);
+    } catch (err) {
+        logger.error(err);
+        callback('err',null)
+    }
+    try {
+        var attackRandomInt = getRandomInt(0,randomMsg.attacker.length -1);
+    } catch (err) {
+        logger.error(err);
+        callback('err',null)
+    }
+	var calcMsg = calcRandomInt.toString() + "% of ";
+	var resultMsg = randomMsg.result[resultRandomInt];
+	var attackerMsg = randomMsg.attacker[attackRandomInt];
 
 	
 	var clonk = c.brown("Battlebonk results: " + calcMsg + target+"'s clonkers " + resultMsg + " by " + from+"'s " + attackerMsg);
@@ -283,10 +320,15 @@ if (_.isEmpty(userString)){
     						default:
         						bot.say(command.channel,'You gotta give me something to look up, brah.');
 						}}else{
-							var randTweet = getRandomInt(0,data.length-1);
-							var arrTweet = data[randTweet].text.replace( /\n/g, "`" ).split( "`" );
+                            try {
+                                var tweetRandomInt = getRandomInt(0,data.length-1);
+                            } catch (err) {
+                                logger.error(err);
+                                return;
+                            }
+							var arrTweet = data[tweetRandomInt].text.replace( /\n/g, "`" ).split( "`" );
 							//console.log(arrTweet);
-							bot.say(command.channel,  data[randTweet].user.screen_name +": " +arrTweet);
+							bot.say(command.channel,  data[tweetRandomInt].user.screen_name +": " +arrTweet);
 						}
 					}else{
 						bot.say(command.channel,"ERROR: you chose an account with no tweets. Try again, doucher.");
@@ -314,10 +356,15 @@ function searchDaTweet (searchString, command) {
 				function(err, data, response){
 					if (err === null){
 						if(data.statuses.length > 0){
-						var randTweet = getRandomInt(0,data.statuses.length-1);
-						var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
+                            try {
+                                var tweetRandomInt = getRandomInt(0,data.statuses.length-1);
+                            } catch (err) {
+                                logger.error(err);
+                                return;
+                            }
+						var arrTweet = data.statuses[tweetRandomInt].text.replace( /\n/g, "`" ).split( "`" );
 						//console.log(arrTweet);
-						bot.say(command.channel, "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+ arrTweet +" ( http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+" )");
+						bot.say(command.channel, "Tweet from "+ data.statuses[tweetRandomInt].user.screen_name+" : "+ arrTweet +" ( http://twitter.com/"+data.statuses[tweetRandomInt].user.screen_name+"/status/"+data.statuses[tweetRandomInt].id_str+" )");
 					}else{
 						bot.say(command.channel, "ERROR: you fucked this up duder.");
 						console.log(err);		
@@ -339,10 +386,15 @@ function searchDaTweet (searchString, command) {
 	Tw.get('search/tweets', {q: searchString, count:'100'}, function(err, data, response){
 		if (err === null){
 		if(data.statuses.length > 0){
-				var randTweet = getRandomInt(0,data.statuses.length-1);
-				var arrTweet = data.statuses[randTweet].text.replace( /\n/g, "`" ).split( "`" );
+            try {
+                var tweetRandomInt = getRandomInt(0,data.statuses.length-1);
+            } catch (err) {
+                logger.error(err);
+                return;
+            }
+				var arrTweet = data.statuses[tweetRandomInt].text.replace( /\n/g, "`" ).split( "`" );
 				console.log(arrTweet);
-				bot.say(command.channel, "Tweet from "+ data.statuses[randTweet].user.screen_name+" : "+arrTweet+" ( http://twitter.com/"+data.statuses[randTweet].user.screen_name+"/status/"+data.statuses[randTweet].id_str+" )");
+				bot.say(command.channel, "Tweet from "+ data.statuses[tweetRandomInt].user.screen_name+" : "+arrTweet+" ( http://twitter.com/"+data.statuses[tweetRandomInt].user.screen_name+"/status/"+data.statuses[tweetRandomInt].id_str+" )");
 			}else{
 					bot.say(command.channel, "No tweets found, that's pretty shitty.");	
 			}
@@ -356,8 +408,13 @@ function searchDaTweet (searchString, command) {
 }
 
 function randImg(kind, where){
-		var subreddit = getRandomInt(0, kind.length-1);
-		var urlBuild = urls.reddit + kind[subreddit] +'/random/.json';
+    try {
+        var redditRandomInt = getRandomInt(0,kind.length-1);
+    } catch (err) {
+        logger.error(err);
+        return;
+    }
+		var urlBuild = urls.reddit + kind[redditRandomInt] +'/random/.json';
 		subSelect(urlBuild, where);
 }
 
@@ -401,78 +458,115 @@ function subSelect(urlBuild, where){
 	);
 }
 
-function hboCheck (command, avStatus, hboTop, hboBase) {
-
-var randHBO = getRandomInt(hboBase,hboTop);
-//var hboRandUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl?read="+randHBO;
-request(hboRandUrl, function (error, response, body) {
-console.log("Request, hboCheck");
-		if (error || response.statusCode !== 200){
-			console.log(error);
-			bot.say(command.channel, "ERROR: HBO is not responding. Claude must be clonking me.");
-		}else{
-			var $ = cheerio.load(body);
-			var hboInvalid = $('big big strong').text();
-		 	if(hboInvalid == "No Message!"){
-		 		console.log('bunk, re-routing');
-		 		//hboCheck(command, avStatus, hboTop, hboBase);
-		 	}else{
-		 		var hboTitle = $('div.msg_headln').text();
-		 		var hboTitleAlt = $('td.subjectcell b').text();
-		 		var hboPoster = $('span.msg_poster').text();
-		 		var hboPosterAlt = $('td.postercell').first().text().replace("Posted By:","").replace(/<(.*?)>/g,"").trim();
-
-		 		if(avStatus == true){
-					var randAV = getRandomInt(0, av.items.length-1);
-					bot.say(command.channel,hboRandUrl);
-		 			bot.say(command.channel, av.items[randAV].replace(/<user>/gi,hboPoster+hboPosterAlt)); 
-		 		}else{
-					bot.say(command.channel, hboTitle+ hboTitleAlt+ " ("+hboPoster+hboPosterAlt+") "+ hboRandUrl);
-		 		}
-		 		
-						
-		 		 
-		 	}
-		 
-		}
-});
-}
-
 function hboRando (command, avStatus){
 
-request("http://carnage.bungie.org/haloforum/halo.forum.pl", function (error, response, body) {
-		if (error || response.statusCode !== 200){
-			console.log(error, response.statusCode);
-		}else{
-			var $ = cheerio.load(body);
-			var hboTop = $('div#ind_msglist a').attr('name').replace( /^\D+/g, '');
-            hboTop = parseInt(hboTop, 10);
-			var hboBase = 0;
-			switch (command.args.join(" ")) {
-    						case 'newest':
-    							hboBase = Math.round(hboTop * 0.90);
-        						hboCheck(command, avStatus, hboTop, hboBase);
-        					break;
-    						case 'old':
-    							hboBase = Math.round(hboTop * 0.50);
-    							hboTop = Math.round(hboTop * 0.89);
-        						hboCheck(command,avStatus, hboTop, hboBase);
-        					break;
-        					case 'OLD':
-        						hboBase = Math.round(hboTop * 0.11);
-    							hboTop = Math.round(hboTop * 0.49);
-        						hboCheck(command,avStatus, hboTop, hboBase);
-        					break;
-    						case 'O L D':
-    							hboTop = Math.round(hboTop * 0.10);
-        						hboCheck(command,avStatus, hboTop, hboBase);
-        					break;
-    						default:
-        						hboCheck(command,avStatus, hboTop, hboBase);
-        					}
-        				}
-        			});
+    if(typeof avStatus !== "boolean"){
+        logger.error("avStatus is not a valid boolean");
+    }else{
+        request({url:"http://carnage.bungie.org/haloforum/halo.forum.pl",maxRedirects:2, headers: {'User-Agent': 'request'}},
+            function (error, response, body) {
+                if (error || response.statusCode !== 200){
+                    logger.error(error, response.statusCode);
+                }else{
+                    var $ = cheerio.load(body);
+                    var hboTop = $('div#ind_msglist a').attr('name').replace( /^\D+/g, '');
+                    hboTop = parseInt(hboTop, 10);
+                    var hboBase = 0;
+                    switch (command.args.join(" ")) {
+                        case 'newest':
+                            hboBase = Math.round(hboTop * 0.90);
+                            hboForumScrape(command, avStatus, hboBase, hboTop);
+                            break;
+                        case 'old':
+                            hboBase = Math.round(hboTop * 0.50);
+                            hboTop = Math.round(hboTop * 0.89);
+                            hboForumScrape(command,avStatus, hboBase, hboTop);
+                            break;
+                        case 'OLD':
+                            hboBase = Math.round(hboTop * 0.11);
+                            hboTop = Math.round(hboTop * 0.49);
+                            hboForumScrape(command,avStatus, hboBase, hboTop);
+                            break;
+                        case 'O L D':
+                            hboTop = Math.round(hboTop * 0.10);
+                            hboForumScrape(command,avStatus, hboBase, hboTop);
+                            break;
+                        default:
+                            hboForumScrape(command,avStatus, hboBase, hboTop);
+                    }
+                }
+            });
+    }
 }
+
+function hboForumScrape (command, avStatus, hboBase, hboTop) {
+
+    if((typeof hboBase === "number") && Math.floor(hboBase) === hboBase && (typeof hboTop === "number") && Math.floor(hboTop) === hboTop) {
+
+        async.retry(5, hboCheck, hboFormatPost);
+
+        function hboCheck(callback) {
+
+            try {
+                var hboRandomPostNumber = getRandomInt(hboBase, hboTop);
+            } catch (err) {
+                logger.error(err);
+                callback(err, null);
+            }
+
+            //var randHBO = getRandomInt(hboBase,hboTop);
+            var hboTestUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl?read=" + hboRandomPostNumber;
+            request({
+                url: hboTestUrl,
+                maxRedirects: 2,
+                headers: {'User-Agent': 'request'}
+            }, function (error, response, body) {
+                console.log("Request, hboCheck");
+                if (error || response.statusCode !== 200) {
+                    console.log(error);
+                    callback("Status Code or Error on Request", null);
+                    //console.log( "ERROR: HBO is not responding. Claude must be clonking me.");
+                } else {
+                    var $ = cheerio.load(body);
+                    var hboInvalid = $('big big strong').text();
+                    if (hboInvalid == "No Message!") {
+                        console.log('bunk, re-routing');
+                        callback("Invalid Post ID", null);
+                    } else {
+                        callback(null, {html: $, url: hboTestUrl});
+                    }
+                }
+            });
+        }
+
+        function hboFormatPost(err, results) {
+            if (err) {
+                logger.error(err);
+            } else {
+                var hboTitle = results.html('div.msg_headln').text();
+                var hboTitleAlt = results.html('td.subjectcell b').text();
+                var hboPoster = results.html('span.msg_poster').text();
+                var hboPosterAlt = results.html('td.postercell').first().text().replace("Posted By:", "").replace(/<(.*?)>/g, "").trim();
+
+                if (avStatus == true) {
+                    try {
+                        var randAV = getRandomInt(0, av.items.length - 1);
+                    } catch (err) {
+                        logger.error(err);
+                        return;
+                    }
+                    bot.say(command.channel, results.url);
+                    bot.say(command.channel, av.items[randAV].replace(/<user>/gi, hboPoster + hboPosterAlt));
+                } else {
+                    bot.say(command.channel, hboTitle + hboTitleAlt + " (" + hboPoster + hboPosterAlt + ") " + results.url);
+                }
+            }
+        }
+    }else {
+        logger.error("hboBase or hboTop is not a valid number");
+    }
+}
+
 
 //Start bot//
 
@@ -521,26 +615,39 @@ bot.on("nick",function(message){
 //Commands//
 
 bot.on('!dmx', function(command) {
-	var dmxChosenPhrase = getRandomInt(0,dmx.phrases.length-1);
-	bot.say(command.channel, dmx.phrases[dmxChosenPhrase]);
+    try {
+        var dmxRandomInt = getRandomInt(0,dmx.phrases.length-1);
+    } catch (err) {
+        logger.error(err);
+        return;
+    }
+	bot.say(command.channel, dmx.phrases[dmxRandomInt]);
 });
 
 bot.on('!gouf', function (command){
-	var goufChosenVid = getRandomInt(0,gouf.items.length-1);
-	bot.say(command.channel, gouf.items[goufChosenVid]);
+    try {
+        var goufRandomInt = getRandomInt(0,gouf.items.length-1);
+    } catch (err) {
+        logger.error(err);
+        return;
+    }
+	bot.say(command.channel, gouf.items[goufRandomInt]);
 });
 bot.on('!hbomb',function (command){
     var timeTilHBOMB = hbombcount(null ,new Date(2015, 0, 16)).toString();
-    var randTimer = getRandomInt(0,countdown.items.length-1);
-    var HBOMBstr = countdown.items[randTimer];
     bot.say(command.channel, "This is a memorial, that "+timeTilHBOMB+" ago, we won HBOMB.");
     bot.say(command.channel, "Pics: http://imgur.com/a/qvitD , http://imgur.com/a/SjnrQ , http://imgur.com/a/infFt , http://imgur.com/a/0p5VM");
     bot.say(command.channel, "Speech: http://tinyurl.com/qywork4");
 
 });
 bot.on('!ugh', function (command){
-    var ughRand = getRandomInt(0,ugh.items.length-1);
-    bot.say(command.channel, ugh.items[ughRand]);
+    try {
+        var ughRandomInt = getRandomInt(0,ugh.items.length-1);
+    } catch (err) {
+        logger.error(err);
+        return;
+    }
+    bot.say(command.channel, ugh.items[ughRandomInt]);
 });
 bot.on('!qdb', function (command){
 	request("http://qdb.zero9f9.com/", function (error, response, body) {
@@ -551,8 +658,13 @@ bot.on('!qdb', function (command){
 
 			var $ = cheerio.load(body);
 			var match = $('div.quoteIDBox a').map(function(i, el){ return $(this).attr('href') }).get();
-			var randQDB = getRandomInt(0, match.length-1);
-			var newMatch = "http://qdb.zero9f9.com/quote.php?id=" + match[randQDB].replace( /^\D+/g, ''); 
+            try {
+                var qdbRandomInt = getRandomInt(0,match.length-1);
+            } catch (err) {
+                logger.error(err);
+                return;
+            }
+			var newMatch = "http://qdb.zero9f9.com/quote.php?id=" + match[qdbRandomInt].replace( /^\D+/g, '');
 			bot.say(command.channel, newMatch);
 		}
 	});
@@ -594,8 +706,13 @@ bot.on('!translate', function (command) {
 bot.on('!engrish', function (command){
     var res = command.args.join(" ").split("/");
     if(_.isEmpty(res[1])){
-        var result = getRandomInt(0,translate.engrish.length -1);
-        var resultMsg = translate.engrish[result];
+        try {
+            var engrishRandomInt = getRandomInt(0,translate.engrish.length -1);
+        } catch (err) {
+            logger.error(err);
+            return;
+        }
+        var resultMsg = translate.engrish[engrishRandomInt];
         engrishThatShit(res[0], resultMsg, command);
     }else{
         engrishThatShit(res[0],res[1], command);
@@ -635,10 +752,20 @@ bot.on('!rhyme', function (command){
 			bot.say(command.channel,'Try another word, I got no rhymes for you.');
 		}else{
 			var rhymeData = JSON.parse(body);
-			var randRhyme = getRandomInt(0,rhymeData[0].words.length-1);
-			var randRhymePos = getRandomInt(0, rhymePos.items.length-1);
-			var chosenRhyme = rhymePos.items[randRhymePos];
-			var replaceRhyme =  chosenRhyme.replace(/rhymed/gi, rhymeData[0].words[randRhyme]).toUpperCase().replace(/word/gi,command.args.join("").toUpperCase());
+            try {
+                var rhymeRandomInt = getRandomInt(0,rhymeData[0].words.length-1);
+            } catch (err) {
+                logger.error(err);
+                return;
+            }
+            try {
+                var phraseRandomInt = getRandomInt(0,rhymePos.items.length-1);
+            } catch (err) {
+                logger.error(err);
+                return;
+            }
+			var chosenRhyme = rhymePos.items[phraseRandomInt];
+			var replaceRhyme =  chosenRhyme.replace(/rhymed/gi, rhymeData[0].words[rhymeRandomInt]).toUpperCase().replace(/word/gi,command.args.join("").toUpperCase());
 			bot.say(command.channel, replaceRhyme);
 		}
 	});	
@@ -654,8 +781,13 @@ bot.on('!define', function (command){
 			bot.say(command.channel,'Try another word, I got no definitions for you.');
 		}else{
 			var defineData = JSON.parse(body);
-			var randDefine = getRandomInt(0, defineData.length-1);
-			bot.say(command.channel, defineData[randDefine].word+" ["+defineData[randDefine].partOfSpeech+"] : "+defineData[randDefine].text);
+            try {
+                var defineRandomInt = getRandomInt(0,defineData.length-1);
+            } catch (err) {
+                logger.error(err);
+                return;
+            }
+			bot.say(command.channel, defineData[defineRandomInt].word+" ["+defineData[defineRandomInt].partOfSpeech+"] : "+defineData[defineRandomInte].text);
 		}
 	});	
 });
@@ -669,8 +801,13 @@ request(urlExampleBuild, function (error, response, body) {
 		bot.say(command.channel,'Try another word. I got no examples for you, jack.');
 	}else{
 		var exampleData = JSON.parse(body);
-		var randExample = getRandomInt(0, exampleData.examples.length-1);
-		bot.say(command.channel, exampleData.examples[randExample].text+ " -"+exampleData.examples[randExample].year+", "+exampleData.examples[randExample].title);
+        try {
+            var exampleRandomInt = getRandomInt(0,exampleData.examples.length-1);
+        } catch (err) {
+            logger.error(err);
+            return;
+        }
+		bot.say(command.channel, exampleData.examples[exampleRandomInt].text+ " -"+exampleData.examples[exampleRandomInt].year+", "+exampleData.examples[exampleRandomInt].title);
 	}
 });
 	
@@ -715,8 +852,13 @@ bot.on('!speak', function (command){
 			bot.say(command.channel,'Try another word. I got nothing to say to you, fucko.');
 		}else{
 			var audioData = JSON.parse(body);
-			var randAudio = getRandomInt(0, audioData.length-1);
-			bot.say(command.channel, audioData[randAudio].fileUrl);
+            try {
+                var audioRandomInt = getRandomInt(0,audioData.length-1);
+            } catch (err) {
+                logger.error(err);
+                return;
+            }
+			bot.say(command.channel, audioData[audioRandomInt].fileUrl);
 		}
 	});
 });
@@ -730,8 +872,13 @@ bot.on('!pron', function (command){
 			bot.say(command.channel,'Try another word. I got no pronunciations for you, guy.');
 		}else{
 			var pronData = JSON.parse(body);
-			var randPron = getRandomInt(0, pronData.length-1);
-			bot.say(command.channel, pronData[randPron].raw);
+            try {
+                var pronounceRandomInt = getRandomInt(0,pronData.length-1);
+            } catch (err) {
+                logger.error(err);
+                return;
+            }
+			bot.say(command.channel, pronData[pronounceRandomInt].raw);
 		}
 	});
 });
@@ -753,8 +900,13 @@ bot.on('!tweep', function (command){
     userTweet(command, command.args.join(""));
 });        
 bot.on('!tricked', function (command){
-    var trixRand = getRandomInt(0,tricked.items.length-1);
-    bot.say(command.channel, ">tfw "+tricked.items[trixRand]);
+    try {
+        var trickedRandomInt = getRandomInt(0,tricked.items.length-1);
+    } catch (err) {
+        logger.error(err);
+        return;
+    }
+    bot.say(command.channel, ">tfw "+tricked.items[trickedRandomInt]);
 });
 
 

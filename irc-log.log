@@ -26,3 +26,27 @@
 {"level":"error","timestamp":"2015-03-02T06:19:44.892Z"}
 {"level":"error","timestamp":"2015-03-02T06:19:57.478Z"}
 {"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-02T06:20:34.868Z"}
+{"level":"error","message":"Status Code or Error on Request","timestamp":"2015-03-22T19:41:48.898Z"}
+{"level":"error","message":"avStatus is not a valid boolean","timestamp":"2015-03-22T21:25:16.583Z"}
+{"level":"error","message":"avStatus is not a valid boolean","timestamp":"2015-03-22T21:25:26.369Z"}
+{"level":"error","message":"hboBase or hboTop is not a valid number","timestamp":"2015-03-22T21:34:38.519Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:36:17.550Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:36:17.552Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:36:17.553Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:36:17.554Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:36:17.555Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:36:17.556Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:37:32.803Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:37:32.807Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:37:32.808Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:37:32.809Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:37:32.810Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:37:32.811Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:38:32.777Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:38:32.779Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:38:32.780Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:38:32.781Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:38:32.782Z"}
+{"level":"error","message":"min or max number is not a valid number","timestamp":"2015-03-22T21:38:32.783Z"}
+{"level":"error","message":"hboBase or hboTop is not a valid number","timestamp":"2015-03-22T21:42:21.412Z"}
+{"level":"error","message":"hboBase or hboTop is not a valid number","timestamp":"2015-03-22T21:42:37.430Z"}

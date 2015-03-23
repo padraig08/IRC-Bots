@@ -1,7 +1,12 @@
-winston = require('winston');
-_= require('lodash-node');
-async = require('async');
-request = require('request');
+var botData = require('./botData.json'),
+    av = botData.av,
+    winston = require('winston'),
+    _= require('lodash-node'),
+    async = require('async'),
+    request = require('request'),
+    cheerio = require('cheerio');
+
+
 
 
 function getRandomInt(min,max){
@@ -48,7 +53,12 @@ async.retry(5, randRight, function(err, result) {
 
 function hboRando (command, avStatus){
 
-    request("http://carnage.bungie.org/haloforum/halo.forum.pl", function (error, response, body) {
+    if(typeof avStatus !== "boolean"){
+        logger.error("avStatus is not a valid boolean");
+    }else{
+
+    request({url:"http://carnage.bungie.org/haloforum/halo.forum.pl",maxRedirects:2, headers: {'User-Agent': 'request'}},
+        function (error, response, body) {
         if (error || response.statusCode !== 200){
             logger.error(error, response.statusCode);
         }else{
@@ -59,81 +69,96 @@ function hboRando (command, avStatus){
             switch (command.args.join(" ")) {
                 case 'newest':
                     hboBase = Math.round(hboTop * 0.90);
-                    hboForumScrape(command, avStatus, hboTop, hboBase);
+                    hboForumScrape(command, avStatus, hboBase, hboTop);
                     break;
                 case 'old':
                     hboBase = Math.round(hboTop * 0.50);
                     hboTop = Math.round(hboTop * 0.89);
-                    hboForumScrape(command,avStatus, hboTop, hboBase);
+                    hboForumScrape(command,avStatus, hboBase, hboTop);
                     break;
                 case 'OLD':
                     hboBase = Math.round(hboTop * 0.11);
                     hboTop = Math.round(hboTop * 0.49);
-                    hboForumScrape(command,avStatus, hboTop, hboBase);
+                    hboForumScrape(command,avStatus, hboBase, hboTop);
                     break;
                 case 'O L D':
                     hboTop = Math.round(hboTop * 0.10);
-                    hboForumScrape(command,avStatus, hboTop, hboBase);
+                    hboForumScrape(command,avStatus, hboBase, hboTop);
                     break;
                 default:
-                    hboForumScrape(command,avStatus, hboTop, hboBase);
-            }
-        }
-    });
-}
-
-//hboForumScrape(true,100000,1000);
-
-function hboForumScrape (/*command,*/ avStatus, hboTop, hboBase) {
-
-    async.retry(5, hboCheck, hboFormatPost);
-
-    function hboCheck(callback){
-
-        try {
-            var hboRandomPostNumber = getRandomInt(hboBase,hboTop);
-        }catch(err){
-            logger.error(err);
-            callback(err,null);
-        }
-
-        //var randHBO = getRandomInt(hboBase,hboTop);
-        var hboTestUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl?read="+hboRandomPostNumber;
-        request(hboTestUrl, function (error, response, body) {
-                console.log("Request, hboCheck");
-            if (error || response.statusCode !== 200) {
-                console.log(error);
-                callback("Status Code or Error on Request",null);
-                //console.log( "ERROR: HBO is not responding. Claude must be clonking me.");
-            } else {
-                var $ = cheerio.load(body);
-                var hboInvalid = $('big big strong').text();
-                if (hboInvalid == "No Message!") {
-                    console.log('bunk, re-routing');
-                    callback("Invalid Post ID", null);
-                }else{
-
+                    hboForumScrape(command,avStatus, hboBase, hboTop);
                 }
             }
         });
     }
-    function hboFormatPost(err, results) {
-        if(err){
-            logger.error(err);
-        }else{
-            var hboTitle = $('div.msg_headln').text();
-            var hboTitleAlt = $('td.subjectcell b').text();
-            var hboPoster = $('span.msg_poster').text();
-            var hboPosterAlt = $('td.postercell').first().text().replace("Posted By:", "").replace(/<(.*?)>/g, "").trim();
-
-            if (avStatus == true) {
-                var randAV = getRandomInt(0, av.items.length - 1);
-                console.log( hboRandUrl);
-                console.log( av.items[randAV].replace(/<user>/gi, hboPoster + hboPosterAlt));
-            } else {
-                console.log( hboTitle + hboTitleAlt + " (" + hboPoster + hboPosterAlt + ") " + hboRandUrl);
-            }
-        }
-    }
 }
 
+//hboForumScrape(false, 1000,30000);
+
+function hboForumScrape (/*command,*/ avStatus, hboBase, hboTop) {
+
+    if((typeof hboBase === "number") && Math.floor(hboBase) === hboBase && (typeof hboTop === "number") && Math.floor(hboTop) === hboTop) {
+
+        async.retry(5, hboCheck, hboFormatPost);
+
+        function hboCheck(callback) {
+
+            try {
+                var hboRandomPostNumber = getRandomInt(hboBase, hboTop);
+            } catch (err) {
+                logger.error(err);
+                callback(err, null);
+            }
+
+            //var randHBO = getRandomInt(hboBase,hboTop);
+            var hboTestUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl?read=" + hboRandomPostNumber;
+            request({
+                url: hboTestUrl,
+                maxRedirects: 2,
+                headers: {'User-Agent': 'request'}
+            }, function (error, response, body) {
+                console.log("Request, hboCheck");
+                if (error || response.statusCode !== 200) {
+                    console.log(error);
+                    callback("Status Code or Error on Request", null);
+                    //console.log( "ERROR: HBO is not responding. Claude must be clonking me.");
+                } else {
+                    var $ = cheerio.load(body);
+                    var hboInvalid = $('big big strong').text();
+                    if (hboInvalid == "No Message!") {
+                        console.log('bunk, re-routing');
+                        callback("Invalid Post ID", null);
+                    } else {
+                        callback(null, {html: $, url: hboTestUrl});
+                    }
+                }
+            });
+        }
+
+        function hboFormatPost(err, results) {
+            if (err) {
+                logger.error(err);
+            } else {
+                var hboTitle = results.html('div.msg_headln').text();
+                var hboTitleAlt = results.html('td.subjectcell b').text();
+                var hboPoster = results.html('span.msg_poster').text();
+                var hboPosterAlt = results.html('td.postercell').first().text().replace("Posted By:", "").replace(/<(.*?)>/g, "").trim();
+
+                if (avStatus == true) {
+                    try {
+                        var randAV = getRandomInt(0, av.items.length - 1);
+                    } catch (err) {
+                        logger.error(err);
+                        return;
+                    }
+                    console.log(results.url);
+                    console.log(av.items[randAV].replace(/<user>/gi, hboPoster + hboPosterAlt));
+                } else {
+                    console.log(hboTitle + hboTitleAlt + " (" + hboPoster + hboPosterAlt + ") " + results.url);
+                }
+            }
+        }
+    }else {
+        logger.error("hboBase or hboTop is not a valid number");
+    }
+}
