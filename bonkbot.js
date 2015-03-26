@@ -52,7 +52,7 @@ var transClient = new MsTranslator({
 var logger = new (winston.Logger)({
     transports: [
         new (winston.transports.Console)({ level: "debug"},{level:"error"},{level:"notice"},{level:"warn"},{level:"info"},{level:"crit"},{level:"alert"},{level:"emerg"}),
-        new (winston.transports.File)({level:"debug", filename: './irc-log.log' })
+        new (winston.transports.File)({level:"debug", filename: './irc-debug.log' },{level:"irc", filename: './irc-log.log' })
     ]
 });
 
@@ -284,7 +284,7 @@ function timeToBonk(command)
 	var clonk = c.brown("Battlebonk results: " + calcMsg + target+"'s clonkers " + resultMsg + " by " + from+"'s " + attackerMsg);
 	bot.say(command.channel, clonk);
 	//var recalcColor = Math.round((calc * (randomMsg.colors.length - 1)) /100);
-	var recalcAssess = Math.round((calc *(randomMsg.assess.length - 1)) /100);
+	var recalcAssess = Math.round((calcRandomInt *(randomMsg.assess.length - 1)) /100);
 	//var assessColor = "c."+randomMsg.colors[recalcColor];
 	var assessment = randomMsg.assess[recalcAssess];
 	console.log(assessment);
@@ -346,42 +346,7 @@ if (_.isEmpty(userString)){
 function searchDaTweet (searchString, command) {
 	if (_.isEmpty(searchString)){
 		bot.say(command.channel, "No text provided. Come on man, you're better than this.");
-
-	}else if(_.contains(searchString,"|")){
-
-		var searchArray = searchString.split("|");
-		geo.geocode(searchArray[1], function(err, data){
-			if(data.status == 'OK'){
-				Tw.get('search/tweets', {q: searchString, count:'100', geocode: data.results[0].geometry.location.lat+','+data.results[0].geometry.location.lng+',10mi'}, 
-				function(err, data, response){
-					if (err === null){
-						if(data.statuses.length > 0){
-                            try {
-                                var tweetRandomInt = getRandomInt(0,data.statuses.length-1);
-                            } catch (err) {
-                                logger.error(err);
-                                return;
-                            }
-						var arrTweet = data.statuses[tweetRandomInt].text.replace( /\n/g, "`" ).split( "`" );
-						//console.log(arrTweet);
-						bot.say(command.channel, "Tweet from "+ data.statuses[tweetRandomInt].user.screen_name+" : "+ arrTweet +" ( http://twitter.com/"+data.statuses[tweetRandomInt].user.screen_name+"/status/"+data.statuses[tweetRandomInt].id_str+" )");
-					}else{
-						bot.say(command.channel, "ERROR: you fucked this up duder.");
-						console.log(err);		
-					}
-				}else{
-					bot.say(command.channel, "No tweets found, that's pretty shitty.");
-
-				}
-
-				});
-			}else{
-			bot.say(command.channel, "Location not found, or like an error happened. I don't know, man.");
-
-		}
-
-});
-	}else{
+    }else{
 
 	Tw.get('search/tweets', {q: searchString, count:'100'}, function(err, data, response){
 		if (err === null){
@@ -462,18 +427,22 @@ function hboRando (command, avStatus){
 
     if(typeof avStatus !== "boolean"){
         logger.error("avStatus is not a valid boolean");
+        console.log("avStatus not valid");
     }else{
+        console.log("Making initial HBO request");
         request({url:"http://carnage.bungie.org/haloforum/halo.forum.pl",maxRedirects:2, headers: {'User-Agent': 'request'}},
             function (error, response, body) {
                 if (error || response.statusCode !== 200){
                     logger.error(error, response.statusCode);
+                    console.log("hboRando Request Error");
                 }else{
+                    console.log("Here we go");
                     var $ = cheerio.load(body);
                     var hboTop = $('div#ind_msglist a').attr('name').replace( /^\D+/g, '');
                     hboTop = parseInt(hboTop, 10);
                     var hboBase = 0;
                     switch (command.args.join(" ")) {
-                        case 'newest':
+                        case 'new':
                             hboBase = Math.round(hboTop * 0.90);
                             hboForumScrape(command, avStatus, hboBase, hboTop);
                             break;
@@ -500,7 +469,7 @@ function hboRando (command, avStatus){
 }
 
 function hboForumScrape (command, avStatus, hboBase, hboTop) {
-
+    console.log("hboForumScrape is happening");
     if((typeof hboBase === "number") && Math.floor(hboBase) === hboBase && (typeof hboTop === "number") && Math.floor(hboTop) === hboTop) {
 
         async.retry(5, hboCheck, hboFormatPost);
@@ -511,6 +480,7 @@ function hboForumScrape (command, avStatus, hboBase, hboTop) {
                 var hboRandomPostNumber = getRandomInt(hboBase, hboTop);
             } catch (err) {
                 logger.error(err);
+                console.log("error in random number");
                 callback(err, null);
             }
 
@@ -542,6 +512,7 @@ function hboForumScrape (command, avStatus, hboBase, hboTop) {
         function hboFormatPost(err, results) {
             if (err) {
                 logger.error(err);
+                console.log(err);
             } else {
                 var hboTitle = results.html('div.msg_headln').text();
                 var hboTitleAlt = results.html('td.subjectcell b').text();
@@ -564,6 +535,7 @@ function hboForumScrape (command, avStatus, hboBase, hboTop) {
         }
     }else {
         logger.error("hboBase or hboTop is not a valid number");
+        console.log("hboBase or hboTop is not a valid number");
     }
 }
 
@@ -573,10 +545,6 @@ function hboForumScrape (command, avStatus, hboBase, hboTop) {
 var bot = irc.Client(network, {Logger: ircLogger});
 
 bot.connect();
-
-logger.stream({ start: -1 }).on('error', function(error) {
-	console.log(error);  
-});
 
 var kind= '';
 
@@ -589,12 +557,14 @@ bot.on("join", function(message){
 	}
 });
 
-bot.on("quit",function(message){
+
+
+/*bot.on("quit",function(message){
 	//console.log(util.inspect(message));
 	var removeName = _.where(nameList, {'name': message.nickname});
 	nameList = _.without(nameList, removeName[0]);
 });
-
+*/
 
 /*bot.on("names",function(message){
 	console.log(util.inspect(message));
@@ -733,14 +703,14 @@ bot.on('!tweet', function (command){
 
 
 
-/*bot.on('!av', function (command){
+bot.on('!av', function (command){
 	hboRando(command,true);
 });
 
 bot.on('!hbo', function (command){
 	hboRando(command,false);
 });
-*/
+
 
 bot.on('!rhyme', function (command){
 		var rhymeWord = command.args.join("");
@@ -787,7 +757,7 @@ bot.on('!define', function (command){
                 logger.error(err);
                 return;
             }
-			bot.say(command.channel, defineData[defineRandomInt].word+" ["+defineData[defineRandomInt].partOfSpeech+"] : "+defineData[defineRandomInte].text);
+			bot.say(command.channel, defineData[defineRandomInt].word+" ["+defineData[defineRandomInt].partOfSpeech+"] : "+defineData[defineRandomInt].text);
 		}
 	});	
 });
