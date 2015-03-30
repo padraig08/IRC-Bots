@@ -18,7 +18,7 @@ var howToBonkPlugin = {
 						"--DMX--",
 						"Use !dmx to deploy a DMX signature bark or video",
 						"--Translate--",
-						"Use !translate [text] for translation to English, or add /[language code] to translate to that language",
+						"Translate things with !translate [text] for translation to English, or add /[language code] to translate to that language",
 						"For a list of language codes, use !howtotranslate",
 						"Note: If you want to translate Romaji Japanese, end the text with ~",
 						"Use !engrish to translate text to a designated or random language then back to English-- see what gets lost in translation!",
@@ -32,7 +32,13 @@ var howToBonkPlugin = {
 						"--Mad--",
 						"Use !mad when you're unsure how mad someone is",
 						"--Care--",
-						"Use !care to determine how much to care about something"]);
+						"Use !care to determine how much to care about something",
+						"--Big--",
+						"Use !big [words] to get big",
+						"--Calulate--",
+						"Enter !calculate [numbers and operators] to do math"
+						"--Remind--",
+						"Use !remind [number] [message] to have me remind you of something in [number] minutes"]);
 				},
 
 					"!howtotranslate": function (command){

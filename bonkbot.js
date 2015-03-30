@@ -20,8 +20,8 @@ var irc = require('tennu'),
 	_ = require('lodash-node'),
 	MsTranslator = require('mstranslator'),
 	latin = require('./node_modules/latinise/latinise'),
-	romaji = require("hepburn"),
-	hbombcount = require("countdown"),
+	romaji = require('hepburn'),
+	hbombcount = require('countdown'),
 	twitter = require('twit'),
 	geo = require ('geocoder'),
 	c = require('irc-colors'),
@@ -48,15 +48,15 @@ var transClient = new MsTranslator({
 
 var logger = new (winston.Logger)({
     transports: [
-        new (winston.transports.Console)({ level: "debug"}),
-        new (winston.transports.Console)({level:"info"}),
-        new (winston.transports.Console)({level:"notice"}),
-        new (winston.transports.Console)({level:"warn"}),
-        new (winston.transports.Console)({level:"error"}),
+        new (winston.transports.Console)({level: "debug"}),
+        new (winston.transports.Console)({level: "info"}),
+        new (winston.transports.Console)({level: "notice"}),
+        new (winston.transports.Console)({level: "warn"}),
+        new (winston.transports.Console)({level: "error"}),
         new (winston.transports.Console)({level: "crit"}),
-        new (winston.transports.Console)({level:"alert"}),
-        new (winston.transports.Console)({level: "emerg" }),
-        new (winston.transports.File)({ filename: 'irc-log.log' })
+        new (winston.transports.Console)({level: "alert"}),
+        new (winston.transports.Console)({level: "emerg"}),
+        new (winston.transports.File)({filename: "irc-log.log"})
     ]
   });
 
@@ -119,9 +119,13 @@ function engrishThatShit(string, to, command) {
 		to: to
 	};
 
-transClient.initialize_token(function(keys) {
-			transClient.translate(params1, function(err, data) {
-			params2 = { text: data, from: to, to: 'en'};
+	transClient.initialize_token(function(keys) {
+		transClient.translate(params1, function(err, data) {
+			params2 = {
+				text: data,
+				from: to,
+				to: "en"
+			};
 			transClient.translate(params2, function(err, data) {
 				bot.say(command.channel, "Engrish: " + data.latinise());
 			});
@@ -199,8 +203,8 @@ function syncSyn(command) {
 	requests = 0;
 
 	async.each(command.args, function(n, callback) {
-	requests++;
-	//console.log(command.args);
+		requests++;
+		//console.log(command.args);
 		if (specMatch.test(n) || numMatch.test(n)) {
 			console.log('got it');
 			loopSyn('fuck', requests, callback);
@@ -209,7 +213,8 @@ function syncSyn(command) {
 			loopSyn(n, requests, callback);
 		}
 		//loopSyn(n, requests,callback);
-	}, function (err) {
+	},
+	function (err) {
 		var synString = _.map(synObj, function (num) { return num; }).join(" ");
 		bot.say(command.channel, synString.toUpperCase());
 		//bot.say(command.channel, synArray.join(" "));
@@ -239,8 +244,6 @@ function timeToBonk(command) {
 		from = from + "'s ";
 	}
 	
-	// console.log("no name: ", noName, "bonking self: ", bonkingSelf, "what are the odds: ", selfBonkFate);
-	
 	if (noName && !(bonkingSelf)) {
 		bot.say(command.channel, "You're lucky I don't bonk you!");
 		return;
@@ -254,10 +257,10 @@ function timeToBonk(command) {
 	var resultMsg = randomMsg.result[result];
 	var attackerMsg = randomMsg.attacker[attacker];
 	
-	var clonk = c.brown("Battlebonk results: " + calcMsg + target + "'s clonkers " + resultMsg + " because of " + from + "'s " + attackerMsg);
+	var clonk = c.brown("Battlebonk results: " + calcMsg + target + "'s clonkers " + resultMsg + " because of " + from + attackerMsg);
 	bot.say(command.channel, clonk);
 	//var recalcColor = Math.round((calc * (randomMsg.colors.length - 1)) /100);
-	var recalcAssess = Math.round((calc *(randomMsg.assess.length - 1)) /100);
+	var recalcAssess = Math.round((calc * (randomMsg.assess.length - 1)) / 100);
 	//var assessColor = "c."+randomMsg.colors[recalcColor];
 	var assessment = randomMsg.assess[recalcAssess];
 	//console.log(assessment);
@@ -271,7 +274,7 @@ function userTweet(command, userString) {
 	}
 	else {
 		var userArray = userString.split("|");
-		Tw.get('statuses/user_timeline', {screen_name: userArray[0], count:'200', exclude_replies:'true', include_rts:'false'}, function(err, data, response) {
+		Tw.get("statuses/user_timeline", {screen_name: userArray[0], count: "200", exclude_replies: "true", include_rts:"false"}, function(err, data, response) {
 			if (err === null) {
 				if (!_.isEmpty(data[0])) {
 					if (_.contains(userString, "|")) {
@@ -318,8 +321,8 @@ function searchDaTweet (searchString, command) {
 	else if (_.contains(searchString, "|")) {
 		var searchArray = searchString.split("|");
 		geo.geocode(searchArray[1], function(err, data) {
-			if (data.status == 'OK') {
-				Tw.get('search/tweets', {q: searchString, count: '100', geocode: data.results[0].geometry.location.lat + ',' + data.results[0].geometry.location.lng + ',10mi'}, 
+			if (data.status == "OK") {
+				Tw.get("search/tweets", {q: searchString, count: "100", geocode: data.results[0].geometry.location.lat + "," + data.results[0].geometry.location.lng + ",10mi"}, 
 				function(err, data, response) {
 					if (err === null) {
 						if (data.statuses.length > 0) {
@@ -341,7 +344,7 @@ function searchDaTweet (searchString, command) {
 		});
 	}
 	else {
-		Tw.get('search/tweets', {q: searchString, count:'100'}, function(err, data, response) {
+		Tw.get("search/tweets", {q: searchString, count: "100"}, function(err, data, response) {
 			if (err === null) {
 				if (data.statuses.length > 0) {
 					var randTweet = getRandomInt(0, data.statuses.length - 1);
@@ -415,16 +418,16 @@ function hboCheck (command, avStatus, hboTop, hboBase) {
 		}
 		else {
 			var $ = cheerio.load(body);
-			var hboInvalid = $('big big strong').text();
+			var hboInvalid = $("big big strong").text();
 			if (hboInvalid == "No Message!") {
-				console.log('bunk, re-routing');
+				console.log("bunk, re-routing");
 				hboCheck(command, avStatus, hboTop, hboBase);
 			}
 			else {
-				var hboTitle = $('div.msg_headln').text();
-				var hboTitleAlt = $('td.subjectcell b').text();
-				var hboPoster = $('span.msg_poster').text();
-				var hboPosterAlt = $('td.postercell').first().text().replace("Posted By:","").replace(/<(.*?)>/g,"").trim();
+				var hboTitle = $("div.msg_headln").text();
+				var hboTitleAlt = $("td.subjectcell b").text();
+				var hboPoster = $("span.msg_poster").text();
+				var hboPosterAlt = $("td.postercell").first().text().replace("Posted By:","").replace(/<(.*?)>/g,"").trim();
 				if (avStatus == true) {
 					var randAV = getRandomInt(0, av.items.length - 1);
 					bot.say(command.channel,hboRandUrl);
@@ -439,7 +442,7 @@ function hboCheck (command, avStatus, hboTop, hboBase) {
 }
 
 function hboRando (command, avStatus) {
-	request("http://carnage.bungie.org/haloforum/halo.forum.pl", function (error, response, body) {
+	request('http://carnage.bungie.org/haloforum/halo.forum.pl', function (error, response, body) {
 		if (error || response.statusCode !== 200) {
 			console.log(error, response.statusCode);
 		}
@@ -448,7 +451,7 @@ function hboRando (command, avStatus) {
 			var hboTop = $('div#ind_msglist a').attr('name').replace( /^\D+/g, '');
 			hboTop = parseInt(hboTop, 10);
 			var hboBase = 0;
-			switch (command.args.join(" ")) {
+			switch (command.args.join(' ')) {
 				case 'newest':
 					hboBase = Math.round(hboTop * 0.90);
 					hboCheck(command, avStatus, hboTop, hboBase);
@@ -474,9 +477,35 @@ function hboRando (command, avStatus) {
 	});
 }
 
+function calculate (rt, current, last_op) {
+	// does the actual calculating when a user issues a calculation command
+	
+	switch (last_op) {
+		case "+":
+			rt = rt + current;
+			break;
+		case "-":
+			rt = rt - current;
+			break;
+		case "*":
+			rt = rt * current;
+			break;
+		case "/":
+			rt = rt / current;
+			break;
+	}
+	
+	return rt;
+}
+
+function remind () {
+	// runs to remind users of things
+	
+}
+
 var print = console.log.bind(console);
 
-//Start bot//
+// Start bot //
 
 var bot = irc.Client(network);
 
@@ -523,6 +552,24 @@ bot.on("error", function (message){
     print(message);
 });
 
+// Commands //
+
+bot.on("!remind", function (command) {
+	var rem_text = command.args;
+	var target = command.nickname;
+	
+	// make sure the first argument is a number
+	if (parseInt(rem_text[0], 10).isNaN) {
+		bot.say(command.channel, "No time given (number must come first)";
+		return;
+	}
+	
+	// the command checks out, get the number and then remove it
+	var timer = parseInt(rem_text[0], 10);
+	rem_text = rem_text.slice(1);
+	
+	
+}
 
 bot.on("!big", function (command) {
 	var small = command.args;
@@ -535,16 +582,121 @@ bot.on("!big", function (command) {
 
 bot.on("!calc", function (command) {
 	var to_calc = command.args.join(" ");
+	
 	if (to_calc == "" || to_calc == " ") {
-		bot.say(command.channel, "I can't calculate what isn't there.");
+		calc_err = "I can't calculate what isn't there";
+	}
+	
+	if (to_calc.charAt(0) == "-" || to_calc.charAt(0) == "+" || to_calc.charAt(0) == "*" || to_calc.charAt(0) == "/") {
+		calc_err = "Calculation must start with a number";
+	}
+	
+	var rt = 0;
+	var current = 0;
+	var last_op = "";
+	var recent_op = true;
+	var past_decimal = 0;
+	var calc_err = "";
+	
+	// loop through the characters entered after the command and respond to each one
+	for (var ind = 0; ind < to_calc.length; ind++) {
+		var last_char = cur_char;
+		var cur_char = command.args.join.charAt(ind);
+			
+		// check the current character
+		switch (cur_char) {
+			case "+":
+				if (recent_op) {
+					calc_err = "Consecutive operators";
+				}
+				else {
+					rt = calculate(rt, current, last_op);
+					last_op = "+";
+					recent_op = true;
+				}
+				break;
+			case "-":
+				if (recent_op) {
+					calc_err = "Consecutive operators";
+				}
+				else {
+					rt = calculate(rt, current, last_op);
+					last_op = "-";
+					recent_op = true;
+				}
+				break;
+			case "*":
+				if (recent_op) {
+					calc_err = "Consecutive operators";
+				}
+				else {
+					rt = calculate(rt, current, last_op);
+					last_op = "*";
+					recent_op = true;
+				}
+				break;
+			case "/":
+				if (recent_op) {
+					calc_err = "Consecutive operators";
+				}
+				else {
+					rt = calculate(rt, current, last_op);
+					last_op = "/";
+					recent_op = true;
+				}
+				break;
+			case ".":
+				if (past_decimal === 0) {
+					past_decimal = 1;
+				}
+				else {
+					// detected a second decimal point within a number, abort
+					calc_err = "Attempted use of multiple decimal points in one number";
+				}
+				break;
+			case "0":
+			case "1":
+			case "2":
+			case "3":
+			case "4":
+			case "5":
+			case "6":
+			case "7":
+			case "8":
+			case "9":
+				recent_op = false;
+				if (past_decimal === 0) {
+					// adjust number for newest digit
+					current = current * 10 + parseInt(cur_char, 10);
+				}
+				else {
+					// adjust number for newest digit after the decimal point
+					// use the position past the decimal point to scale the adjustment
+					current = current + (Math.pow((0.1), past_decimal) * parseInt(cur_char, 10));
+					past_decimal++;
+				}
+				break;
+			default:
+				// anything that's not a digit, a decimal point, or an operator
+				calc_err = "Disallowed character(s)";
+				break;
+		}
+		
+		// check for various shenanigans in the result
+		if (rt.isFinite === false || rt.isNaN === true) {
+			calc_err = "Result out of range or undefined";
+		}
+		
+		// check if there's been an error, and stop processing the string if there has
+		if (!(calc_err === "")) break;
+	}
+	
+	if (calc_err === "") {
+		calculate(rt, current, last_op);
+		bot.say(command.channel, rt);
 	}
 	else {
-		for (var cur_char = 0; cur_char < to_calc.length; cur_char++) {
-			// check the current character
-			// if it's an operator, perform an operation
-			// if it's a digit or decimal point, change the current number appropriately
-		}
-		bot.say(command.channel, result);
+		bot.say(command.channel, "Could not calculate: " + calc_err);
 	}
 });
 
