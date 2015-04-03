@@ -654,7 +654,7 @@ bot.on("!remind", function (command) {
 	rem_text = rem_text.slice(1);
 	
 	
-}
+});
 
 bot.on("!big", function (command) {
 	var small = command.args;
@@ -663,7 +663,7 @@ bot.on("!big", function (command) {
 		bigger = bigger + " " + small.charAt(cur_char).toUpperCase;
 	}
 	bot.say(command.channel, bigger);
-}
+});
 
 bot.on("!calc", function (command) {
 	var to_calc = command.args.join(" ");
