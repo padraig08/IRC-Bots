@@ -36,7 +36,7 @@ var howToBonkPlugin = {
 						"--Big--",
 						"Use !big [words] to get big",
 						"--Calulate--",
-						"Enter !calculate [numbers and operators] to do math"
+						"Enter !calculate [numbers and operators] to do math",
 						"--Remind--",
 						"Use !remind [number] [message] to have me remind you of something in [number] minutes"]);
 				},
