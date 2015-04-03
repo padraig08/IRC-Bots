@@ -248,6 +248,89 @@ function syncSyn(command) {
 	});
 }
 
+function userTweet(command, userString) {
+	if (_.isEmpty(userString)) {
+		bot.say(command.channel, "No user provided. Come on man, you're better than this.");
+	}
+	else {
+		var userArray = userString.split("|");
+		Tw.get("statuses/user_timeline", {screen_name: userArray[0], count: "200", exclude_replies: "true", include_rts: "false"}, function(err, data, response) {
+			if (err === null) {
+				if (!_.isEmpty(data[0])) {
+					if(_.contains(userString,"|")) {
+						switch (userArray[1]) {
+							case "name":
+								bot.say(command.channel, data[0].user.screen_name + "'s Name: " + data[0].user.name);
+								break;
+							case "description":
+								bot.say(command.channel, data[0].user.screen_name + "'s Bio: " + data[0].user.description);
+								break;
+							case "location":
+								bot.say(command.channel, data[0].user.screen_name + "'s Location: " + data[0].user.location);
+								break;
+							case "count":
+								bot.say(command.channel, data[0].user.screen_name + "'s Tweet Count: " + data[0].user.statuses_count);
+								break;
+							default:
+								bot.say(command.channel,'You gotta give me something to look up, brah.');
+						}
+					}
+					else {
+						try {
+							var tweetRandomInt = getRandomInt(0, data.length - 1);
+						}
+						catch (err) {
+							logger.error(err);
+							return;
+						}
+						var arrTweet = data[tweetRandomInt].text.replace( /\n/g, "`" ).split( "`" );
+						//console.log(arrTweet);
+						bot.say(command.channel, data[tweetRandomInt].user.screen_name + ": " + arrTweet);
+					}
+				}
+				else {
+					bot.say(command.channel, "ERROR: you chose an account with no tweets. Try again, doucher.");
+				}
+			}
+			else {
+				bot.say(command.channel, "ERROR: try again, you fucked this up somehow.");
+				console.log(err);
+			}
+		});
+	}
+}
+
+function searchDaTweet (searchString, command) {
+	if (_.isEmpty(searchString)) {
+		bot.say(command.channel, "No text provided. Come on man, you're better than this.");
+	}
+	else {
+		Tw.get('search/tweets', {q: searchString, count: "100"}, function(err, data, response) {
+			if (err === null) {
+				if (data.statuses.length > 0) {
+					try {
+						var tweetRandomInt = getRandomInt(0, data.statuses.length - 1);
+					}
+					catch (err) {
+						logger.error(err);
+						return;
+					}
+					var arrTweet = data.statuses[tweetRandomInt].text.replace( /\n/g, "`" ).split( "`" );
+					console.log(arrTweet);
+					bot.say(command.channel, "Tweet from " + data.statuses[tweetRandomInt].user.screen_name + " : " + arrTweet + " ( http://twitter.com/" + data.statuses[tweetRandomInt].user.screen_name + "/status/" + data.statuses[tweetRandomInt].id_str + " )");
+				}
+				else {
+					bot.say(command.channel, "No tweets found, that's pretty shitty.");
+				}
+			}
+			else {
+				bot.say(command.channel, "ERROR: you fucked this up duder.");
+				console.log(err);
+			}
+		});
+	}
+}
+
 function timeToBonk(command) {
 	var from = command.nickname;
 	var target = command.args.join(" ");
@@ -315,99 +398,6 @@ function timeToBonk(command) {
 	bot.say(command.channel, "Battlebonk Status: " + c.red(assessment));
 }
 
-function userTweet(command, userString) {
-	if (_.isEmpty(userString)) {
-		bot.say(command.channel, "No user provided. Come on man, you're better than this.");
-	}
-	else {
-		var userArray = userString.split("|");
-		Tw.get("statuses/user_timeline", {screen_name: userArray[0], count: "200", exclude_replies: "true", include_rts:"false"}, function(err, data, response) {
-			if (err === null) {
-				if (!_.isEmpty(data[0])) {
-					if (_.contains(userString, "|")) {
-						switch (userArray[1]) {
-							case 'name':
-								bot.say(command.channel,  data[0].user.screen_name + "'s Name: " + data[0].user.name);
-							break;
-							
-							case 'description':
-								bot.say(command.channel,  data[0].user.screen_name + "'s Bio: " + data[0].user.description);
-							break;
-							
-							case 'location':
-								bot.say(command.channel,  data[0].user.screen_name + "'s Location: " + data[0].user.location);
-							break;
-							
-							case 'count':
-								bot.say(command.channel,  data[0].user.screen_name + "'s Tweet Count: " + data[0].user.statuses_count);
-							break;
-							
-							default:
-								bot.say(command.channel, "You gotta give me something to look up, brah.");
-						}
-					}
-					else {
-						try {
-							var tweetRandomInt = getRandomInt(0, data.length - 1);
-						}
-						catch (err) {
-							logger.error(err);
-							return;
-						}
-						
-						var arrTweet = data[tweetRandomInt].text.replace( /\n/g, "`" ).split( "`" );
-						//console.log(arrTweet);
-						bot.say(command.channel, data[tweetRandomInt].user.screen_name + ": " + arrTweet);
-					}
-				}
-				else {
-					var randTweet = getRandomInt(0, data.length - 1);
-					var arrTweet = data[randTweet].text.replace( /\n/g, "`" ).split("`");
-					//console.log(arrTweet);
-					bot.say(command.channel, data[randTweet].user.screen_name + ": " + arrTweet);
-				}
-			}
-			else {
-				bot.say(command.channel, "ERROR: you chose an account with no tweets. Try again, doucher.");
-			}
-		});
-		else {
-			bot.say(command.channel,"ERROR: try again, you messed this up somehow.");
-			console.log(err);
-		}
-	}
-}
-
-function searchDaTweet (searchString, command) {
-	if (_.isEmpty(searchString)) {
-		bot.say(command.channel, "No text provided. Come on man, you're better than this.");
-	}
-	else {
-		Tw.get('search/tweets', {q: searchString, count:'100'}, function(err, data, response) {
-			if (err === null) {
-				if (data.statuses.length > 0) {
-					try {
-						var tweetRandomInt = getRandomInt(0, data.statuses.length - 1);
-					}
-					catch (err) {
-						logger.error(err);
-						return;
-					}
-					var arrTweet = data.statuses[tweetRandomInt].text.replace( /\n/g, "`" ).split( "`" );
-					console.log(arrTweet);
-					bot.say(command.channel, "Tweet from "+ data.statuses[tweetRandomInt].user.screen_name + " : " + arrTweet + " ( http://twitter.com/" + data.statuses[tweetRandomInt].user.screen_name + "/status/" + data.statuses[tweetRandomInt].id_str + " )");
-				}
-				else {
-					bot.say(command.channel, "No tweets found, that's pretty shitty.");
-				}
-			}
-			else {
-				bot.say(command.channel, "ERROR: You messed this up duder.");
-				console.log(err);
-			}
-		});
-	}
-}
 
 function randImg(kind, where) {
 	try {
@@ -459,7 +449,7 @@ function subSelect(urlBuild, where) {
 	);
 }
 
-function hboRando (command, avStatus) {
+function hboRando(command, avStatus) {
 	if (typeof avStatus !== "boolean") {
 		logger.error("avStatus is not a valid boolean");
 		console.log("avStatus not valid");
@@ -505,14 +495,13 @@ function hboRando (command, avStatus) {
 	}
 }
 
-function hboForumScrape (command, avStatus, hboBase, hboTop) {
+function hboForumScrape(command, avStatus, hboBase, hboTop) {
 	console.log("hboForumScrape is happening");
 	if((typeof hboBase === "number") && Math.floor(hboBase) === hboBase && (typeof hboTop === "number") && Math.floor(hboTop) === hboTop) {
 
 		async.retry(5, hboCheck, hboFormatPost);
 
 		function hboCheck(callback) {
-
 			try {
 				var hboRandomPostNumber = getRandomInt(hboBase, hboTop);
 			}
@@ -656,7 +645,7 @@ bot.on("!remind", function (command) {
 	
 	// make sure the first argument is a number
 	if (parseInt(rem_text[0], 10).isNaN) {
-		bot.say(command.channel, "No time given (number must come first)";
+		bot.say(command.channel, "No time given (number must come first)");
 		return;
 	}
 	
