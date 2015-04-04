@@ -1,5 +1,5 @@
-var botConfig = require('./botConfig.json'),
-	botData = require('./botData.json');
+var botConfig = require("./botConfig.json"),
+	botData = require("./botData.json");
 
 var countdown = botData.countdown,
 	translate = botData.translate,
@@ -12,21 +12,21 @@ var countdown = botData.countdown,
 	tricked = botData.tricked;
 	mad = botData.mad;
 
-var irc = require('tennu'),
-	winston = require('winston'),
-	async = require('async'),
-	network = require('./netConfig.json'),
-	request = require('request'),
-	_ = require('lodash-node'),
-	MsTranslator = require('mstranslator'),
-	latinize = require('latinize'),
-	romaji = require('hepburn'),
-	hbombcount = require('countdown'),
-	twitter = require('twit'),
-	geo = require ('geocoder'),
-	c = require('irc-colors'),
-	cheerio = require('cheerio'),
-	util = require('util');
+var irc = require("tennu"),
+	winston = require("winston"),
+	async = require("async"),
+	network = require("./netConfig.json"),
+	request = require("request"),
+	_ = require("lodash-node"),
+	MsTranslator = require("mstranslator"),
+	latinize = require("latinize"),
+	romaji = require("hepburn"),
+	hbombcount = require("countdown"),
+	twitter = require("twit"),
+	geo = require ("geocoder"),
+	c = require("irc-colors"),
+	cheerio = require("cheerio"),
+	util = require("util");
 
 //var specMatch = new RegExp(/[$-/:-?{-~!"^_`\[\]]/);
 //var numMatch = new RegExp(/[\d]/);
@@ -49,7 +49,7 @@ var transClient = new MsTranslator({
 var logger = new (winston.Logger)({
 	transports: [
 		new (winston.transports.Console)({ level: "debug"}, {level: "error"}, {level: "notice"}, {level: "warn"}, {level: "info"}, {level: "crit"}, {level: "alert"}, {level: "emerg"}),
-		new (winston.transports.File)({level: "debug", filename: './irc-debug.log'}, {level: "irc", filename: './irc-log.log'})
+		new (winston.transports.File)({level: "debug", filename: "./irc-debug.log"}, {level: "irc", filename: "./irc-log.log"})
 	]
 });
 
@@ -68,12 +68,13 @@ var ircLogger = function () {
 	}
 };
 
-function getRandomInt(min,max){
-	if((typeof min === "number") && Math.floor(min) === min && (typeof max === "number") && Math.floor(max) === max) {
+function getRandomInt(min, max) {
+	if ((typeof min === "number") && Math.floor(min) === min && (typeof max === "number") && Math.floor(max) === max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
-	}else{
+	}
+	else {
 		//logger.error('min or max number is not a valid number');
-		throw 'min or max number is not a valid number';
+		throw "min or max number is not a valid number";
 	}
 }
 
@@ -161,7 +162,7 @@ function loopAcro(c, n, url, callback) {
 				}
 				catch (err) {
 					logger.error(err);
-					callback('err', null)
+					callback("err", null)
 				}
 				acObj[n] = acData.searchResults[acroRandomInt].word;
 				callback();
@@ -190,7 +191,7 @@ function loopSyn(c, n, callback) {
 			}
 			catch (err) {
 				logger.error(err);
-				callback('err', null)
+				callback("err", null)
 			}
 			synObj[n] = synData[0].words[synRandomInt];
 
@@ -233,8 +234,8 @@ function syncSyn(command) {
 		requests++;
 		//console.log(command.args);
 		if (specMatch.test(n) || numMatch.test(n)) {
-			console.log('got it');
-			loopSyn('fuck', requests, callback);
+			console.log("got it");
+			loopSyn("fuck", requests, callback);
 		}
 		else {
 			loopSyn(n, requests, callback);
@@ -272,7 +273,7 @@ function userTweet(command, userString) {
 								bot.say(command.channel, data[0].user.screen_name + "'s Tweet Count: " + data[0].user.statuses_count);
 								break;
 							default:
-								bot.say(command.channel,'You gotta give me something to look up, brah.');
+								bot.say(command.channel, "You gotta give me something to look up, brah.");
 						}
 					}
 					else {
@@ -305,7 +306,7 @@ function searchDaTweet (searchString, command) {
 		bot.say(command.channel, "No text provided. Come on man, you're better than this.");
 	}
 	else {
-		Tw.get('search/tweets', {q: searchString, count: "100"}, function(err, data, response) {
+		Tw.get("search/tweets", {q: searchString, count: "100"}, function(err, data, response) {
 			if (err === null) {
 				if (data.statuses.length > 0) {
 					try {
@@ -340,7 +341,7 @@ function timeToBonk(command) {
 	}
 	catch (err) {
 		logger.error(err);
-		callback('err', null)
+		callback("err", null)
 	}
 	
 	if (_.isEmpty(target)) {
@@ -371,7 +372,7 @@ function timeToBonk(command) {
 	}
 	catch (err) {
 		logger.error(err);
-		callback('err', null)
+		callback("err", null)
 	}
 
 	try {
@@ -379,7 +380,7 @@ function timeToBonk(command) {
 	}
 	catch (err) {
 		logger.error(err);
-		callback('err', null)
+		callback("err", null)
 	}
 
 	// build the bonk message
@@ -398,7 +399,6 @@ function timeToBonk(command) {
 	bot.say(command.channel, "Battlebonk Status: " + c.red(assessment));
 }
 
-
 function randImg(kind, where) {
 	try {
 		var redditRandomInt = getRandomInt(0, kind.length - 1);
@@ -408,7 +408,7 @@ function randImg(kind, where) {
 		return;
 	}
 	
-	var urlBuild = urls.reddit + kind[redditRandomInt] + '/random/.json';
+	var urlBuild = urls.reddit + kind[redditRandomInt] + "/random/.json";
 	subSelect(urlBuild, where);
 }
 
@@ -456,7 +456,7 @@ function hboRando(command, avStatus) {
 	}
 	else {
 		console.log("Making initial HBO request");
-		request({url:"http://carnage.bungie.org/haloforum/halo.forum.pl",maxRedirects:2, headers: {'User-Agent': 'request'}},
+		request({url: "http://carnage.bungie.org/haloforum/halo.forum.pl", maxRedirects: 2, headers: {"User-Agent": "request"}},
 			function (error, response, body) {
 				if (error || response.statusCode !== 200){
 					logger.error(error, response.statusCode);
@@ -465,25 +465,25 @@ function hboRando(command, avStatus) {
 				else {
 					console.log("Here we go");
 					var $ = cheerio.load(body);
-					var hboTop = $('div#ind_msglist a').attr('name').replace( /^\D+/g, '');
+					var hboTop = $("div#ind_msglist a").attr("name").replace( /^\D+/g, '');
 					hboTop = parseInt(hboTop, 10);
 					var hboBase = 0;
 					switch (command.args.join(" ")) {
-						case 'new':
+						case "new":
 							hboBase = Math.round(hboTop * 0.90);
 							hboForumScrape(command, avStatus, hboBase, hboTop);
 							break;
-						case 'old':
+						case "old":
 							hboBase = Math.round(hboTop * 0.50);
 							hboTop = Math.round(hboTop * 0.89);
 							hboForumScrape(command,avStatus, hboBase, hboTop);
 							break;
-						case 'OLD':
+						case "OLD":
 							hboBase = Math.round(hboTop * 0.11);
 							hboTop = Math.round(hboTop * 0.49);
 							hboForumScrape(command,avStatus, hboBase, hboTop);
 							break;
-						case 'O L D':
+						case "O L D":
 							hboTop = Math.round(hboTop * 0.10);
 							hboForumScrape(command,avStatus, hboBase, hboTop);
 							break;
@@ -545,10 +545,10 @@ function hboForumScrape(command, avStatus, hboBase, hboTop) {
 				console.log(err);
 			}
 			else {
-				var hboTitle = results.html('div.msg_headln').text();
-				var hboTitleAlt = results.html('td.subjectcell b').text();
-				var hboPoster = results.html('span.msg_poster').text();
-				var hboPosterAlt = results.html('td.postercell').first().text().replace("Posted By:", "").replace(/<(.*?)>/g, "").trim();
+				var hboTitle = results.html("div.msg_headln").text();
+				var hboTitleAlt = results.html("td.subjectcell b").text();
+				var hboPoster = results.html("span.msg_poster").text();
+				var hboPosterAlt = results.html("td.postercell").first().text().replace("Posted By:", "").replace(/<(.*?)>/g, "").trim();
 
 				if (avStatus == true) {
 					try {
@@ -560,7 +560,8 @@ function hboForumScrape(command, avStatus, hboBase, hboTop) {
 					}
 					bot.say(command.channel, results.url);
 					bot.say(command.channel, av.items[randAV].replace(/<user>/gi, hboPoster + hboPosterAlt));
-				} else {
+				}
+				else {
 					bot.say(command.channel, hboTitle + hboTitleAlt + " (" + hboPoster + hboPosterAlt + ") " + results.url);
 				}
 			}
@@ -574,6 +575,11 @@ function hboForumScrape(command, avStatus, hboBase, hboTop) {
 
 function calculate (rt, current, last_op) {
 	// does the actual calculating when a user issues a calculation command
+	
+	// set the running total to the current number if the number before this operator was the first one
+	if (last_op === "") {
+		rt = current;
+	}
 	
 	switch (last_op) {
 		case "+":
@@ -593,11 +599,6 @@ function calculate (rt, current, last_op) {
 	return rt;
 }
 
-function remind () {
-	// runs to remind users of things
-	
-}
-
 // Start bot //
 
 var bot = irc.Client(network, {Logger: ircLogger});
@@ -608,7 +609,7 @@ var kind= '';
 
 bot.on("join", function(message) {
 	if (message.nickname == "Bonk-Bot") {
-		bot.say(message.channel,"BonkBot Online.... use #howtobonk for instructions and running modules");
+		bot.say(message.channel, "BonkBot Online... use #howtobonk for instructions and running modules");
 	}
 	else {
 		//checkOP(message.nickname);
@@ -639,34 +640,26 @@ bot.on("nick", function (message) {
 
 // Commands //
 
-bot.on("!remind", function (command) {
-	var rem_text = command.args;
-	var target = command.nickname;
-	
-	// make sure the first argument is a number
-	if (parseInt(rem_text[0], 10).isNaN) {
-		bot.say(command.channel, "No time given (number must come first)");
-		return;
-	}
-	
-	// the command checks out, get the number and then remove it
-	var timer = parseInt(rem_text[0], 10);
-	rem_text = rem_text.slice(1);
-	
-	
-});
-
 bot.on("!big", function (command) {
-	var small = command.args;
+	var small = command.args.join(" ");
 	var bigger = "";
-	for (var cur_char = 0; cur_char < to_calc.length; cur_char++) {
-		bigger = bigger + " " + small.charAt(cur_char).toUpperCase;
+	if (small.length < 2) {
+		bot.say(command.channel, "Get outta here with that weak shit.");
 	}
-	bot.say(command.channel, bigger);
+	else {
+		// copy in the first character and start the loop at 1 so the output doesn't start with a space
+		bigger = small.charAt(cur_char);
+		for (var cur_char = 1; cur_char < small.length; cur_char++) {
+			bigger = bigger + " " + small.charAt(cur_char);
+		}
+		bigger = bigger.toUpperCase();
+		bot.say(command.channel, bigger);
+	}
 });
 
 bot.on("!calc", function (command) {
-	var to_calc = command.args.join(" ");
+	var to_calc = command.args.join("");
+	var calc_err = "";
 	
 	if (to_calc == "" || to_calc == " ") {
 		calc_err = "I can't calculate what isn't there";
@@ -679,55 +672,30 @@ bot.on("!calc", function (command) {
 	var rt = 0;
 	var current = 0;
 	var last_op = "";
-	var recent_op = true;
+	var recent_op = false;
 	var past_decimal = 0;
-	var calc_err = "";
 	
 	// loop through the characters entered after the command and respond to each one
 	for (var ind = 0; ind < to_calc.length; ind++) {
-		var last_char = cur_char;
-		var cur_char = command.args.join.charAt(ind);
-			
-		// check the current character
+		// check if there's been an error, and stop processing the string if there has
+		if (!(calc_err === "")) break;
+		
+		var cur_char = to_calc.charAt(ind);
+		
 		switch (cur_char) {
 			case "+":
-				if (recent_op) {
-					calc_err = "Consecutive operators";
-				}
-				else {
-					rt = calculate(rt, current, last_op);
-					last_op = "+";
-					recent_op = true;
-				}
-				break;
 			case "-":
-				if (recent_op) {
-					calc_err = "Consecutive operators";
-				}
-				else {
-					rt = calculate(rt, current, last_op);
-					last_op = "-";
-					recent_op = true;
-				}
-				break;
 			case "*":
-				if (recent_op) {
-					calc_err = "Consecutive operators";
-				}
-				else {
-					rt = calculate(rt, current, last_op);
-					last_op = "*";
-					recent_op = true;
-				}
-				break;
 			case "/":
 				if (recent_op) {
 					calc_err = "Consecutive operators";
 				}
 				else {
 					rt = calculate(rt, current, last_op);
-					last_op = "/";
+					last_op = cur_char;
 					recent_op = true;
+					current = 0;
+					past_decimal = 0;
 				}
 				break;
 			case ".":
@@ -752,12 +720,12 @@ bot.on("!calc", function (command) {
 				recent_op = false;
 				if (past_decimal === 0) {
 					// adjust number for newest digit
-					current = current * 10 + parseInt(cur_char, 10);
+					current = (current * 10) + parseInt(cur_char, 10);
 				}
 				else {
 					// adjust number for newest digit after the decimal point
 					// use the position past the decimal point to scale the adjustment
-					current = current + (Math.pow((0.1), past_decimal) * parseInt(cur_char, 10));
+					current = current + ((Math.pow((0.1), past_decimal) * parseInt(cur_char, 10)));
 					past_decimal++;
 				}
 				break;
@@ -768,16 +736,15 @@ bot.on("!calc", function (command) {
 		}
 		
 		// check for various shenanigans in the result
-		if (rt.isFinite === false || rt.isNaN === true) {
-			calc_err = "Result out of range or undefined";
+		if (isFinite(rt) === false || isNaN(rt) === true) {
+			calc_err = "Result out of range, undefined, or indeterminate";
 		}
 		
-		// check if there's been an error, and stop processing the string if there has
 		if (!(calc_err === "")) break;
 	}
 	
 	if (calc_err === "") {
-		calculate(rt, current, last_op);
+		rt = calculate(rt, current, last_op);
 		bot.say(command.channel, rt);
 	}
 	else {
@@ -831,7 +798,7 @@ bot.on("!mad", function (command) {
 	}
 });
 
-bot.on('!dmx', function(command) {
+bot.on("!dmx", function(command) {
 	try {
 		var dmxRandomInt = getRandomInt(0, dmx.phrases.length - 1);
 	}
@@ -842,7 +809,7 @@ bot.on('!dmx', function(command) {
 	bot.say(command.channel, dmx.phrases[dmxRandomInt]);
 });
 
-bot.on('!ugh', function (command) {
+bot.on("!ugh", function (command) {
 	try {
 		var ughRandomInt = getRandomInt(0, ugh.items.length - 1);
 	}
@@ -863,8 +830,9 @@ bot.on("!qdb", function (command) {
 			var $ = cheerio.load(body);
 			var match = $('div.quoteIDBox a').map(function(i, el){ return $(this).attr('href') }).get();
 			try {
-				var qdbRandomInt = getRandomInt(0,match.length-1);
-			} catch (err) {
+				var qdbRandomInt = getRandomInt(0, match.length - 1);
+			}
+			catch (err) {
 				logger.error(err);
 				return;
 			}
@@ -923,6 +891,10 @@ bot.on("!engrish", function (command) {
 bot.on("!gif", function (command) {
 	kind = urls.subs.gif;
 	randImg(kind, command.channel);
+});
+
+bot.on("!tweet", function (command) {
+    searchDaTweet(command.args.join(" "), command);
 });
 
 bot.on("!fanfic", function (command){
@@ -998,7 +970,7 @@ bot.on("!define", function (command) {
 	});	
 });
 
-bot.on('!example', function (command) {
+bot.on("!example", function (command) {
 	var exampleWord = command.args.join("");
 	var urlExampleBuild = word.wordUrl + word.exampleUrl + word.apiUrl;
 	urlExampleBuild = urlExampleBuild.replace(/<word>/gi, exampleWord).replace(/<api>/gi, word.api);
@@ -1085,7 +1057,7 @@ bot.on("!tweep", function (command) {
 	userTweet(command, command.args.join(""));
 });        
 
-bot.on('!tricked', function (command) {
+bot.on("!tricked", function (command) {
 	try {
 		var trickedRandomInt = getRandomInt(0, tricked.items.length - 1);
 	}
@@ -1094,9 +1066,4 @@ bot.on('!tricked', function (command) {
 		return;
 	}
 	bot.say(command.channel, ">tfw " + tricked.items[trickedRandomInt]);
-});
-
-bot.on("!tricked", function (command) {
-	var trixRand = getRandomInt(0, tricked.items.length - 1);
-	bot.say(command.channel, ">tfw " + tricked.items[trixRand]);
 });
