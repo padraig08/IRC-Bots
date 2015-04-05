@@ -605,7 +605,7 @@ var bot = irc.Client(network, {Logger: ircLogger});
 
 bot.connect();
 
-var kind= '';
+var kind = "";
 
 bot.on("join", function(message) {
 	if (message.nickname == "Bonk-Bot") {
@@ -740,11 +740,20 @@ bot.on("!calc", function (command) {
 			calc_err = "Result out of range, undefined, or indeterminate";
 		}
 		
+		// check at the beginning and end of the loop to catch early and late calculation issues
+		// and prevent any from slipping through
 		if (!(calc_err === "")) break;
 	}
 	
+	// catch the last number and operator and factor them in
+	rt = calculate(rt, current, last_op);
+	
+	// check for validity again to prevent issues from short inputs from slipping through
+	if (isFinite(rt) === false || isNaN(rt) === true) {
+		calc_err = "Result out of range, undefined, or indeterminate";
+	}
+	
 	if (calc_err === "") {
-		rt = calculate(rt, current, last_op);
 		bot.say(command.channel, rt);
 	}
 	else {
