@@ -3,7 +3,13 @@ var clonkPlugin = {
         return {
             handlers: {
                 "!clonk": function (command) {
-                    client.quit("Goodbye world");
+                    if (command.nickname == "General_Vagueness" || command.nickname == "GeneralVagueness" ||
+					command.nickname == "Gen_Vagueness") {
+						client.quit("Goodbye world");
+					}
+					else {
+						client.say(command.channel, "That command is restricted");
+					}
                    }
             },
 
