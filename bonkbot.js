@@ -594,6 +594,9 @@ function calculate (rt, current, last_op) {
 		case "/":
 			rt = rt / current;
 			break;
+		case "^":
+			rt = Math.pow(rt, current);
+			break;
 	}
 	
 	return rt;
@@ -687,6 +690,7 @@ bot.on("!calc", function (command) {
 			case "-":
 			case "*":
 			case "/":
+			case "^":
 				if (recent_op) {
 					calc_err = "Consecutive operators";
 				}
