@@ -573,15 +573,15 @@ function hboForumScrape(command, avStatus, hboBase, hboTop) {
 	}
 }
 
-function calculate (rt, current, last_op) {
+function calculate (rt, current, lastOp) {
 	// does the actual calculating when a user issues a calculation command
 	
 	// set the running total to the current number if the number before this operator was the first one
-	if (last_op === "") {
+	if (lastOp === "") {
 		rt = current;
 	}
 	
-	switch (last_op) {
+	switch (lastOp) {
 		case "+":
 			rt = rt + current;
 			break;
@@ -651,9 +651,9 @@ bot.on("!big", function (command) {
 	}
 	else {
 		// copy in the first character and start the loop at 1 so the output doesn't start with a space
-		bigger = small.charAt(cur_char);
-		for (var cur_char = 1; cur_char < small.length; cur_char++) {
-			bigger = bigger + " " + small.charAt(cur_char);
+		bigger = small.charAt(curChar);
+		for (var curChar = 1; curChar < small.length; curChar++) {
+			bigger = bigger + " " + small.charAt(curChar);
 		}
 		bigger = bigger.toUpperCase();
 		bot.say(command.channel, bigger);
@@ -661,54 +661,54 @@ bot.on("!big", function (command) {
 });
 
 bot.on("!calc", function (command) {
-	var to_calc = command.args.join("");
-	var calc_err = "";
+	var toCalc = command.args.join("");
+	var calcErr = "";
 	
-	if (to_calc == "" || to_calc == " ") {
-		calc_err = "I can't calculate what isn't there";
+	if (toCalc == "" || toCalc == " ") {
+		calcErr = "I can't calculate what isn't there";
 	}
 	
-	if (to_calc.charAt(0) == "-" || to_calc.charAt(0) == "+" || to_calc.charAt(0) == "*" || to_calc.charAt(0) == "/") {
-		calc_err = "Calculation must start with a number";
+	if (toCalc.charAt(0) == "-" || toCalc.charAt(0) == "+" || toCalc.charAt(0) == "*" || toCalc.charAt(0) == "/") {
+		calcErr = "Calculation must start with a number";
 	}
 	
 	var rt = 0;
 	var current = 0;
-	var last_op = "";
-	var recent_op = false;
-	var past_decimal = 0;
+	var lastOp = "";
+	var recentOp = false;
+	var pastDecimal = 0;
 	
 	// loop through the characters entered after the command and respond to each one
-	for (var ind = 0; ind < to_calc.length; ind++) {
+	for (var ind = 0; ind < toCalc.length; ind++) {
 		// check if there's been an error, and stop processing the string if there has
-		if (!(calc_err === "")) break;
+		if (!(calcErr === "")) break;
 		
-		var cur_char = to_calc.charAt(ind);
+		var curChar = toCalc.charAt(ind);
 		
-		switch (cur_char) {
+		switch (curChar) {
 			case "+":
 			case "-":
 			case "*":
 			case "/":
 			case "^":
-				if (recent_op) {
-					calc_err = "Consecutive operators";
+				if (recentOp) {
+					calcErr = "Consecutive operators";
 				}
 				else {
-					rt = calculate(rt, current, last_op);
-					last_op = cur_char;
-					recent_op = true;
+					rt = calculate(rt, current, lastOp);
+					lastOp = curChar;
+					recentOp = true;
 					current = 0;
-					past_decimal = 0;
+					pastDecimal = 0;
 				}
 				break;
 			case ".":
-				if (past_decimal === 0) {
-					past_decimal = 1;
+				if (pastDecimal === 0) {
+					pastDecimal = 1;
 				}
 				else {
 					// detected a second decimal point within a number, abort
-					calc_err = "Attempted use of multiple decimal points in one number";
+					calcErr = "Attempted use of multiple decimal points in one number";
 				}
 				break;
 			case "0":
@@ -721,47 +721,47 @@ bot.on("!calc", function (command) {
 			case "7":
 			case "8":
 			case "9":
-				recent_op = false;
-				if (past_decimal === 0) {
+				recentOp = false;
+				if (pastDecimal === 0) {
 					// adjust number for newest digit
-					current = (current * 10) + parseInt(cur_char, 10);
+					current = (current * 10) + parseInt(curChar, 10);
 				}
 				else {
 					// adjust number for newest digit after the decimal point
 					// use the position past the decimal point to scale the adjustment
-					current = current + ((Math.pow((0.1), past_decimal) * parseInt(cur_char, 10)));
-					past_decimal++;
+					current = current + ((Math.pow((0.1), pastDecimal) * parseInt(curChar, 10)));
+					pastDecimal++;
 				}
 				break;
 			default:
 				// anything that's not a digit, a decimal point, or an operator
-				calc_err = "Disallowed character(s)";
+				calcErr = "Disallowed character(s)";
 				break;
 		}
 		
 		// check for various shenanigans in the result
 		if (isFinite(rt) === false || isNaN(rt) === true) {
-			calc_err = "Result out of range, undefined, or indeterminate";
+			calcErr = "Result out of range, undefined, or indeterminate";
 		}
 		
 		// check at the beginning and end of the loop to catch early and late calculation issues
 		// and prevent any from slipping through
-		if (!(calc_err === "")) break;
+		if (!(calcErr === "")) break;
 	}
 	
 	// catch the last number and operator and factor them in
-	rt = calculate(rt, current, last_op);
+	rt = calculate(rt, current, lastOp);
 	
 	// check for validity again to prevent issues from short inputs from slipping through
 	if (isFinite(rt) === false || isNaN(rt) === true) {
-		calc_err = "Result out of range, undefined, or indeterminate";
+		calcErr = "Result out of range, undefined, or indeterminate";
 	}
 	
-	if (calc_err === "") {
+	if (calcErr === "") {
 		bot.say(command.channel, rt);
 	}
 	else {
-		bot.say(command.channel, "Could not calculate: " + calc_err);
+		bot.say(command.channel, "Could not calculate: " + calcErr);
 	}
 });
 
