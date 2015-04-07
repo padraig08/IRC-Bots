@@ -9,7 +9,7 @@ var countdown = botData.countdown,
 	randomMsg = botData.randomMsg,
 	rhymePos = botData.rhymePos,
 	word = botData.word,
-	tricked = botData.tricked;
+	tricked = botData.tricked,
 	mad = botData.mad;
 
 var irc = require("tennu"),
@@ -31,7 +31,7 @@ var irc = require("tennu"),
 //var specMatch = new RegExp(/[$-/:-?{-~!"^_`\[\]]/);
 //var numMatch = new RegExp(/[\d]/);
 
-var letterPattern = new RegExp('[a-zA-Z]');
+var letterPattern = new RegExp("[a-zA-Z]");
 var requests = 0;
 
 var Tw = new twitter({
@@ -73,7 +73,7 @@ function getRandomInt(min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
 	else {
-		//logger.error('min or max number is not a valid number');
+		//logger.error("min or max number is not a valid number");
 		throw "min or max number is not a valid number";
 	}
 }
@@ -466,7 +466,7 @@ function hboRando(command, avStatus) {
 				else {
 					console.log("Here we go");
 					var $ = cheerio.load(body);
-					var hboTop = $("div#ind_msglist a").attr("name").replace( /^\D+/g, '');
+					var hboTop = $("div#ind_msglist a").attr("name").replace( /^\D+/g, "");
 					hboTop = parseInt(hboTop, 10);
 					var hboBase = 0;
 					switch (command.args.join(" ")) {
@@ -517,7 +517,7 @@ function hboForumScrape(command, avStatus, hboBase, hboTop) {
 			request({
 				url: hboTestUrl,
 				maxRedirects: 2,
-				headers: {'User-Agent': 'request'}
+				headers: {"User-Agent": "request"}
 			},
 			function (error, response, body) {
 				console.log("Request, hboCheck");
@@ -847,7 +847,7 @@ bot.on("!qdb", function (command) {
 		}
 		else {
 			var $ = cheerio.load(body);
-			var match = $('div.quoteIDBox a').map(function(i, el){ return $(this).attr('href') }).get();
+			var match = $("div.quoteIDBox a").map(function(i, el){ return $(this).attr("href") }).get();
 			try {
 				var qdbRandomInt = getRandomInt(0, match.length - 1);
 			}
@@ -855,7 +855,7 @@ bot.on("!qdb", function (command) {
 				logger.error(err);
 				return;
 			}
-			var newMatch = "http://qdb.zero9f9.com/quote.php?id=" + match[qdbRandomInt].replace( /^\D+/g, '');
+			var newMatch = "http://qdb.zero9f9.com/quote.php?id=" + match[qdbRandomInt].replace( /^\D+/g, "");
 			bot.say(command.channel, newMatch);
 		}
 	});
@@ -874,7 +874,7 @@ bot.on("!gif", function (command){
 });
 
 bot.on("!rando", function (command) {
-	randoSub(command.args.join(''), command.channel);
+	randoSub(command.args.join(""), command.channel);
 });
 
 bot.on("!translate", function (command) {
@@ -917,7 +917,7 @@ bot.on("!tweet", function (command) {
 });
 
 bot.on("!fanfic", function (command){
-	userTweet(command, 'Fanfiction_txt');
+	userTweet(command, "Fanfiction_txt");
 });        
 
 bot.on("!translate", function (command) {
@@ -995,7 +995,7 @@ bot.on("!example", function (command) {
 	urlExampleBuild = urlExampleBuild.replace(/<word>/gi, exampleWord).replace(/<api>/gi, word.api);
 	request(urlExampleBuild, function (error, response, body) {
 		if (error || response.statusCode !== 200 || body.length <= 2) {
-			bot.say(command.channel,'Try another word. I got no examples for you, jack.');
+			bot.say(command.channel, "Try another word. I got no examples for you, jack.");
 		}
 		else {
 			var exampleData = JSON.parse(body);
@@ -1012,13 +1012,13 @@ bot.on("!example", function (command) {
 });
 
 /*
-bot.on('!acro', function (command){
+bot.on("!acro", function (command){
 	var acroWord = command.args.join("");
 	var acLetter = acroWord.split("");
 	syncAcro(command, acLetter);
 });
 
-bot.on('!syn', function (command){
+bot.on("!syn", function (command){
 	syncSyn(command);
 });
 */
