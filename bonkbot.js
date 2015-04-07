@@ -768,36 +768,38 @@ bot.on("!calc", function (command) {
 
 bot.on("!care", function (command) {
 	
-	// why yes, there are 102 possibilities
+	// why yes, there are 102 possibilities; this whole function is mostly arbitrary
 	var careAmount = getRandomInt(0, 101);
 	var careMsg = "Care-o-meter: ";
 	
-	// use this ugly chain of if statements because JS only supports ranges in switch case under certain circumstances
+	// use an if block because JS only supports ranges in switch case under certain circumstances
 	if (careAmount >= 0 && careAmount <= 9) {
 		careMsg = careMsg + "(' ' ') not even registering";
 	}
-	if (careAmount >= 10 && careAmount <= 21) {
+	else if (careAmount >= 10 && careAmount <= 21) {
 		careMsg = careMsg + "(\\ ' ')";
 	}
-	if (careAmount >= 22 && careAmount <= 33) {
+	else if (careAmount >= 22 && careAmount <= 33) {
 		careMsg = careMsg + "('\\' ')";
 	}
-	if (careAmount >= 34 && careAmount <= 45) {
+	else if (careAmount >= 34 && careAmount <= 45) {
 		careMsg = careMsg + "(' \\ ')";
 	}
-	if (careAmount >= 46 && careAmount <= 54) {
+	else if (careAmount >= 46 && careAmount <= 54) {
 		careMsg = careMsg + "(' | ') meh";
 	}
-	if (careAmount >= 55 && careAmount <= 72) {
+	else if (careAmount >= 55 && careAmount <= 72) {
 		careMsg = careMsg + "(' / ')";
 	}
-	if (careAmount >= 73 && careAmount <= 88) {
+	else if (careAmount >= 73 && careAmount <= 88) {
 		careMsg = careMsg + "(' '/')";
 	}
-	if (careAmount >= 89 && careAmount <= 98) {
+	else if (careAmount >= 89 && careAmount <= 98) {
 		careMsg = careMsg + "(' ' /)";
 	}
-	if (careAmount >= 99) {
+	else {
+		// all the numbers not covered are at the upper end of the range
+		// specifically, this currently catches: careAmount >= 99
 		careMsg = careMsg + "(' ' ')/ so much care it broke the meter";
 	}
 	
