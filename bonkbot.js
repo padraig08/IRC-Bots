@@ -363,6 +363,7 @@ function timeToBonk(command) {
 	}
 	
 	if (noName && !(bonkingSelf)) {
+		// forgive the command issuer for omitting a nick
 		bot.say(command.channel, "You're lucky I don't bonk you!");
 		return;
 	}
@@ -749,7 +750,7 @@ bot.on("!calc", function (command) {
 		if (!(calcErr === "")) break;
 	}
 	
-	// catch the last number and operator and factor them in
+	// factor in the last number and operator
 	rt = calculate(rt, current, lastOp);
 	
 	// check for validity again to prevent issues from short inputs from slipping through
@@ -766,9 +767,12 @@ bot.on("!calc", function (command) {
 });
 
 bot.on("!care", function (command) {
+	
+	// why yes, there are 102 possibilities
 	var careAmount = getRandomInt(0, 101);
 	var careMsg = "Care-o-meter: ";
 	
+	// use this ugly chain of if statements because JS only supports ranges in switch case under certain circumstances
 	if (careAmount >= 0 && careAmount <= 9) {
 		careMsg = careMsg + "(' ' ') not even registering";
 	}
