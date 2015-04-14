@@ -10,7 +10,8 @@ var countdown = botData.countdown,
 	rhymePos = botData.rhymePos,
 	word = botData.word,
 	tricked = botData.tricked,
-	mad = botData.mad;
+	mad = botData.mad,
+	stream = botData.stream;
 
 var irc = require("tennu"),
 	winston = require("winston"),
@@ -284,7 +285,7 @@ function userTweet(command, userString) {
 							logger.error(err);
 							return;
 						}
-						var arrTweet = data[tweetRandomInt].text.replace( /\n/g, "`" ).split( "`" );
+						var arrTweet = data[tweetRandomInt].text.replace( /\n/g, "`" ).split("`");
 						//console.log(arrTweet);
 						bot.say(command.channel, data[tweetRandomInt].user.screen_name + ": " + arrTweet);
 					}
@@ -457,9 +458,13 @@ function hboRando(command, avStatus) {
 	}
 	else {
 		console.log("Making initial HBO request");
-		request({url: "http://carnage.bungie.org/haloforum/halo.forum.pl", maxRedirects: 2, headers: {"User-Agent": "request"}},
+		request({
+			url: "http://carnage.bungie.org/haloforum/halo.forum.pl",
+			maxRedirects: 2,
+			headers: {"User-Agent": "request"}
+			},
 			function (error, response, body) {
-				if (error || response.statusCode !== 200){
+				if (error || response.statusCode !== 200) {
 					logger.error(error, response.statusCode);
 					console.log("hboRando Request Error");
 				}
@@ -477,22 +482,23 @@ function hboRando(command, avStatus) {
 						case "old":
 							hboBase = Math.round(hboTop * 0.50);
 							hboTop = Math.round(hboTop * 0.89);
-							hboForumScrape(command,avStatus, hboBase, hboTop);
+							hboForumScrape(command, avStatus, hboBase, hboTop);
 							break;
 						case "OLD":
 							hboBase = Math.round(hboTop * 0.11);
 							hboTop = Math.round(hboTop * 0.49);
-							hboForumScrape(command,avStatus, hboBase, hboTop);
+							hboForumScrape(command, avStatus, hboBase, hboTop);
 							break;
 						case "O L D":
 							hboTop = Math.round(hboTop * 0.10);
-							hboForumScrape(command,avStatus, hboBase, hboTop);
+							hboForumScrape(command, avStatus, hboBase, hboTop);
 							break;
 						default:
-							hboForumScrape(command,avStatus, hboBase, hboTop);
+							hboForumScrape(command, avStatus, hboBase, hboTop);
 					}
 				}
-			});
+			}
+		);
 	}
 }
 
@@ -620,6 +626,70 @@ bot.on("join", function(message) {
 	}
 });
 
+var tsdtvCheck = (function () {
+	//  periodically checks for updates in the page the TSDTV stream pulls from and displays them
+	
+	var timer;
+	var series = "";
+	var seriesPrev = "";
+	var episode = "";
+	var episodePrev = "";
+	
+	// use a closure to preserve information between calls
+	return {
+		count: function () {
+			request({
+				url: stream.url,
+				maxRedirects: 1,
+				headers: {"User-Agent": "request"}
+				},
+				function (error, response, body) {
+					if (error || response.statusCode !== 200) {
+						console.log(error);
+						bot.say(stream.talkChannel, "Error checking page");
+					}
+					else {
+						var $ = cheerio.load(body);
+						series = $("h4.media-heading").text();
+						if (series == "") {
+							seriesPrev = "";
+							episodePrev = "";
+						}
+						else {
+							// cheerio doesn't make it easy to get anything not directly surrounded by tags
+							// get whole contents of the div as a string
+							episode = String($("div.media-body").contents());
+							// get the third line
+							episode = episode.split("\n")[2];
+							// remove the extension-- the last . and everything after it
+							// would use: episode = episode.replace(/\..$/, ""); but node doesn't run it right
+							episode = episode.split(".");
+							episode = episode.slice(0, -1);
+							episode = episode.join();
+							// get rid of any leading spaces
+							episode = episode.replace(/^\s\s*/, "");
+							// output the final string-- if the series or episode is different from the last check
+							if (episode !== episodePrev || series !== seriesPrev) {
+								bot.say(stream.talkChannel, "Now playing: " + series + " - " + episode);
+								if (series !== seriesPrev) {
+									seriesPrev = series;
+								}
+								if (episode !== episodePrev) {
+									episodePrev = episode;
+								}
+							}
+						}
+					}
+				}
+			);
+			timer = setTimeout(tsdtvCheck.count, stream.timer);
+		},
+		stop: function () {
+			clearTimeout(timer);
+		}
+	};
+} )();
+
 /*bot.on("quit",function(message){
 	//console.log(util.inspect(message));
 	var removeName = _.where(nameList, {"name": message.nickname});
@@ -643,6 +713,17 @@ bot.on("nick", function (message) {
 */
 
 // Commands //
+
+bot.on("!tsdtv", function (command) {
+	var cmd = command.args.join("");
+	
+	if (cmd == "start") {
+		tsdtvCheck.count();
+	}
+	else if (cmd == "stop") {
+		tsdtvCheck.stop();
+	}
+});
 
 bot.on("!big", function (command) {
 	var small = command.args.join(" ");
@@ -669,7 +750,7 @@ bot.on("!calc", function (command) {
 		calcErr = "I can't calculate what isn't there";
 	}
 	
-	if (toCalc.charAt(0) == "-" || toCalc.charAt(0) == "+" || toCalc.charAt(0) == "*" || toCalc.charAt(0) == "/") {
+	if (toCalc.charAt(0) != "0" && toCalc.charAt(0) != "1" && toCalc.charAt(0) != "2" && toCalc.charAt(0) != "3" && toCalc.charAt(0) != "4" && toCalc.charAt(0) != "5" && toCalc.charAt(0) != "6" && toCalc.charAt(0) != "7" && toCalc.charAt(0) != "8" && toCalc.charAt(0) != "9") {
 		calcErr = "Calculation must start with a number";
 	}
 	
@@ -767,7 +848,6 @@ bot.on("!calc", function (command) {
 });
 
 bot.on("!care", function (command) {
-	
 	// why yes, there are 102 possibilities; this whole function is mostly arbitrary
 	var careAmount = getRandomInt(0, 101);
 	var careMsg = "Care-o-meter: ";

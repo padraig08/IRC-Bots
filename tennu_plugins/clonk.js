@@ -4,7 +4,7 @@ var clonkPlugin = {
             handlers: {
                 "!clonk": function (command) {
                     if (command.nickname == "General_Vagueness" || command.nickname == "GeneralVagueness" ||
-					command.nickname == "Gen_Vagueness") {
+					command.nickname == "Gen_Vagueness" || command.nickname == "Paddy") {
 						client.quit("Goodbye world");
 					}
 					else {
