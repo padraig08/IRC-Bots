@@ -665,7 +665,7 @@ var tsdtvCheck = (function () {
 							// would use: episode = episode.replace(/\..$/, ""); but node doesn't run it right
 							episode = episode.split(".");
 							episode = episode.slice(0, -1);
-							episode = episode.join();
+							episode = episode.join(".");
 							// get rid of any leading spaces
 							episode = episode.replace(/^\s\s*/, "");
 							// output the final string-- if the series or episode is different from the last check
@@ -682,9 +682,11 @@ var tsdtvCheck = (function () {
 					}
 				}
 			);
+			// call me back
 			timer = setTimeout(tsdtvCheck.count, stream.timer);
 		},
 		stop: function () {
+			// clear the timeout for running the tsdtvCheck.count again
 			clearTimeout(timer);
 		}
 	};
