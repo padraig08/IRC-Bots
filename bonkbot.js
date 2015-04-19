@@ -608,7 +608,7 @@ function calculate (rt, current, lastOp) {
 	
 	return rt;
 }
-
+	
 // Start bot //
 
 var bot = irc.Client(network, {Logger: ircLogger});
@@ -756,11 +756,22 @@ bot.on("!calc", function (command) {
 		calcErr = "Calculation must start with a number";
 	}
 	
+	// running total
 	var rt = 0;
+	// current number, used between operations
 	var current = 0;
+	// last operator detected, used in each calculation
 	var lastOp = "";
+	// was there just an operator? used to detect incalculable sequences
 	var recentOp = false;
+	// distance past the decimal point, used in building numbers like 1.23
 	var pastDecimal = 0;
+	// array used as a stack to hold partial results when parentheses are encountered
+	var subResult = [];
+	// array used as a stack to hold the operation before a left parenthesis
+	var oldOps = [];
+	// used to keep track of how many parentheses there are and when to calculate and apply partial results
+	var parenthCount = {left: 0, right: 0};
 	
 	// loop through the characters entered after the command and respond to each one
 	for (var ind = 0; ind < toCalc.length; ind++) {
@@ -770,6 +781,28 @@ bot.on("!calc", function (command) {
 		var curChar = toCalc.charAt(ind);
 		
 		switch (curChar) {
+			case "0":
+			case "1":
+			case "2":
+			case "3":
+			case "4":
+			case "5":
+			case "6":
+			case "7":
+			case "8":
+			case "9":
+				recentOp = false;
+				if (pastDecimal === 0) {
+					// adjust number for newest digit
+					current = (current * 10) + parseInt(curChar, 10);
+				}
+				else {
+					// adjust number for newest digit after the decimal point
+					// use the position past the decimal point to scale the adjustment
+					current = current + ((Math.pow((0.1), pastDecimal) * parseInt(curChar, 10)));
+					pastDecimal++;
+				}
+				break;
 			case "+":
 			case "-":
 			case "*":
@@ -795,30 +828,33 @@ bot.on("!calc", function (command) {
 					calcErr = "Attempted use of multiple decimal points in one number";
 				}
 				break;
-			case "0":
-			case "1":
-			case "2":
-			case "3":
-			case "4":
-			case "5":
-			case "6":
-			case "7":
-			case "8":
-			case "9":
-				recentOp = false;
-				if (pastDecimal === 0) {
-					// adjust number for newest digit
-					current = (current * 10) + parseInt(curChar, 10);
+			case "(":
+				parenthCount.left++;
+				if (recentOp) {
+					// store last operation lined up and current running total
+					
 				}
 				else {
-					// adjust number for newest digit after the decimal point
-					// use the position past the decimal point to scale the adjustment
-					current = current + ((Math.pow((0.1), pastDecimal) * parseInt(curChar, 10)));
-					pastDecimal++;
+					// calculate current running total, store it, and set the last operation as multiplication
+					
+				}
+				break;
+			case ")":
+				parenthCount.right++;
+				if (parenthCount.right > parenthCount.left) {
+					calcErr = "Mismatched parentheses";
+				}
+				else {
+					// if recentOp is true, use current running total, if not, calculate it
+					
+					// pop last sub-result and pending operation and calculate a new sub-result
+					
+					// catch unlikely (hopefully impossible?) error when there's nothing to pop
+					
 				}
 				break;
 			default:
-				// anything that's not a digit, a decimal point, or an operator
+				// anything that's not a digit, a decimal point, an operator, or parentheses
 				calcErr = "Disallowed character(s)";
 				break;
 		}
