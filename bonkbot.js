@@ -1,3 +1,6 @@
+var argConfig = "./"+process.argv[2]+"NetConfig.json";
+console.log(argConfig);
+
 var botConfig = require('./botConfig.json'),
 botData = require('./botData.json');
 
@@ -18,7 +21,7 @@ var countdown = botData.countdown,
 var irc = require('tennu'),
 winston = require('winston'),
 async = require('async'),
-network = require('./netConfig.json'),
+network = require(argConfig),
 request = require('request'),
 _ = require('lodash-node'),
 MsTranslator = require('mstranslator'),
@@ -293,7 +296,7 @@ function timeToBonk(command)
 
 }
 
-function userTweet(command, userString){
+function userTweet(command, userString, authText){
 
 if (_.isEmpty(userString)){
 		bot.say(command.channel, "No user provided. Come on man, you're better than this.");
@@ -328,8 +331,14 @@ if (_.isEmpty(userString)){
                             }
 							var arrTweet = data[tweetRandomInt].text.replace( /\n/g, "`" ).split( "`" );
 							//console.log(arrTweet);
-							bot.say(command.channel,  data[tweetRandomInt].user.screen_name +": " +arrTweet);
-						}
+                            console.log(authText);
+
+                            if(authText == true) {
+                                bot.say(command.channel, data[tweetRandomInt].user.screen_name + ": " + arrTweet);
+                            }else if(authText == false){
+                                bot.say(command.channel, arrTweet);
+                            }
+                        }
 					}else{
 						bot.say(command.channel,"ERROR: you chose an account with no tweets. Try again, doucher.");
 					}
@@ -694,8 +703,12 @@ bot.on('!twit', function (command) {
 });
 
 bot.on('!fanfic', function (command){
-    userTweet(command, 'Fanfiction_txt');
-});        
+    userTweet(command, 'Fanfiction_txt', true);
+});
+
+bot.on('!bazoop', function (command){
+    userTweet(command, 'bazooper', false);
+});
 
 bot.on('!tweet', function (command){
     searchDaTweet(command.args.join(" "), command);
@@ -867,7 +880,7 @@ bot.on('!anime',function (command){
 });
 
 bot.on('!tweep', function (command){
-    userTweet(command, command.args.join(""));
+    userTweet(command, command.args.join(""), true);
 });        
 bot.on('!tricked', function (command){
     try {
