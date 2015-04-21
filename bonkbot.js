@@ -584,7 +584,7 @@ function calculate (rt, current, lastOp) {
 	// does the actual calculating when a user issues a calculation command
 	
 	// set the running total to the current number if the number before this operator was the first one
-	if (lastOp === "") {
+	if (lastOp === "" || lastOp == "(") {
 		rt = current;
 	}
 	
@@ -596,6 +596,9 @@ function calculate (rt, current, lastOp) {
 			rt = rt - current;
 			break;
 		case "*":
+		case ")":
+			// catch both explicit multiplication and numbers coming directly after a right parenthesis
+			// to have appropriate behavior for things like (x)3
 			rt = rt * current;
 			break;
 		case "/":
@@ -608,7 +611,7 @@ function calculate (rt, current, lastOp) {
 	
 	return rt;
 }
-	
+
 // Start bot //
 
 var bot = irc.Client(network, {Logger: ircLogger});
@@ -635,7 +638,7 @@ var tsdtvCheck = (function () {
 	var episode = "";
 	var episodePrev = "";
 	
-	// use a closure to preserve information between calls
+	// use a closure to preserve the timer ID between calls
 	return {
 		count: function () {
 			request({
@@ -686,7 +689,7 @@ var tsdtvCheck = (function () {
 			timer = setTimeout(tsdtvCheck.count, stream.timer);
 		},
 		stop: function () {
-			// clear the timeout for running the tsdtvCheck.count again
+			// clear the timeout for running tsdtvCheck.count again
 			clearTimeout(timer);
 		}
 	};
@@ -728,18 +731,12 @@ bot.on("!tsdtv", function (command) {
 });
 
 bot.on("!big", function (command) {
-	var small = command.args.join(" ");
-	var bigger = "";
-	if (small.length < 2) {
+	var bigger = command.args.join(" ");
+	if (bigger.length < 3) {
 		bot.say(command.channel, "Get outta here with that weak shit.");
 	}
 	else {
-		// copy in the first character and start the loop at 1 so the output doesn't start with a space
-		bigger = small.charAt(curChar);
-		for (var curChar = 1; curChar < small.length; curChar++) {
-			bigger = bigger + " " + small.charAt(curChar);
-		}
-		bigger = bigger.toUpperCase();
+		bigger = bigger.split("").join(" ").toUpperCase();
 		bot.say(command.channel, bigger);
 	}
 });
@@ -752,7 +749,7 @@ bot.on("!calc", function (command) {
 		calcErr = "I can't calculate what isn't there";
 	}
 	
-	if (toCalc.charAt(0) != "0" && toCalc.charAt(0) != "1" && toCalc.charAt(0) != "2" && toCalc.charAt(0) != "3" && toCalc.charAt(0) != "4" && toCalc.charAt(0) != "5" && toCalc.charAt(0) != "6" && toCalc.charAt(0) != "7" && toCalc.charAt(0) != "8" && toCalc.charAt(0) != "9") {
+	if (toCalc.charAt(0) !== "0" && toCalc.charAt(0) !== "1" && toCalc.charAt(0) !== "2" && toCalc.charAt(0) !== "3" && toCalc.charAt(0) !== "4" && toCalc.charAt(0) !== "5" && toCalc.charAt(0) !== "6" && toCalc.charAt(0) !== "7" && toCalc.charAt(0) !== "8" && toCalc.charAt(0) !== "9") {
 		calcErr = "Calculation must start with a number";
 	}
 	
@@ -762,7 +759,7 @@ bot.on("!calc", function (command) {
 	var current = 0;
 	// last operator detected, used in each calculation
 	var lastOp = "";
-	// was there just an operator? used to detect incalculable sequences
+	// was there just an operator? used to detect incalculable sequences and make parentheses work right
 	var recentOp = false;
 	// distance past the decimal point, used in building numbers like 1.23
 	var pastDecimal = 0;
@@ -770,7 +767,7 @@ bot.on("!calc", function (command) {
 	var subResult = [];
 	// array used as a stack to hold the operation before a left parenthesis
 	var oldOps = [];
-	// used to keep track of how many parentheses there are and when to calculate and apply partial results
+	// used to keep track of how many parentheses there are
 	var parenthCount = {left: 0, right: 0};
 	
 	// loop through the characters entered after the command and respond to each one
@@ -808,15 +805,19 @@ bot.on("!calc", function (command) {
 			case "*":
 			case "/":
 			case "^":
-				if (recentOp) {
+				if (recentOp && lastOp !== ")") {
+					// detect two operators in a row,
+					// and override multiplication in the case of something directly after a right parenthesis
 					calcErr = "Consecutive operators";
 				}
 				else {
 					rt = calculate(rt, current, lastOp);
-					lastOp = curChar;
-					recentOp = true;
+					// reset things
 					current = 0;
 					pastDecimal = 0;
+					// set up the next operation
+					recentOp = true;
+					lastOp = curChar;
 				}
 				break;
 			case ".":
@@ -824,20 +825,26 @@ bot.on("!calc", function (command) {
 					pastDecimal = 1;
 				}
 				else {
-					// detected a second decimal point within a number, abort
 					calcErr = "Attempted use of multiple decimal points in one number";
 				}
 				break;
 			case "(":
 				parenthCount.left++;
-				if (recentOp) {
-					// store last operation lined up and current running total
-					
+				if (!recentOp) {
+					// calculate current running total, store it, and set the pending operation as multiplication
+					// to have appropriate behavior for things like 3(x)
+					rt = calculate(rt, current, lastOp);
+					lastOp = "*";
 				}
-				else {
-					// calculate current running total, store it, and set the last operation as multiplication
-					
-				}
+				// push over rt and lastOp for later use
+				oldOps.push(lastOp);
+				subResult.push(rt);
+				// reset things for use in sub-expression
+				rt = 0;
+				current = 0;
+				recentOp = true;
+				pastDecimal = 0;
+				lastOp = "(";
 				break;
 			case ")":
 				parenthCount.right++;
@@ -845,12 +852,25 @@ bot.on("!calc", function (command) {
 					calcErr = "Mismatched parentheses";
 				}
 				else {
-					// if recentOp is true, use current running total, if not, calculate it
-					
-					// pop last sub-result and pending operation and calculate a new sub-result
-					
-					// catch unlikely (hopefully impossible?) error when there's nothing to pop
-					
+					// if there was no recent operation (usually the case), calculate the sub-result now
+					if (!recentOp) {
+						rt = calculate(rt, current, lastOp);
+					}
+					// move rt and pop last sub-result and pending operation
+					current = rt;
+					rt = subResult.pop();
+					if (rt === undefined) {
+						// catch unlikely (hopefully impossible?) error when there's nothing to pop
+						calcErr = "Sub-expression error (stack error with rt, possible mismatched parentheses)";
+					}
+					lastOp = oldOps.pop();
+					if (lastOp === undefined) {
+						// catch unlikely (hopefully impossible?) error when there's nothing to pop
+						calcErr = "Sub-expression error (stack error with lastOp, possible mismatched parentheses)";
+					}
+					recentOp = true;
+					lastOp = ")";
+					pastDecimal = 0;
 				}
 				break;
 			default:
@@ -869,10 +889,18 @@ bot.on("!calc", function (command) {
 		if (!(calcErr === "")) break;
 	}
 	
-	// factor in the last number and operator
-	rt = calculate(rt, current, lastOp);
+	// check one last time for balanced parentheses,
+	// but don't let premature stoppage of calculation give the wrong error
+	if (parenthCount.left !== parenthCount.right && calcErr === "") {
+		calcErr = "Mismatched parentheses"
+	}
 	
-	// check for validity again to prevent issues from short inputs from slipping through
+	// factor in the last number and operator if the expression ended with a number
+	if (!recentOp) {
+		rt = calculate(rt, current, lastOp);
+	}
+	
+	// check for validity again to prevent issues caused by short inputs from slipping through
 	if (isFinite(rt) === false || isNaN(rt) === true) {
 		calcErr = "Result out of range, undefined, or indeterminate";
 	}
