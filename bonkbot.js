@@ -584,7 +584,7 @@ function calculate (rt, current, lastOp) {
 	// does the actual calculating when a user issues a calculation command
 	
 	// set the running total to the current number if the number before this operator was the first one
-	if (lastOp === "" || lastOp == "(" || lastOp == ")") {
+	if (lastOp === "" || lastOp == "(") {
 		rt = current;
 	}
 	
@@ -605,7 +605,8 @@ function calculate (rt, current, lastOp) {
 			rt = Math.pow(rt, current);
 			break;
 	}
-	
+	// nothing grabs ")"-- this is by design: calculation associated with it is done on the spot
+	// rather than at the next operator
 	return rt;
 }
 
