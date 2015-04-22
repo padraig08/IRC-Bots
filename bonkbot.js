@@ -584,7 +584,7 @@ function calculate (rt, current, lastOp) {
 	// does the actual calculating when a user issues a calculation command
 	
 	// set the running total to the current number if the number before this operator was the first one
-	if (lastOp === "" || lastOp == "(") {
+	if (lastOp === "" || lastOp == "(" || lastOp == ")") {
 		rt = current;
 	}
 	
@@ -596,9 +596,6 @@ function calculate (rt, current, lastOp) {
 			rt = rt - current;
 			break;
 		case "*":
-		case ")":
-			// catch both explicit multiplication and numbers coming directly after a right parenthesis
-			// to have appropriate behavior for things like (x)3
 			rt = rt * current;
 			break;
 		case "/":
@@ -666,9 +663,7 @@ var tsdtvCheck = (function () {
 							episode = episode.split("\n")[2];
 							// remove the extension-- the last . and everything after it
 							// would use: episode = episode.replace(/\..$/, ""); but node doesn't run it right
-							episode = episode.split(".");
-							episode = episode.slice(0, -1);
-							episode = episode.join(".");
+							episode = episode.split(".").slice(0, -1).join(".");
 							// get rid of any leading spaces
 							episode = episode.replace(/^\s\s*/, "");
 							// output the final string-- if the series or episode is different from the last check
@@ -805,9 +800,10 @@ bot.on("!calc", function (command) {
 			case "*":
 			case "/":
 			case "^":
-				if (recentOp && lastOp !== ")") {
-					// detect two operators in a row,
-					// and override multiplication in the case of something directly after a right parenthesis
+				if (recentOp && lastOp == "(") {
+					calcErr = "Operator error in parentheses";
+				}
+				else if (recentOp && lastOp !== ")") {
 					calcErr = "Consecutive operators";
 				}
 				else {
@@ -833,6 +829,10 @@ bot.on("!calc", function (command) {
 				if (!recentOp) {
 					// calculate current running total, store it, and set the pending operation as multiplication
 					// to have appropriate behavior for things like 3(x)
+					if (lastOp == ")") {
+						// hacky thing to make (x)(y) work right
+						current = rt;
+					}
 					rt = calculate(rt, current, lastOp);
 					lastOp = "*";
 				}
@@ -842,8 +842,8 @@ bot.on("!calc", function (command) {
 				// reset things for use in sub-expression
 				rt = 0;
 				current = 0;
-				recentOp = true;
 				pastDecimal = 0;
+				recentOp = true;
 				lastOp = "(";
 				break;
 			case ")":
@@ -851,12 +851,13 @@ bot.on("!calc", function (command) {
 				if (parenthCount.right > parenthCount.left) {
 					calcErr = "Mismatched parentheses";
 				}
+				else if (recentOp && lastOp !== ")") {
+					calcErr = "Operator error in parentheses";
+				}
 				else {
-					// if there was no recent operation (usually the case), calculate the sub-result now
-					if (!recentOp) {
-						rt = calculate(rt, current, lastOp);
-					}
-					// move rt and pop last sub-result and pending operation
+					// calculate the subtotal
+					rt = calculate(rt, current, lastOp);
+					// move rt and pop last subtotal and pending operation
 					current = rt;
 					rt = subResult.pop();
 					if (rt === undefined) {
@@ -868,9 +869,14 @@ bot.on("!calc", function (command) {
 						// catch unlikely (hopefully impossible?) error when there's nothing to pop
 						calcErr = "Sub-expression error (stack error with lastOp, possible mismatched parentheses)";
 					}
+					// calculate a new running total taking into account
+					// the subtotal from before the parentheses and the subtotal from within the parentheses
+					rt = calculate(rt, current, lastOp);
+					// reset everything
+					current = 0;
+					pastDecimal = 0;
 					recentOp = true;
 					lastOp = ")";
-					pastDecimal = 0;
 				}
 				break;
 			default:
@@ -883,6 +889,8 @@ bot.on("!calc", function (command) {
 		if (isFinite(rt) === false || isNaN(rt) === true) {
 			calcErr = "Result out of range, undefined, or indeterminate";
 		}
+		
+		console.log("curChar: " + curChar + " rt: " + rt + " current: " + current + " lastOp: " + lastOp + " recentOp: " + recentOp + " subResult: " + subResult + " oldOps: " + oldOps);
 		
 		// check at the beginning and end of the loop to catch early and late calculation issues
 		// and prevent any from slipping through
@@ -906,9 +914,11 @@ bot.on("!calc", function (command) {
 	}
 	
 	if (calcErr === "") {
+		// display the final result
 		bot.say(command.channel, rt);
 	}
 	else {
+		// there was an error somewhere, tell the user what happened
 		bot.say(command.channel, "Could not calculate: " + calcErr);
 	}
 });
