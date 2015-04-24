@@ -744,8 +744,7 @@ bot.on("!calc", function (command) {
 	if (toCalc == "" || toCalc == " ") {
 		calcErr = "I can't calculate what isn't there";
 	}
-	
-	if (toCalc.charAt(0) !== "0" && toCalc.charAt(0) !== "1" && toCalc.charAt(0) !== "2" && toCalc.charAt(0) !== "3" && toCalc.charAt(0) !== "4" && toCalc.charAt(0) !== "5" && toCalc.charAt(0) !== "6" && toCalc.charAt(0) !== "7" && toCalc.charAt(0) !== "8" && toCalc.charAt(0) !== "9") {
+	else if (toCalc.charAt(0) !== "0" && toCalc.charAt(0) !== "1" && toCalc.charAt(0) !== "2" && toCalc.charAt(0) !== "3" && toCalc.charAt(0) !== "4" && toCalc.charAt(0) !== "5" && toCalc.charAt(0) !== "6" && toCalc.charAt(0) !== "7" && toCalc.charAt(0) !== "8" && toCalc.charAt(0) !== "9") {
 		calcErr = "Calculation must start with a number";
 	}
 	
@@ -827,13 +826,14 @@ bot.on("!calc", function (command) {
 				break;
 			case "(":
 				parenthCount.left++;
+				if (lastOp == ")") {
+					// hacky thing to make (x)(y) work right
+					current = rt;
+					lastOp = "*";
+				}
 				if (!recentOp) {
 					// calculate current running total, store it, and set the pending operation as multiplication
 					// to have appropriate behavior for things like 3(x)
-					if (lastOp == ")") {
-						// hacky thing to make (x)(y) work right
-						current = rt;
-					}
 					rt = calculate(rt, current, lastOp);
 					lastOp = "*";
 				}
