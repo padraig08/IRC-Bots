@@ -636,7 +636,7 @@ var tsdtvCheck = (function () {
 	var episode = "";
 	var episodePrev = "";
 	
-	// use a closure to preserve the timer ID between calls
+	// use a closure to preserve information between calls without making global variables
 	return {
 		count: function () {
 			request({
@@ -647,7 +647,8 @@ var tsdtvCheck = (function () {
 				function (error, response, body) {
 					if (error || response.statusCode !== 200) {
 						console.log(error);
-						bot.say(stream.talkChannel, "Error checking page");
+						bot.say(stream.talkChannel, "Error checking TSDTV source page, stopping checking; status: " + response.statusCode);
+						tsdtvCheck.stop();
 					}
 					else {
 						var $ = cheerio.load(body);
@@ -667,6 +668,10 @@ var tsdtvCheck = (function () {
 							episode = episode.split(".").slice(0, -1).join(".");
 							// get rid of any leading spaces
 							episode = episode.replace(/^\s\s*/, "");
+							// fix HTML-encoded apostrophes
+							// there's no evident easy way to handle all entities,
+							// and apostrophe is the only one that seems to show up
+							episode = episode.replace("&apos;", "'");
 							// output the final string-- if the series or episode is different from the last check
 							if (episode !== episodePrev || series !== seriesPrev) {
 								bot.say(stream.talkChannel, "Now playing: " + series + " - " + episode);
