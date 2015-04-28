@@ -52,7 +52,9 @@
 			"NEVER rhymed A word MAN",
 			"rhymed, word, TSD",
 			"YOU CAN'T word THE rhymed",
-			"YOU CAN'T rhymed THE word"]
+			"YOU CAN'T rhymed THE word",
+            "GIVE 'EM THE OL' word AND rhymed",
+            "GIVE 'EM THE OL' rhymed AND word"]
 	},
 
 "tricked":{
@@ -281,7 +283,8 @@
 			"Hyokin got hired at a crafting store! Sweet!",
 			"Hyokin would enjoy PVP more if Hyokin could explore the maps in Custom Games or Theater... But these short glimpses aren't selling it to Hyokin.",
 			"Between D&D and Hyokin’s WoW account, Hyokin doesn’t want another subscription on their card... especially knowing how obnoxious Xbox is about removing it.",
-			"Hyokin is going to return cans for gas money and old games to get store credit for MCC. Hyokin wants it at midnight!!! XD"]
+			"Hyokin is going to return cans for gas money and old games to get store credit for MCC. Hyokin wants it at midnight!!! XD",
+            "Hyokin feels like they need a full-size Power Ranger suit. Mighty Morphin Era, ideally. Maybe Blue or Green. Hyokin needs to save some money for this."]
 },
 
 "randomMsg": {
