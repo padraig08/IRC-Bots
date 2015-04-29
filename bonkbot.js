@@ -1,6 +1,4 @@
 var argConfig = "./"+process.argv[2]+"NetConfig.json";
-console.log(argConfig);
-
 var botConfig = require('./botConfig.json'),
 botData = require('./botData.json');
 
