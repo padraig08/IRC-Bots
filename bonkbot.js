@@ -585,12 +585,11 @@ function calculate (rt, current, lastOp) {
 	
 	console.log("starting calc; rt: " + rt + " current: " + current + " lastOp: " + lastOp);
 	
-	// set the running total to the current number if the number before this operator was the first one
-	if (lastOp === "" || lastOp == "(") {
-		rt = current;
-	}
-	
 	switch (lastOp) {
+		case "":
+		case "(":
+			rt = current;
+			break;
 		case "+":
 			rt = rt + current;
 			break;
@@ -843,7 +842,7 @@ bot.on("!calc", function (command) {
 			case "(":
 				parenthCount.left++;
 				if (lastOp == ")") {
-					// hacky thing to make (x)(y) work right
+					// move data over to make (x)(y) work right
 					current = rt;
 				}
 				if (!recentOp) {
@@ -871,8 +870,11 @@ bot.on("!calc", function (command) {
 					calcErr = "Operator error in parentheses";
 				}
 				else {
-					// calculate the subtotal
-					rt = calculate(rt, current, lastOp);
+					if (lastOp !== ")") {
+						// calculate the subtotal, unless the last operation was ),
+						// in which case the subtotal has already been calculated
+						rt = calculate(rt, current, lastOp);						
+					}
 					// move rt and pop last subtotal and pending operation
 					current = rt;
 					rt = subResult.pop();
@@ -880,19 +882,13 @@ bot.on("!calc", function (command) {
 						// catch unlikely (hopefully impossible?) error when there's nothing to pop
 						calcErr = "Sub-expression error (stack error with rt, possible mismatched parentheses)";
 					}
-					// hey this is the new part
-					if (lastOp == ")") {
-						console.log("hey inner ) handler reporting in, rt = " + rt + " current = " + current);
-						current = rt;
-						console.log("inner ) handler again, rt = " + rt + " current = " + current);
-					}
 					lastOp = oldOps.pop();
 					if (lastOp === undefined) {
 						// catch unlikely (hopefully impossible?) error when there's nothing to pop
 						calcErr = "Sub-expression error (stack error with lastOp, possible mismatched parentheses)";
 					}
-					// calculate a new running total taking into account
-					// the subtotal from before the parentheses and the subtotal from within the parentheses
+					// calculate a new running total taking into account the subtotal
+					// from before the parentheses and the subtotal from within the parentheses
 					rt = calculate(rt, current, lastOp);
 					// reset everything
 					current = 0;
