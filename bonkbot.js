@@ -583,6 +583,8 @@ function hboForumScrape(command, avStatus, hboBase, hboTop) {
 function calculate (rt, current, lastOp) {
 	// does the actual calculating when a user issues a calculation command
 	
+	console.log("starting calc; rt: " + rt + " current: " + current + " lastOp: " + lastOp);
+	
 	// set the running total to the current number if the number before this operator was the first one
 	if (lastOp === "" || lastOp == "(") {
 		rt = current;
@@ -596,6 +598,7 @@ function calculate (rt, current, lastOp) {
 			rt = rt - current;
 			break;
 		case "*":
+		case ")":
 			rt = rt * current;
 			break;
 		case "/":
@@ -605,8 +608,9 @@ function calculate (rt, current, lastOp) {
 			rt = Math.pow(rt, current);
 			break;
 	}
-	// nothing grabs ")"-- this is by design: calculation associated with it is done on the spot
-	// rather than at the next operator
+	
+	console.log("ending calc; rt: " + rt);
+	
 	return rt;
 }
 
@@ -647,7 +651,7 @@ var tsdtvCheck = (function () {
 				function (error, response, body) {
 					if (error || response.statusCode !== 200) {
 						console.log(error);
-						bot.say(stream.talkChannel, "Error checking TSDTV source page, stopping checking; status: " + response.statusCode);
+						bot.say(stream.talkChannel, "Error checking TSDTV source page, stopping checking");
 						tsdtvCheck.stop();
 					}
 					else {
@@ -777,6 +781,8 @@ bot.on("!calc", function (command) {
 		
 		var curChar = toCalc.charAt(ind);
 		
+		console.log("starting loop; curChar: " + curChar + " rt: " + rt + " current: " + current + " lastOp: " + lastOp + " recentOp: " + recentOp);
+		
 		switch (curChar) {
 			case "0":
 			case "1":
@@ -811,6 +817,11 @@ bot.on("!calc", function (command) {
 				else if (recentOp && lastOp !== ")") {
 					calcErr = "Consecutive operators";
 				}
+				else if (recentOp && lastOp == ")") {
+					// replace ")" operator with the new one and don't calculate
+					// stuff inside and before the parentheses was already calculated
+					lastOp = curChar;
+				}
 				else {
 					rt = calculate(rt, current, lastOp);
 					// reset things
@@ -834,13 +845,12 @@ bot.on("!calc", function (command) {
 				if (lastOp == ")") {
 					// hacky thing to make (x)(y) work right
 					current = rt;
-					lastOp = "*";
 				}
 				if (!recentOp) {
 					// calculate current running total, store it, and set the pending operation as multiplication
 					// to have appropriate behavior for things like 3(x)
 					rt = calculate(rt, current, lastOp);
-					lastOp = "*";
+					lastOp = ")";
 				}
 				// push over rt and lastOp for later use
 				oldOps.push(lastOp);
@@ -850,7 +860,7 @@ bot.on("!calc", function (command) {
 				current = 0;
 				pastDecimal = 0;
 				recentOp = true;
-				lastOp = "(";
+				lastOp = curChar;
 				break;
 			case ")":
 				parenthCount.right++;
@@ -870,6 +880,12 @@ bot.on("!calc", function (command) {
 						// catch unlikely (hopefully impossible?) error when there's nothing to pop
 						calcErr = "Sub-expression error (stack error with rt, possible mismatched parentheses)";
 					}
+					// hey this is the new part
+					if (lastOp == ")") {
+						console.log("hey inner ) handler reporting in, rt = " + rt + " current = " + current);
+						current = rt;
+						console.log("inner ) handler again, rt = " + rt + " current = " + current);
+					}
 					lastOp = oldOps.pop();
 					if (lastOp === undefined) {
 						// catch unlikely (hopefully impossible?) error when there's nothing to pop
@@ -882,7 +898,7 @@ bot.on("!calc", function (command) {
 					current = 0;
 					pastDecimal = 0;
 					recentOp = true;
-					lastOp = ")";
+					lastOp = curChar;
 				}
 				break;
 			default:
@@ -891,12 +907,12 @@ bot.on("!calc", function (command) {
 				break;
 		}
 		
+		console.log("ending loop; curChar: " + curChar + " rt: " + rt + " current: " + current + " lastOp: " + lastOp + " recentOp: " + recentOp + "\n");
+		
 		// check for various shenanigans in the result
 		if (isFinite(rt) === false || isNaN(rt) === true) {
 			calcErr = "Result out of range, undefined, or indeterminate";
 		}
-		
-		console.log("curChar: " + curChar + " rt: " + rt + " current: " + current + " lastOp: " + lastOp + " recentOp: " + recentOp + " subResult: " + subResult + " oldOps: " + oldOps);
 		
 		// check at the beginning and end of the loop to catch early and late calculation issues
 		// and prevent any from slipping through
