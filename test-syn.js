@@ -36,7 +36,7 @@ function quothTheHyo(command){
         bot.say(command.channel, '>' + hyoChosenFact.replace(/Hyokin/gi, person));
 }
 */
-var acroLetterArray = ["A","B","B","A"];
+var acroLetterArray = ["H","B","O","M","B"];
 var acroResultArray = [];
 
 async.eachSeries(acroLetterArray, acroRequestWord, function(err){
