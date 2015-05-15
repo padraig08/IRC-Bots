@@ -870,9 +870,8 @@ bot.on("!calc", function (command) {
 					calcErr = "Operator error in parentheses";
 				}
 				else {
-					if (lastOp !== ")") {
-						// calculate the subtotal, unless the last operation was ),
-						// in which case the subtotal has already been calculated
+					// changed part
+					if (!recentOp) {
 						rt = calculate(rt, current, lastOp);						
 					}
 					// move rt and pop last subtotal and pending operation
