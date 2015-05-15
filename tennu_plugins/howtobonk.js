@@ -36,7 +36,7 @@ var howToBonkPlugin = {
 						"--Big--",
 						"Use !big [words] to get big",
 						"--Calulate--",
-						"Enter !calculate [numbers and operators] to do math"]);
+						"Enter !calc [numbers and operators] to do math"]);
 				},
 
 					"!howtotranslate": function (command){
