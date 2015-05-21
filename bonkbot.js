@@ -161,98 +161,59 @@ transClient.initialize_token(function(keys){
 	});
 }
 
-function loopAcro(c, n, url, callback) {
-	url = url.replace(/<search>/gi, c).replace(/<api>/gi, word.api);
-	if(letterPattern.test(c)){
-	request(url, function (error, response, body) {
-		if (error || response.statusCode !== 200 || body.length <= 2){
-			acObj[n] = c;
-		}else{	
-			var acData = JSON.parse(body);
-            try {
-                var acroRandomInt = getRandomInt(0,acData.searchResults.length-1);
-            } catch (err) {
-                logger.error(err);
-                callback('err',null)
-            }
-			acObj[n] = acData.searchResults[acroRandomInt].word;
-			callback();	
-		}
+function wordToAcro(command){
+	var acroLetterArray = command.args.join("").split("");
+	_.remove(acroLetterArray, function(n) {
+  		return n == "";
 	});
+
+	if(_.isEmpty(acroLetterArray)){
+		bot.say(command.channel,"ERROR: You need to enter in some text to acro, bud.");
+	}else if(acroLetterArray.length-1 > 20){
+		bot.say(command.channel,"ERROR: Woah buddy, that girth's a bit too much. Scale that shit back.");
 	}else{
-		acObj[n] = c;
+		console.log("good to go");
+	
+
+	async.eachSeries(acroLetterArray, acroRequestWord, function(err){
+		if(_.isEmpty(err)){
+			var acroPrintString = acroLetterArray.join(".").toUpperCase()+".: "+acroResultArray.join(" ").toUpperCase();
+			bot.say(command.channel, acroPrintString);
+		}else{
+			console.log(err);
+		}
+
+	});
+	
+	}
+
+	function acroRequestWord(currentLetter, callback){
+	var letterPattern = new RegExp('[a-zA-Z]');
+	if(letterPattern.test(currentLetter)){
+		var url = word.searchUrl+word.acroAnyUrl+word.apiUrl;
+		url = url.replace(/<search>/gi, currentLetter).replace(/<api>/gi, word.api);
+		console.log(url);
+		request(url, function (error, response, body) {
+			if (error || response.statusCode !== 200){
+	
+				console.log(error);
+				callback("error on wordRequest");	
+			}else{	
+				var wordRequestData = JSON.parse(body);
+    	        try {
+    	            var acroRandomInt = getRandomInt(0,wordRequestData.searchResults.length-1);
+    	        } catch (err) {
+    	            logger.error(err);
+   	 	            callback('error on randomInt');
+    	        }
+				acroResultArray.push(wordRequestData.searchResults[acroRandomInt].word);
+				callback();	
+			}
+		});
+	} else{
+		acroResultArray.push(currentLetter);
 		callback();
 	}
-}
-
-function loopSyn(c, n, callback){
-	var urlThesaurBuild = word.wordUrl+word.thesaurUrl+word.apiUrl;
-	urlThesaurBuild = urlThesaurBuild.replace(/<word>/gi, c).replace(/<api>/gi, word.api);
-	request(urlThesaurBuild, function (error, response, body) {
-		if (error || response.statusCode !== 200 || body.length <= 2){
-			synObj[n] = c;
-			//synArray.push(c);
-			callback();
-			
-		}else{
-			var synData = JSON.parse(body);
-            try {
-                var synRandomInt = getRandomInt(0,synData[0].words.length-1);
-            } catch (err) {
-                logger.error(err);
-                callback('err',null)
-            }
-			synObj[n] = synData[0].words[synRandomInt];
-
-			//synArray.push(synData[0].words[0]);
-			//acArray.push(acData.searchResults[0].word);
-			callback();
-		}
-
-	});
-}
-
-function syncAcro(command, acLetter){
-	acObj = {};
-	requests = 0;
-
-	async.each(acLetter, function(n, callback) {
-		requests++;
-		  if (requests == 1){
-		   urlAcroBuild = word.searchUrl+word.acroFirstUrl+word.apiUrl;
-		   loopAcro(n,requests, urlAcroBuild, callback);
-		  }else if (requests == 2 || requests == acLetter.length-1){
-		   urlAcroBuild = word.searchUrl+word.acroLastUrl+word.apiUrl;
-		   loopAcro(n,requests, urlAcroBuild, callback);
-		  }else {
-		   urlAcroBuild = word.searchUrl+word.acroAnyUrl+word.apiUrl;
-		   loopAcro(n,requests, urlAcroBuild, callback);
-		  }
-	}, function(err) {
-		var acString = _.map(acObj, function(num) { return num; }).join(" ");
-		bot.say(command.channel, acString.toUpperCase());
-	});
-}
-
-function syncSyn(command){
-	synObj = {};
-	requests = 0;
-
-	async.each(command.args, function(n, callback) {
-	requests++;
-	//console.log(command.args);
-		if (specMatch.test(n) || numMatch.test(n)){
-			console.log('got it');
-		loopSyn('fuck', requests,callback);
-		}else{
-		loopSyn(n, requests,callback);
-		}
-		//loopSyn(n, requests,callback);
-	}, function(err) {
-		var synString = _.map(synObj, function(num) { return num; }).join(" ");
-		bot.say(command.channel, synString.toUpperCase());
-		//bot.say(command.channel, synArray.join(" "));
-	});
 }
 
 function timeToBonk(command)
@@ -811,14 +772,12 @@ bot.on('!hbombforecast', function (command){
 });
 
 
-/*
+
 bot.on('!acro', function (command){
-	var acroWord = command.args.join("");
-	var acLetter = acroWord.split("");
-	syncAcro(command, acLetter);
+	wordToAcro(command);
 });
 
-
+/*
 bot.on('!syn', function (command){
 	syncSyn(command);
 });
