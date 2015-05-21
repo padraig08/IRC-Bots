@@ -163,6 +163,8 @@ transClient.initialize_token(function(keys){
 
 function wordToAcro(command){
 	var acroLetterArray = command.args.join("").split("");
+	var acroResultArray = [];
+	
 	_.remove(acroLetterArray, function(n) {
   		return n == "";
 	});
