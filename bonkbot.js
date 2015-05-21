@@ -215,6 +215,7 @@ function wordToAcro(command){
 		callback();
 	}
 }
+}
 
 function timeToBonk(command)
 {
