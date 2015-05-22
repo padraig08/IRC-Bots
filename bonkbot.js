@@ -224,7 +224,7 @@ function wordToSyn(command){
 	var synWordArray = command.args;
 	var synResultArray = [];
 
-	if(_.isEmpty(synLetterArray)){
+	if(_.isEmpty(synWordArray)){
 		bot.say(command.channel,"ERROR: You need to enter in some text to syn, brudda.");
 	}else{
 		async.eachSeries(synWordArray, synRequestWord, function(err){
