@@ -252,7 +252,7 @@ function wordToSyn(command){
 			}else{	
 				var wordRequestData = JSON.parse(body);
 
-				if(_.isEmpty(wordRequestData)){
+				if(_.isEmpty(wordRequestData[0])){
 					synResultArray.push(currentWord);
    	 	            callback();
    	 	        }else{    	        
