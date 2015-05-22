@@ -3,7 +3,11 @@ var clonkPlugin = {
         return {
             handlers: {
                 '!clonk': function (command) {
-                    client.quit("It's Bonk Tonight!");
+                    if(command.nickname == "Paddy"){
+                        client.quit("It's Bonk Tonight!");
+                    }else{
+                        client.say(command.channel, "ʕ ͡°ᴥ ͡° ʔ");
+                    }
                    }
             },
 
