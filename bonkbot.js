@@ -164,7 +164,7 @@ transClient.initialize_token(function(keys){
 function wordToAcro(command){
 	var acroLetterArray = command.args.join("").split("");
 	var acroResultArray = [];
-	
+
 	_.remove(acroLetterArray, function(n) {
   		return n == "";
 	});
@@ -183,6 +183,7 @@ function wordToAcro(command){
 			bot.say(command.channel, acroPrintString);
 		}else{
 			console.log(err);
+			bot.say(command.channel, "ERROR: Something ain't quite right");
 		}
 
 	});
@@ -194,7 +195,6 @@ function wordToAcro(command){
 	if(letterPattern.test(currentLetter)){
 		var url = word.searchUrl+word.acroAnyUrl+word.apiUrl;
 		url = url.replace(/<search>/gi, currentLetter).replace(/<api>/gi, word.api);
-		console.log(url);
 		request(url, function (error, response, body) {
 			if (error || response.statusCode !== 200){
 	
@@ -218,6 +218,64 @@ function wordToAcro(command){
 	}
 }
 }
+
+
+function wordToSyn(command){
+	var synWordArray = command.args;
+	var synResultArray = [];
+
+	if(_.isEmpty(synLetterArray)){
+		bot.say(command.channel,"ERROR: You need to enter in some text to syn, brudda.");
+	}else{
+		async.eachSeries(synWordArray, synRequestWord, function(err){
+		if(_.isEmpty(err)){
+			var synPrintString = ">"+synResultArray.join(" ");
+			bot.say(command.channel, synPrintString);
+		}else{
+			console.log(err);
+			bot.say(command.channel, "ERROR: Something ain't quite right");
+		}
+
+		});
+	
+	}
+
+	function synRequestWord(currentWord, callback){
+		var url = word.wordUrl+word.thesaurUrl+word.apiUrl;
+		url = url.replace(/<word>/gi, currentWord).replace(/<api>/gi, word.api);
+		request(url, function (error, response, body) {
+			if (error || response.statusCode !== 200){
+	
+				console.log(error);
+				synResultArray.push(currentWord);
+				callback();	
+			}else{	
+				var wordRequestData = JSON.parse(body);
+
+				if(_.isEmpty(wordRequestData)){
+					synResultArray.push(currentWord);
+   	 	            callback();
+   	 	        }else{    	        
+
+	   	 	        try {
+	    	            var synRandomInt = getRandomInt(0,wordRequestData[0].words.length-1);
+	    	        } catch (err) {
+	    	            console.log(err);
+	    	            synResultArray.push(currentWord);
+	   	 	            callback();
+	    	        }
+
+	    	        synResultArray.push(wordRequestData[0].words[synRandomInt]);
+					callback();	
+			}
+		}
+		
+	});
+}
+
+}
+
+
 
 function timeToBonk(command)
 {
@@ -780,11 +838,11 @@ bot.on('!acro', function (command){
 	wordToAcro(command);
 });
 
-/*
+
 bot.on('!syn', function (command){
-	syncSyn(command);
+	wordToSyn(command);
 });
-*/
+
 
 bot.on('!speak', function (command){
 	var audioWord = command.args.join("");

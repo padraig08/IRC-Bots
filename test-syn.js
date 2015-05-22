@@ -36,27 +36,21 @@ function quothTheHyo(command){
         bot.say(command.channel, '>' + hyoChosenFact.replace(/Hyokin/gi, person));
 }
 */
-var acroLetterArray = [];
-var acroResultArray = [];
+var synWordArray = [];
+var synResultArray = [];
 
-_.remove(acroLetterArray, function(n) {
-  return n == "";
-});
-
-if(_.isEmpty(acroLetterArray)){
-	console.log("ERROR: You need to enter in some text to acro, bud.");
-}else if(acroLetterArray.length-1 > 20){
-	console.log("ERROR: Woah buddy, that girth's a bit too much. Scale that shit back.");
+if(_.isEmpty(synWordArray)){
+	console.log("ERROR: You need to enter in some text to syn, brudda.");
 }else{
 	console.log("good to go");
 }
 
 
 
-async.eachSeries(acroLetterArray, acroRequestWord, function(err){
+async.eachSeries(synWordArray, synRequestWord, function(err){
 	if(_.isEmpty(err)){
-		var acroPrintString = acroLetterArray.join(".").toUpperCase()+".: "+acroResultArray.join(" ").toUpperCase();
-		console.log(acroPrintString);
+		var synPrintString = ">"+synResultArray.join(" ");
+		console.log(synPrintString);
 	}else{
 		console.log(err);
 	}
@@ -64,34 +58,38 @@ async.eachSeries(acroLetterArray, acroRequestWord, function(err){
 });
 
 
-function acroRequestWord(currentLetter, callback){
-	var letterPattern = new RegExp('[a-zA-Z]');
-	if(letterPattern.test(currentLetter)){
-		var url = word.searchUrl+word.acroAnyUrl+word.apiUrl;
-		url = url.replace(/<search>/gi, currentLetter).replace(/<api>/gi, word.api);
+function synRequestWord(currentWord, callback){
+		var url = word.wordUrl+word.thesaurUrl+word.apiUrl;
+		url = url.replace(/<word>/gi, currentWord).replace(/<api>/gi, word.api);
 		console.log(url);
 		request(url, function (error, response, body) {
 			if (error || response.statusCode !== 200){
 	
 				console.log(error);
-				callback("error on wordRequest");	
+				synResultArray.push(currentWord);
+				callback();	
 			}else{	
 				var wordRequestData = JSON.parse(body);
-    	        try {
-    	            var acroRandomInt = getRandomInt(0,wordRequestData.searchResults.length-1);
-    	        } catch (err) {
-    	            logger.error(err);
-   	 	            callback('error on randomInt');
-    	        }
-				acroResultArray.push(wordRequestData.searchResults[acroRandomInt].word);
-				callback();	
-			}
-		});
-	} else{
-		acroResultArray.push(currentLetter);
-		callback();
-	}
 
+				if(_.isEmpty(wordRequestData)){
+					synResultArray.push(currentWord);
+   	 	            callback();
+   	 	        }else{    	        
+
+	   	 	        try {
+	    	            var synRandomInt = getRandomInt(0,wordRequestData[0].words.length-1);
+	    	        } catch (err) {
+	    	            console.log(err);
+	    	            synResultArray.push(currentWord);
+	   	 	            callback();
+	    	        }
+
+	    	        synResultArray.push(wordRequestData[0].words[synRandomInt]);
+					callback();	
+			}
+		}
+		
+	});
 }
 
 
