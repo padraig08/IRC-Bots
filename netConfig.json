@@ -1,9 +1,9 @@
 {
-	"server": "irc.teamschoolyd.org",
-	"nickname": "ClonkBot",
+	"server": "irc.adelais.net",
+	"nickname": "StronkBot",
 	"username": "Bonk_Bot",
 	"realname": "Bonkles",
 	"command-trigger": "!",
-	"channels": ["#bots"],
+	"channels": ["#programming"],
 	"plugins": ["howtobonk", "clonk"]
 }

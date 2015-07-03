@@ -46,10 +46,6 @@
 			"https://www.youtube.com/watch?v=OLHd4BQIiGw"]
 	},
 
-	"Tweet": {
-		"commands": ["twit", "fanfic", "tweet"]
-	},
-
 	"stream": {
 		"url": "http://irc.teamschoolyd.org:7777/tsdtv/np?type=nowplaying",
 		"timer": 30000,

@@ -583,8 +583,6 @@ function hboForumScrape(command, avStatus, hboBase, hboTop) {
 function calculate (rt, current, lastOp) {
 	// does the actual calculating when a user issues a calculation command
 	
-	console.log("starting calc; rt: " + rt + " current: " + current + " lastOp: " + lastOp);
-	
 	switch (lastOp) {
 		case "":
 		case "(":
@@ -608,8 +606,6 @@ function calculate (rt, current, lastOp) {
 			break;
 	}
 	
-	console.log("ending calc; rt: " + rt);
-	
 	return rt;
 }
 
@@ -622,8 +618,8 @@ bot.connect();
 var kind = "";
 
 bot.on("join", function(message) {
-	if (message.nickname == "Bonk-Bot") {
-		bot.say(message.channel, "BonkBot Online... use #howtobonk for instructions and running modules");
+	if (message.nickname == "StronkBot") {
+		bot.say(message.channel, "StronkBot status: ON. Use !howtobonk for instructions on interacting with StronkBot.");
 	}
 	else {
 		//checkOP(message.nickname);
@@ -780,8 +776,6 @@ bot.on("!calc", function (command) {
 		
 		var curChar = toCalc.charAt(ind);
 		
-		console.log("starting loop; curChar: " + curChar + " rt: " + rt + " current: " + current + " lastOp: " + lastOp + " recentOp: " + recentOp);
-		
 		switch (curChar) {
 			case "0":
 			case "1":
@@ -795,12 +789,12 @@ bot.on("!calc", function (command) {
 			case "9":
 				recentOp = false;
 				if (pastDecimal === 0) {
-					// adjust number for newest digit
+					// adjust the current number for the newest digit
 					current = (current * 10) + parseInt(curChar, 10);
 				}
 				else {
-					// adjust number for newest digit after the decimal point
-					// use the position past the decimal point to scale the adjustment
+					// adjust the current number for the newest digit after the decimal point
+					// use the current position past the decimal point to scale the adjustment
 					current = current + ((Math.pow((0.1), pastDecimal) * parseInt(curChar, 10)));
 					pastDecimal++;
 				}
@@ -846,8 +840,8 @@ bot.on("!calc", function (command) {
 					current = rt;
 				}
 				if (!recentOp) {
-					// calculate current running total, store it, and set the pending operation as multiplication
-					// to have appropriate behavior for things like 3(x)
+					// calculate current running total and store it before setting the pending operation,
+					// so the behavior for x(y) is appropriate
 					rt = calculate(rt, current, lastOp);
 					lastOp = ")";
 				}
@@ -870,7 +864,6 @@ bot.on("!calc", function (command) {
 					calcErr = "Operator error in parentheses";
 				}
 				else {
-					// changed part
 					if (!recentOp) {
 						rt = calculate(rt, current, lastOp);						
 					}
@@ -901,8 +894,6 @@ bot.on("!calc", function (command) {
 				calcErr = "Disallowed character(s)";
 				break;
 		}
-		
-		console.log("ending loop; curChar: " + curChar + " rt: " + rt + " current: " + current + " lastOp: " + lastOp + " recentOp: " + recentOp + "\n");
 		
 		// check for various shenanigans in the result
 		if (isFinite(rt) === false || isNaN(rt) === true) {
@@ -941,7 +932,8 @@ bot.on("!calc", function (command) {
 });
 
 bot.on("!care", function (command) {
-	// why yes, there are 102 possibilities; this whole function is mostly arbitrary
+	// this function is a mix of arbitrary numbers, personal preference, and presentation
+	
 	var careAmount = getRandomInt(0, 101);
 	var careMsg = "Care-o-meter: ";
 	
@@ -970,9 +962,7 @@ bot.on("!care", function (command) {
 	else if (careAmount >= 89 && careAmount <= 98) {
 		careMsg = careMsg + "(' ' /)";
 	}
-	else {
-		// all the numbers not covered are at the upper end of the range
-		// specifically, this currently catches: careAmount >= 99
+	else if (careAmount >= 99) {
 		careMsg = careMsg + "(' ' ')/ so much care it broke the meter";
 	}
 	

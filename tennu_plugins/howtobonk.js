@@ -8,7 +8,7 @@ var howToBonkPlugin = {
 					client.say(command.nickname, 
 						["--Battlebonk--",
 						"To initiate battlebonk use command: !battlebonk [target]",
-						"Make sure [target] is someone currently in the chat-- otherwise you could bonk yourself",
+						"Make sure to include a target-- otherwise you could bonk yourself",
 						"--ImageRoulette--",
 						"Get a random image with !img or a GIF with !gif",
 						"Note: GIFs may show up with !img",
