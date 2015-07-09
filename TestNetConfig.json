@@ -1,0 +1,9 @@
+{
+	"server": "irc.adelais.net",
+	"nickname": "StronkBot",
+	"username": "Bonk_Bot",
+	"realname": "Bonkles",
+	"command-trigger": "!",
+	"channels": ["#programming"],
+	"plugins": ["howtobonk", "clonk"]
+}

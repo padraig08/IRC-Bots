@@ -1,3 +1,4 @@
+var argConfig = "./" + process.argv[2] + "NetConfig.json";
 var botConfig = require("./botConfig.json"),
 	botData = require("./botData.json");
 
@@ -16,7 +17,7 @@ var countdown = botData.countdown,
 var irc = require("tennu"),
 	winston = require("winston"),
 	async = require("async"),
-	network = require("./netConfig.json"),
+	network = require(argConfig),
 	request = require("request"),
 	_ = require("lodash-node"),
 	MsTranslator = require("mstranslator"),
@@ -149,108 +150,169 @@ function engrishThatShit(string, to, command) {
 	});
 }
 
-function loopAcro(c, n, url, callback) {
-	url = url.replace(/<search>/gi, c).replace(/<api>/gi, word.api);
-	if (letterPattern.test(c)) {
+function wordToAcro(command) {
+	var acroLetterArray = command.args.join("").split("");
+	var acroResultArray = [];
+
+	_.remove(acroLetterArray, function(n) {
+  		return n == "";
+	});
+
+	if (_.isEmpty(acroLetterArray)) {
+		bot.say(command.channel, "ERROR: You need to enter in some text to acro, bud.");
+	}
+	else if (acroLetterArray.length-1 > 20) {
+		bot.say(command.channel, "ERROR: Woah buddy, that girth's a bit too much. Scale that shit back.");
+	}
+	else {
+		console.log("good to go");
+	
+
+	async.eachSeries(acroLetterArray, acroRequestWord, function(err) {
+		if (_.isEmpty(err)) {
+			var acroPrintString = acroLetterArray.join(".").toUpperCase()+".: "+acroResultArray.join(" ").toUpperCase();
+			bot.say(command.channel, acroPrintString);
+		}
+		else {
+			console.log(err);
+			bot.say(command.channel, "ERROR: Something ain't quite right");
+		}
+	});
+	
+	}
+
+function acroRequestWord(currentLetter, callback) {
+	var letterPattern = new RegExp("[a-zA-Z]");
+	if (letterPattern.test(currentLetter)) {
+		var url = word.searchUrl+word.acroAnyUrl+word.apiUrl;
+		url = url.replace(/<search>/gi, currentLetter).replace(/<api>/gi, word.api);
 		request(url, function (error, response, body) {
-			if (error || response.statusCode !== 200 || body.length <= 2) {
-				acObj[n] = c;
+			if (error || response.statusCode !== 200) {
+	
+				console.log(error);
+				callback("error on wordRequest");	
 			}
 			else {
-				var acData = JSON.parse(body);
-				try {
-					var acroRandomInt = getRandomInt(0, acData.searchResults.length - 1);
-				}
-				catch (err) {
-					logger.error(err);
-					callback("err", null)
-				}
-				acObj[n] = acData.searchResults[acroRandomInt].word;
-				callback();
+				var wordRequestData = JSON.parse(body);
+    	        try {
+    	            var acroRandomInt = getRandomInt(0, wordRequestData.searchResults.length-1);
+    	        } catch (err) {
+    	            logger.error(err);
+   	 	            callback("error on randomInt");
+    	        }
+				acroResultArray.push(wordRequestData.searchResults[acroRandomInt].word);
+				callback();	
 			}
 		});
 	}
 	else {
-		acObj[n] = c;
+		acroResultArray.push(currentLetter);
 		callback();
 	}
 }
+}
 
-function loopSyn(c, n, callback) {
-	var urlThesaurBuild = word.wordUrl + word.thesaurUrl + word.apiUrl;
-	urlThesaurBuild = urlThesaurBuild.replace(/<word>/gi, c).replace(/<api>/gi, word.api);
-	request(urlThesaurBuild, function (error, response, body) {
-		if (error || response.statusCode !== 200 || body.length <= 2) {
-			synObj[n] = c;
-			//synArray.push(c);
-			callback();
+
+function wordToSyn(command) {
+	var synWordArray = command.args;
+	var synResultArray = [];
+
+	if (_.isEmpty(synWordArray)) {
+		bot.say(command.channel, "ERROR: You need to enter in some text to syn, brudda.");
+	}
+	else {
+		async.eachSeries(synWordArray, synRequestWord, function(err) {
+		if (_.isEmpty(err)) {
+			var synPrintString = ">"+synResultArray.join(" ");
+			bot.say(command.channel, synPrintString);
 		}
 		else {
-			var synData = JSON.parse(body);
-			try {
-				var synRandomInt = getRandomInt(0, synData[0].words.length - 1);
+			console.log(err);
+			bot.say(command.channel, "ERROR: Something ain't quite right");
+		}
+
+		});
+	
+	}
+
+	function synRequestWord(currentWord, callback) {
+		var url = word.wordUrl+word.thesaurUrl+word.apiUrl;
+		url = url.replace(/<word>/gi, currentWord).replace(/<api>/gi, word.api);
+		request(url, function (error, response, body) {
+			if (error || response.statusCode !== 200) {
+	
+				console.log(error);
+				synResultArray.push(currentWord);
+				callback();	
 			}
-			catch (err) {
-				logger.error(err);
-				callback("err", null)
+			else {
+				var wordRequestData = JSON.parse(body);
+
+				if (_.isEmpty(wordRequestData[0])) {
+					synResultArray.push(currentWord);
+   	 	            callback();
+   	 	        }
+				else {
+	   	 	        try {
+	    	            var synRandomInt = getRandomInt(0, wordRequestData[0].words.length-1);
+	    	        } catch (err) {
+	    	            console.log(err);
+	    	            synResultArray.push(currentWord);
+	   	 	            callback();
+	    	        }
+
+	    	        synResultArray.push(wordRequestData[0].words[synRandomInt]);
+					callback();	
 			}
-			synObj[n] = synData[0].words[synRandomInt];
-
-			//synArray.push(synData[0].words[0]);
-			//acArray.push(acData.searchResults[0].word);
-			callback();
 		}
+		
 	});
 }
 
-function syncAcro(command, acLetter) {
-	acObj = {};
-	requests = 0;
-
-	async.each(acLetter, function(n, callback) {
-		requests++;
-		if (requests == 1) {
-			urlAcroBuild = word.searchUrl + word.acroFirstUrl + word.apiUrl;
-			loopAcro(n, requests, urlAcroBuild, callback);
-		}
-		else if (requests == 2 || requests == acLetter.length - 1) {
-			urlAcroBuild = word.searchUrl + word.acroLastUrl + word.apiUrl;
-			loopAcro(n, requests, urlAcroBuild, callback);
-		}
-		else {
-			urlAcroBuild = word.searchUrl + word.acroAnyUrl + word.apiUrl;
-			loopAcro(n, requests, urlAcroBuild, callback);
-		}
-	}, function (err) {
-		var acString = _.map(acObj, function (num) { return num; }).join(" ");
-		bot.say(command.channel, acString.toUpperCase());
-	});
 }
 
-function syncSyn(command) {
-	synObj = {};
-	requests = 0;
 
-	async.each(command.args, function(n, callback) {
-		requests++;
-		//console.log(command.args);
-		if (specMatch.test(n) || numMatch.test(n)) {
-			console.log("got it");
-			loopSyn("fuck", requests, callback);
-		}
-		else {
-			loopSyn(n, requests, callback);
-		}
-		//loopSyn(n, requests,callback);
-	},
-	function (err) {
-		var synString = _.map(synObj, function (num) { return num; }).join(" ");
-		bot.say(command.channel, synString.toUpperCase());
-		//bot.say(command.channel, synArray.join(" "));
-	});
+
+function timeToBonk(command)
+{
+	var from = command.nickname;
+	var target = command.args.join(" ");
+    try {
+        var calcRandomInt = getRandomInt(0, 100);
+    } catch (err) {
+        logger.error(err);
+        callback("err", null)
+    }
+    try {
+        var resultRandomInt = getRandomInt(0, randomMsg.result.length - 1);
+    } catch (err) {
+        logger.error(err);
+        callback("err", null)
+    }
+    try {
+        var attackRandomInt = getRandomInt(0, randomMsg.attacker.length - 1);
+    } catch (err) {
+        logger.error(err);
+        callback("err", null)
+    }
+	var calcMsg = calcRandomInt.toString() + "% of ";
+	var resultMsg = randomMsg.result[resultRandomInt];
+	var attackerMsg = randomMsg.attacker[attackRandomInt];
+
+	
+	var clonk = c.brown("Battlebonk results: " + calcMsg + target+"'s clonkers " + resultMsg + " by " + from+"'s " + attackerMsg);
+	bot.say(command.channel, clonk);
+	//var recalcColor = Math.round((calc * (randomMsg.colors.length - 1)) /100);
+	var recalcAssess = Math.round((calcRandomInt *(randomMsg.assess.length - 1)) /100);
+	//var assessColor = "c."+randomMsg.colors[recalcColor];
+	var assessment = randomMsg.assess[recalcAssess];
+	console.log(assessment);
+	
+	bot.say(command.channel, "Battlebonk Status: " + c.red(assessment));
+
 }
 
-function userTweet(command, userString) {
+function userTweet(command, userString, authText) {
 	if (_.isEmpty(userString)) {
 		bot.say(command.channel, "No user provided. Come on man, you're better than this.");
 	}
@@ -259,35 +321,41 @@ function userTweet(command, userString) {
 		Tw.get("statuses/user_timeline", {screen_name: userArray[0], count: "200", exclude_replies: "true", include_rts: "false"}, function(err, data, response) {
 			if (err === null) {
 				if (!_.isEmpty(data[0])) {
-					if(_.contains(userString,"|")) {
+					if (_.contains(userString, "|")) {
 						switch (userArray[1]) {
-							case "name":
-								bot.say(command.channel, data[0].user.screen_name + "'s Name: " + data[0].user.name);
-								break;
-							case "description":
-								bot.say(command.channel, data[0].user.screen_name + "'s Bio: " + data[0].user.description);
-								break;
-							case "location":
-								bot.say(command.channel, data[0].user.screen_name + "'s Location: " + data[0].user.location);
-								break;
-							case "count":
-								bot.say(command.channel, data[0].user.screen_name + "'s Tweet Count: " + data[0].user.statuses_count);
-								break;
-							default:
-								bot.say(command.channel, "You gotta give me something to look up, brah.");
+    						case "name":
+        						bot.say(command.channel,  data[0].user.screen_name +"'s Name: "+data[0].user.name);
+        					break;
+    						case "description":
+        						bot.say(command.channel,  data[0].user.screen_name +"'s Bio: "+data[0].user.description);
+        					break;
+        					case "location":
+        						bot.say(command.channel,  data[0].user.screen_name +"'s Location: "+data[0].user.location);
+        					break;
+    						case "count":
+        						bot.say(command.channel,  data[0].user.screen_name +"'s Tweet Count: "+data[0].user.statuses_count);
+        					break;
+    						default:
+        						bot.say(command.channel, "You gotta give me something to look up, brah.");
 						}
 					}
 					else {
 						try {
 							var tweetRandomInt = getRandomInt(0, data.length - 1);
-						}
+							}
 						catch (err) {
 							logger.error(err);
 							return;
 						}
-						var arrTweet = data[tweetRandomInt].text.replace( /\n/g, "`" ).split("`");
+						var arrTweet = data[tweetRandomInt].text.replace( /\n/g, "`" ).split( "`" );
 						//console.log(arrTweet);
-						bot.say(command.channel, data[tweetRandomInt].user.screen_name + ": " + arrTweet);
+						console.log(authText);
+						if (authText == true) {
+							bot.say(command.channel, data[tweetRandomInt].user.screen_name + ": " + arrTweet);
+						}
+						else if (authText == false) {
+							bot.say(command.channel, arrTweet);
+						}
 					}
 				}
 				else {
@@ -504,7 +572,7 @@ function hboRando(command, avStatus) {
 
 function hboForumScrape(command, avStatus, hboBase, hboTop) {
 	console.log("hboForumScrape is happening");
-	if((typeof hboBase === "number") && Math.floor(hboBase) === hboBase && (typeof hboTop === "number") && Math.floor(hboTop) === hboTop) {
+	if ((typeof hboBase === "number") && Math.floor(hboBase) === hboBase && (typeof hboTop === "number") && Math.floor(hboTop) === hboTop) {
 
 		async.retry(5, hboCheck, hboFormatPost);
 
@@ -518,7 +586,7 @@ function hboForumScrape(command, avStatus, hboBase, hboTop) {
 				callback(err, null);
 			}
 
-			//var randHBO = getRandomInt(hboBase,hboTop);
+			//var randHBO = getRandomInt(hboBase, hboTop);
 			var hboTestUrl = "http://carnage.bungie.org/haloforum/halo.forum.pl?read=" + hboRandomPostNumber;
 			request({
 				url: hboTestUrl,
@@ -619,7 +687,7 @@ var kind = "";
 
 bot.on("join", function(message) {
 	if (message.nickname == "StronkBot") {
-		bot.say(message.channel, "StronkBot status: ON. Use !howtobonk for instructions on interacting with StronkBot.");
+		//bot.say(message.channel, "StronkBot status: ON. Use !howtobonk for instructions on interacting with StronkBot.");
 	}
 	else {
 		//checkOP(message.nickname);
@@ -695,14 +763,14 @@ var tsdtvCheck = (function () {
 	};
 } )();
 
-/*bot.on("quit",function(message){
+/*bot.on("quit", function(message) {
 	//console.log(util.inspect(message));
 	var removeName = _.where(nameList, {"name": message.nickname});
 	nameList = _.without(nameList, removeName[0]);
 });
 */
 
-/*bot.on("names",function(message){
+/*bot.on("names", function(message) {
 	console.log(util.inspect(message));
 	for (var key in message.names) {
 		checkOP(key);
@@ -1010,7 +1078,7 @@ bot.on("!qdb", function (command) {
 		}
 		else {
 			var $ = cheerio.load(body);
-			var match = $("div.quoteIDBox a").map(function(i, el){ return $(this).attr("href") }).get();
+			var match = $("div.quoteIDBox a").map(function(i, el) { return $(this).attr("href") }).get();
 			try {
 				var qdbRandomInt = getRandomInt(0, match.length - 1);
 			}
@@ -1032,7 +1100,7 @@ bot.on("!img", function (command) {
 	randImg(urls.subs.img, command.channel);
 });
 
-bot.on("!gif", function (command){
+bot.on("!gif", function (command) {
 	randImg(urls.subs.gif, command.channel);
 });
 
@@ -1045,7 +1113,7 @@ bot.on("!translate", function (command) {
 	var setLanguage = res[1];
 	var translationString = res[0];
 	if (_.isEmpty(setLanguage)) {
-		detectThatShit(translationString, null ,command);
+		detectThatShit(translationString, null, command);
 	}
 	else {
 		detectThatShit(translationString, setLanguage, command);
@@ -1079,9 +1147,13 @@ bot.on("!tweet", function (command) {
     searchDaTweet(command.args.join(" "), command);
 });
 
-bot.on("!fanfic", function (command){
-	userTweet(command, "Fanfiction_txt");
-});        
+bot.on("!fanfic", function (command) {
+    userTweet(command, "Fanfiction_txt", true);
+});
+
+bot.on("!bazoop", function (command) {
+    userTweet(command, "bazooper", false);
+});
 
 bot.on("!translate", function (command) {
 	var res = command.args.join(" ").split("/");
@@ -1109,21 +1181,21 @@ bot.on("!rhyme", function (command) {
 		else {
 			var rhymeData = JSON.parse(body);
 			try {
-				var rhymeRandomInt = getRandomInt(0,rhymeData[0].words.length-1);
+				var rhymeRandomInt = getRandomInt(0, rhymeData[0].words.length - 1);
 			}
 			catch (err) {
 				logger.error(err);
 				return;
 			}
 			try {
-				var phraseRandomInt = getRandomInt(0,rhymePos.items.length-1);
+				var phraseRandomInt = getRandomInt(0, rhymePos.items.length - 1);
 			}
 			catch (err) {
 				logger.error(err);
 				return;
 			}
 			var chosenRhyme = rhymePos.items[phraseRandomInt];
-			var replaceRhyme =  chosenRhyme.replace(/rhymed/gi, rhymeData[0].words[rhymeRandomInt]).toUpperCase().replace(/word/gi,command.args.join("").toUpperCase());
+			var replaceRhyme =  chosenRhyme.replace(/rhymed/gi, rhymeData[0].words[rhymeRandomInt]).toUpperCase().replace(/word/gi, command.args.join("").toUpperCase());
 			bot.say(command.channel, replaceRhyme);
 		}
 	});
@@ -1141,7 +1213,7 @@ bot.on("!define", function (command) {
 		else {
 			var defineData = JSON.parse(body);
 			try {
-				var defineRandomInt = getRandomInt(0,defineData.length-1);
+				var defineRandomInt = getRandomInt(0, defineData.length - 1);
 			}
 			catch (err) {
 				logger.error(err);
@@ -1174,17 +1246,15 @@ bot.on("!example", function (command) {
 	});
 });
 
-/*
-bot.on("!acro", function (command){
-	var acroWord = command.args.join("");
-	var acLetter = acroWord.split("");
-	syncAcro(command, acLetter);
+bot.on("!acro", function (command) {
+	wordToAcro(command);
 });
 
-bot.on("!syn", function (command){
-	syncSyn(command);
+
+bot.on("!syn", function (command) {
+	wordToSyn(command);
 });
-*/
+
 
 bot.on("!speak", function (command) {
 	var audioWord = command.args.join("");
@@ -1197,7 +1267,7 @@ bot.on("!speak", function (command) {
 		else {
 			var audioData = JSON.parse(body);
 			try {
-				var audioRandomInt = getRandomInt(0,audioData.length-1);
+				var audioRandomInt = getRandomInt(0, audioData.length - 1);
 			}
 			catch (err) {
 				logger.error(err);
@@ -1219,7 +1289,7 @@ bot.on("!pron", function (command) {
 		else {
 			var pronData = JSON.parse(body);
 			try {
-				var pronounceRandomInt = getRandomInt(0,pronData.length-1);
+				var pronounceRandomInt = getRandomInt(0, pronData.length - 1);
 			}
 			catch (err) {
 				logger.error(err);
@@ -1235,8 +1305,12 @@ bot.on("!pax", function (command) {
 	bot.say(command.channel, "Tentatively, in " + timeTilPAX + ", we will PAX.");
 });
 
+bot.on("!dorj", function (command) {
+    bot.say(command.channel, "YA TA! http://i.imgur.com/z3E28VS.jpg");
+});
+
 bot.on("!tweep", function (command) {
-	userTweet(command, command.args.join(""));
+    userTweet(command, command.args.join(""), true);
 });        
 
 bot.on("!tricked", function (command) {

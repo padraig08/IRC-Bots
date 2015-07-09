@@ -15,21 +15,21 @@
 		"api" : "d2995fee04930f335d81803552c000b9aab0e63a3813e0326"
 	},
 
-	"rhymePos": {
-		"items": ["word rhymed",
-				"rhymed word",
-				"rhymed AND word",
-				"word AND rhymed",
-				"word, rhymed, TSD",
-				"NEVER word A rhymed MAN",
-				"NEVER rhymed A word MAN",
-				"rhymed, word, TSD",
-				"YOU CAN'T word THE rhymed",
-				"YOU CAN'T rhymed THE word"]
-	},
-
 	"Tweet": {
 		"commands": ["twit", "fanfic", "tweet"]
+	},
+
+"rhymePos": {
+	"items": ["word rhymed",
+			"rhymed word",
+			"rhymed AND word",
+			"word AND rhymed",
+			"NEVER word A rhymed MAN",
+			"NEVER rhymed A word MAN",
+			"YOU CAN'T word THE rhymed",
+			"YOU CAN'T rhymed THE word",
+			"GIVE 'EM THE OL' word AND rhymed",
+			"GIVE 'EM THE OL' rhymed AND word"]
 	},
 
 	"qdb": {
@@ -61,7 +61,7 @@
 				"Fully flustered",
 				"I Was So Mad, by Mercer Mayer",
 				"Platinum mad",
-				"Mad In China",
+				"Mad in China",
 				"Get mad, get mad, get mad!",
 				"u mad",
 				"y u mad",
@@ -78,6 +78,8 @@
 				"Born to be Mad",
 				"Sees Mad Max as a role model",
 				"Mad to the Bone",
+				"Binge-watching Mad About You",
+				"It's a mad, mad, mad, mad world they live in",
 				"Giga Mad Breaker",
 				"Literally angry with rage"]
 	},
@@ -211,13 +213,13 @@
 			"https://www.youtube.com/watch?v=F_XaIuw6K6Q",
 			"https://www.youtube.com/watch?v=2AlCdvfhuAs",
 			"https://www.youtube.com/watch?v=9AAVyWsNTtI",
- 			"https://www.youtube.com/watch?v=Saqdb0T-hTM",
- 			"https://www.youtube.com/watch?v=hzpQH43lMXA",
-  			"https://www.youtube.com/watch?v=Fgg9m7nOMT8",
-  			"https://www.youtube.com/watch?v=nABMJ4791c0",
-  			"https://www.youtube.com/watch?v=Z0zLSVVRPpo",
-  			"https://www.youtube.com/watch?v=ujt1ogxcuNM",
-  			"https://www.youtube.com/watch?v=mEqleusCerc"]
+			"https://www.youtube.com/watch?v=Saqdb0T-hTM",
+			"https://www.youtube.com/watch?v=hzpQH43lMXA",
+			"https://www.youtube.com/watch?v=Fgg9m7nOMT8",
+			"https://www.youtube.com/watch?v=nABMJ4791c0",
+			"https://www.youtube.com/watch?v=Z0zLSVVRPpo",
+			"https://www.youtube.com/watch?v=ujt1ogxcuNM",
+			"https://www.youtube.com/watch?v=mEqleusCerc"]
 	},
 
 	"randomMsg": {
@@ -241,7 +243,6 @@
 					"TDVictoryLap",
 					"Victory Swole",
 					"Captain Battlebonk",
-					"Dr. Prof. Vagueness, DDS",
 					"IRC Avengers",
 					"Tumblr Mercenaries",
 					"Sonic fanfic",
@@ -336,7 +337,7 @@
 					"cyan",
 					"olive",
 					"red"],
-		"commands":	["battlebonk",
+		"commands": ["battlebonk",
 					"howtobonk",
 					"Clonk"]
 	}
