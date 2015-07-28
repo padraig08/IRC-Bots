@@ -780,7 +780,15 @@ bot.on("nick", function (message) {
 
 bot.on("!old", function (command) {
 	var target = command.args.join(" ");
-	var oldness = getRandomInt(0, old.status.length - 1);
+	
+	try {
+		var oldness = getRandomInt(0, old.status.length - 1);
+	}
+	catch (err) {
+		logger.error(err);
+		return;
+	}
+	
 	if (_.isEmpty(target)) {
 		bot.say(command.channel, "Old status: [X] " + old.status[oldness]);
 	}
@@ -1073,6 +1081,7 @@ bot.on("!dmx", function(command) {
 		logger.error(err);
 		return;
 	}
+	
 	bot.say(command.channel, dmx.phrases[dmxRandomInt]);
 });
 
@@ -1084,6 +1093,7 @@ bot.on("!ugh", function (command) {
 		logger.error(err);
 		return;
 	}
+	
 	bot.say(command.channel, ugh.items[ughRandomInt]);
 });
 
