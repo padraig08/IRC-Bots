@@ -35,6 +35,8 @@ var howToBonkPlugin = {
 						"Use !care to determine how much to care about something",
 						"--Big--",
 						"Use !big [words] to get big",
+						"--Old--",
+						"Use !old to check on something's oldness status",
 						"--Calulate--",
 						"Enter !calc [numbers and operators] to do math"]);
 				},

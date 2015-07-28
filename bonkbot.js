@@ -12,7 +12,8 @@ var countdown = botData.countdown,
 	word = botData.word,
 	tricked = botData.tricked,
 	mad = botData.mad,
-	stream = botData.stream;
+	stream = botData.stream,
+	old = botData.old;
 
 var irc = require("tennu"),
 	winston = require("winston"),
@@ -159,15 +160,14 @@ function wordToAcro(command) {
 	});
 
 	if (_.isEmpty(acroLetterArray)) {
-		bot.say(command.channel, "ERROR: You need to enter in some text to acro, bud.");
+		bot.say(command.channel,"ERROR: You need to enter in some text to acro, bud.");
 	}
-	else if (acroLetterArray.length-1 > 20) {
-		bot.say(command.channel, "ERROR: Woah buddy, that girth's a bit too much. Scale that shit back.");
+	else if (acroLetterArray.length - 1 > 20) {
+		bot.say(command.channel,"ERROR: Woah buddy, that girth's a bit too much. Scale that shit back.");
 	}
 	else {
 		console.log("good to go");
 	
-
 	async.eachSeries(acroLetterArray, acroRequestWord, function(err) {
 		if (_.isEmpty(err)) {
 			var acroPrintString = acroLetterArray.join(".").toUpperCase()+".: "+acroResultArray.join(" ").toUpperCase();
@@ -181,97 +181,88 @@ function wordToAcro(command) {
 	
 	}
 
-function acroRequestWord(currentLetter, callback) {
-	var letterPattern = new RegExp("[a-zA-Z]");
-	if (letterPattern.test(currentLetter)) {
-		var url = word.searchUrl+word.acroAnyUrl+word.apiUrl;
-		url = url.replace(/<search>/gi, currentLetter).replace(/<api>/gi, word.api);
-		request(url, function (error, response, body) {
-			if (error || response.statusCode !== 200) {
-	
-				console.log(error);
-				callback("error on wordRequest");	
-			}
-			else {
-				var wordRequestData = JSON.parse(body);
-    	        try {
-    	            var acroRandomInt = getRandomInt(0, wordRequestData.searchResults.length-1);
-    	        } catch (err) {
-    	            logger.error(err);
-   	 	            callback("error on randomInt");
-    	        }
-				acroResultArray.push(wordRequestData.searchResults[acroRandomInt].word);
-				callback();	
-			}
-		});
-	}
-	else {
-		acroResultArray.push(currentLetter);
-		callback();
+	function acroRequestWord(currentLetter, callback) {
+		var letterPattern = new RegExp('[a-zA-Z]');
+		if (letterPattern.test(currentLetter)) {
+			var url = word.searchUrl + word.acroAnyUrl + word.apiUrl;
+			url = url.replace(/<search>/gi, currentLetter).replace(/<api>/gi, word.api);
+			request(url, function (error, response, body) {
+				if (error || response.statusCode !== 200) {
+					console.log(error);
+					callback("error on wordRequest");
+				}
+				else {
+					var wordRequestData = JSON.parse(body);
+					try {
+						var acroRandomInt = getRandomInt(0, wordRequestData.searchResults.length - 1);
+					}
+					catch (err) {
+						logger.error(err);
+						callback('error on randomInt');
+					}
+					acroResultArray.push(wordRequestData.searchResults[acroRandomInt].word);
+					callback();
+				}
+			});
+		}
+		else {
+			acroResultArray.push(currentLetter);
+			callback();
+		}
 	}
 }
-}
-
 
 function wordToSyn(command) {
 	var synWordArray = command.args;
 	var synResultArray = [];
 
 	if (_.isEmpty(synWordArray)) {
-		bot.say(command.channel, "ERROR: You need to enter in some text to syn, brudda.");
+		bot.say(command.channel,"ERROR: You need to enter in some text to syn, brudda.");
 	}
 	else {
 		async.eachSeries(synWordArray, synRequestWord, function(err) {
-		if (_.isEmpty(err)) {
-			var synPrintString = ">"+synResultArray.join(" ");
-			bot.say(command.channel, synPrintString);
-		}
-		else {
-			console.log(err);
-			bot.say(command.channel, "ERROR: Something ain't quite right");
-		}
-
+			if (_.isEmpty(err)) {
+				var synPrintString = ">" + synResultArray.join(" ");
+				bot.say(command.channel, synPrintString);
+			}
+			else {
+				console.log(err);
+				bot.say(command.channel, "ERROR: Something ain't quite right");
+			}
 		});
-	
 	}
-
+	
 	function synRequestWord(currentWord, callback) {
-		var url = word.wordUrl+word.thesaurUrl+word.apiUrl;
+		var url = word.wordUrl + word.thesaurUrl + word.apiUrl;
 		url = url.replace(/<word>/gi, currentWord).replace(/<api>/gi, word.api);
 		request(url, function (error, response, body) {
 			if (error || response.statusCode !== 200) {
-	
 				console.log(error);
 				synResultArray.push(currentWord);
 				callback();	
 			}
 			else {
 				var wordRequestData = JSON.parse(body);
-
 				if (_.isEmpty(wordRequestData[0])) {
 					synResultArray.push(currentWord);
    	 	            callback();
    	 	        }
 				else {
 	   	 	        try {
-	    	            var synRandomInt = getRandomInt(0, wordRequestData[0].words.length-1);
-	    	        } catch (err) {
+	    	            var synRandomInt = getRandomInt(0, wordRequestData[0].words.length - 1);
+	    	        }
+					catch (err) {
 	    	            console.log(err);
 	    	            synResultArray.push(currentWord);
 	   	 	            callback();
 	    	        }
-
 	    	        synResultArray.push(wordRequestData[0].words[synRandomInt]);
-					callback();	
+					callback();
+				}
 			}
-		}
-		
-	});
+		});
+	}
 }
-
-}
-
-
 
 function timeToBonk(command)
 {
@@ -787,6 +778,17 @@ bot.on("nick", function (message) {
 
 // Commands //
 
+bot.on("!old", function (command) {
+	var target = command.args.join(" ");
+	var oldness = getRandomInt(0, old.status.length - 1);
+	if (_.isEmpty(target)) {
+		bot.say(command.channel, "Old status: [X] " + old.status[oldness]);
+	}
+	else {
+		bot.say(command.channel, "Old status for " + target + ": [X] " + old.status[oldness]);
+	}
+});
+
 bot.on("!tsdtv", function (command) {
 	var cmd = command.args.join("");
 	
@@ -1002,7 +1004,14 @@ bot.on("!calc", function (command) {
 bot.on("!care", function (command) {
 	// this function is a mix of arbitrary numbers, personal preference, and presentation
 	
-	var careAmount = getRandomInt(0, 101);
+	try {
+		var careAmount = getRandomInt(0, 101);
+	}
+	catch (err) {
+		logger.error(err);
+		return;
+	}
+	
 	var careMsg = "Care-o-meter: ";
 	
 	// use an if block because JS only supports ranges in switch case under certain circumstances
@@ -1039,7 +1048,15 @@ bot.on("!care", function (command) {
 
 bot.on("!mad", function (command) {
 	var target = command.args.join(" ");
-	var madChosenStatus = getRandomInt(0, mad.status.length - 1);
+	
+	try {
+		var madChosenStatus = getRandomInt(0, mad.status.length - 1);
+	}
+	catch (err) {
+		logger.error(err);
+		return;
+	}
+	
 	if (_.isEmpty(target)) {
 		bot.say(command.channel, "Mad status: [X] " + mad.status[madChosenStatus]);
 	}
@@ -1303,10 +1320,6 @@ bot.on("!pron", function (command) {
 bot.on("!pax", function (command) {
 	var timeTilPAX = hbombcount(null, new Date(2015, 7, 28)).toString();
 	bot.say(command.channel, "Tentatively, in " + timeTilPAX + ", we will PAX.");
-});
-
-bot.on("!dorj", function (command) {
-    bot.say(command.channel, "YA TA! http://i.imgur.com/z3E28VS.jpg");
 });
 
 bot.on("!tweep", function (command) {
