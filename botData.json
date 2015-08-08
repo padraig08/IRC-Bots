@@ -11,7 +11,7 @@
 					"Old Gold pretzels (They're packed with staleness!)",
 					"24 karat old",
 					"Expired in January... of last year",
-					"Older than Old Faithful",
+					"Old, hard cash",
 					"Solid Old (with Dionne Warwick and the Solid Old Dancers)",
 					"Killed the dinosaurs",
 					"Stay olden, Ponyboy",
@@ -33,7 +33,7 @@
 				"Fully flustered",
 				"I Was So Mad, by Mercer Mayer",
 				"Platinum mad",
-				"Label on it says \"Mad in China\"",
+				"Has a label that says \"Mad in China\"",
 				"u mad",
 				"y u mad",
 				"Mad as a hatter",
@@ -55,7 +55,9 @@
 				"Watching all of Mad Men, again",
 				"Mad enough to spit",
 				"Getting mad rather than getting even",
-				"Literally angry with rage"]
+				"Literally angry with rage",
+				"Madbury Creme Egg",
+				"In Amber Mad"]
 	},
 
 	"translate": {
@@ -108,7 +110,7 @@
 
 	"dmx": {
 		"commands": "dmx",
-		"phrases": ["X GON' GIVE IT TO YA",
+		"status": ["X GON' GIVE IT TO YA",
 					"DONE WAITIN' FOR YA TO GET IT ON YA OWN, X GON' DELIVER TO YA",
 					"KNOCK KNOCK, OPEN UP THE DOOR, IT'S REAL",
 					"WITH THE NON-STOP POP POP OF STAINLESS STEEL",
@@ -144,7 +146,8 @@
 					"https://www.youtube.com/watch?v=ZtBaeOwwK3c",
 					"https://www.youtube.com/watch?v=GGiIuBaXGQw",
 					"https://www.youtube.com/watch?v=8hgmW4B9wVs",
-					"https://www.youtube.com/watch?v=47G3SK8QEhQ"]
+					"https://www.youtube.com/watch?v=47G3SK8QEhQ",
+					"https://www.youtube.com/watch?v=YxpYC73gHXs"]
 	},
 
 	"battle": {
@@ -227,11 +230,12 @@
 					"Tom Cruise Missiles",
 					"squadron of War Corgis (also known as Worgis)",
 					"Sweet Hand of Irony",
+					"K-Pop Shill Squad",
 					"guns, because it's too close for missiles",
 					"elder god kept as a pet",
 					"sock with a bar of soap in it",
-					"particular set of skills",
-					"titanium piano dropped from orbit"],
+					"titanium piano dropped from orbit",
+					"particular set of skills"],
 		"assess": ["Can't bonk this",
 					"Whadda ya gonna do, drop a bonk on me?",
 					"About Bonking Time",
@@ -254,6 +258,7 @@
 					"420 bonk it",
 					"Bonktacular",
 					"Bonkalicious",
+					"You dropped a bonk on me, baby, you dropped a bonk on me",
 					"UNBONKINGBELIEVABLE"],
 		"colors": ["blue",
 					"cyan",

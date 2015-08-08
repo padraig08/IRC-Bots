@@ -354,6 +354,21 @@ function calculate (rt, current, lastOp) {
 	return rt;
 }
 
+function randStatus (statusType) {
+	// does some of the repeated work of various random response functions
+	
+	try {
+		var selector = getRandomInt(0, old.status.length - 1);
+	}
+	catch (err) {
+		logger.error(err);
+		return;
+	}
+	
+	var status = statusType.status[selector];
+	return status;
+}
+
 // Start bot //
 
 var bot = irc.Client(network, {Logger: ircLogger});
@@ -467,20 +482,16 @@ bot.on("nick", function (message) {
 bot.on("!old", function (command) {
 	var target = command.args.join(" ");
 	
-	try {
-		var oldness = getRandomInt(0, old.status.length - 1);
-	}
-	catch (err) {
-		logger.error(err);
-		return;
-	}
+	var status = randStatus(old);
 	
 	if (_.isEmpty(target)) {
-		bot.say(command.channel, "Old status: [X] " + old.status[oldness]);
+		status = "Old status: [X] " + status;
 	}
 	else {
-		bot.say(command.channel, "Old status for " + target + ": [X] " + old.status[oldness]);
+		status = "Old status for " + target + ": [X] " + status;
 	}
+	
+	bot.say(command.channel, status);
 });
 
 bot.on("!tsdtv", function (command) {
@@ -743,32 +754,22 @@ bot.on("!care", function (command) {
 bot.on("!mad", function (command) {
 	var target = command.args.join(" ");
 	
-	try {
-		var madChosenStatus = getRandomInt(0, mad.status.length - 1);
-	}
-	catch (err) {
-		logger.error(err);
-		return;
-	}
+	var status = randStatus(mad);
 	
 	if (_.isEmpty(target)) {
-		bot.say(command.channel, "Mad status: [X] " + mad.status[madChosenStatus]);
+		status = "Mad status: [X] " + status;
 	}
 	else {
-		bot.say(command.channel, "Mad status for " + target + ": [X] " + mad.status[madChosenStatus]);
+		status = "Mad status for " + target + ": [X] " + status;
 	}
+	
+	bot.say(command.channel, status);
 });
 
 bot.on("!dmx", function(command) {
-	try {
-		var dmxRandomInt = getRandomInt(0, dmx.phrases.length - 1);
-	}
-	catch (err) {
-		logger.error(err);
-		return;
-	}
+	var status = randStatus(dmx);
 	
-	bot.say(command.channel, dmx.phrases[dmxRandomInt]);
+	bot.say(command.channel, status);
 });
 
 bot.on("!battlebonk", function (command) {
@@ -779,6 +780,7 @@ bot.on("!translate", function (command) {
 	var res = command.args.join(" ").split("/");
 	var setLanguage = res[1];
 	var translationString = res[0];
+	
 	if (_.isEmpty(setLanguage)) {
 		detectRomaji(translationString, null, command);
 	}
