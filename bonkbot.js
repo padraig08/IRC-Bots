@@ -7,7 +7,8 @@ var translate = botData.translate,
 	battle = botData.battle,
 	mad = botData.mad,
 	stream = botData.stream,
-	old = botData.old;
+	old = botData.old,
+	ride = botData.ride;
 
 var irc = require("tennu"),
 	winston = require("winston"),
@@ -358,7 +359,7 @@ function randStatus (statusType) {
 	// does some of the repeated work of various random response functions
 	
 	try {
-		var selector = getRandomInt(0, old.status.length - 1);
+		var selector = getRandomInt(0, statusType.status.length - 1);
 	}
 	catch (err) {
 		logger.error(err);
@@ -478,6 +479,21 @@ bot.on("nick", function (message) {
 */
 
 // Commands //
+
+bot.on("!ride", function (command) {
+	var target = command.args.join(" ");
+	
+	var status = randStatus(ride);
+	
+	if (_.isEmpty(target)) {
+		status = "Ride status: [X] " + status;
+	}
+	else {
+		status = "Ride status for " + target + ": [X] " + status;
+	}
+	
+	bot.say(command.channel, status);
+});
 
 bot.on("!old", function (command) {
 	var target = command.args.join(" ");

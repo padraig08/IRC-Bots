@@ -1,4 +1,18 @@
 {
+	"ride": {
+		"status": ["Ride or die",
+					"Riders on the Storm",
+					"Ghost Rider (starring Nicolas Cage)",
+					"We've added a rider to the bill",
+					"Ride 'em, cowboy",
+					"Slow Ride (by Foghat)",
+					"Riding shotgun",
+					"Ridin' Dirty",
+					"This is the ride that never ends",
+					"That's how rough riders roll",
+					"The ride goes ever on and on"]
+	},
+
 	"old": {
 		"status": ["Old",
 					"OLD",
