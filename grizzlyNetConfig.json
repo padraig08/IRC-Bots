@@ -4,6 +4,6 @@
   "username":"Bonk-Bot",
   "realname":"Bonky",
   "command-trigger":"#",
-  "channels":["#chat"],
+  "channels":["#chat","#halo"],
   "plugins": ["howtobonk", "clonk"]
 }

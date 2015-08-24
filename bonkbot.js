@@ -316,7 +316,7 @@ function timeToBonk(command)
 
 }
 
-function userTweet(command, userString, authText){
+function userTweet(command, userString, authText, replaceName){
 
 if (_.isEmpty(userString)){
 		bot.say(command.channel, "No user provided. Come on man, you're better than this.");
@@ -356,7 +356,15 @@ if (_.isEmpty(userString)){
                             if(authText == true) {
                                 bot.say(command.channel, data[tweetRandomInt].user.screen_name + ": " + arrTweet);
                             }else if(authText == false){
-                                bot.say(command.channel, arrTweet);
+                            	if (replaceName == true){
+                            		var person = command.args.join(" ");
+                            		if (_.isEmpty(person)) {
+            							person = 'Florida Man';
+            						}
+        								bot.say(command.channel, '>' + arrTweet.join(" ").replace(/Florida Man/gi, person));
+                                	}else{
+                                		bot.say(command.channel, arrTweet);
+                            		}
                             }
                         }
 					}else{
@@ -723,11 +731,19 @@ bot.on('!twit', function (command) {
 });
 
 bot.on('!fanfic', function (command){
-    userTweet(command, 'Fanfiction_txt', true);
+    userTweet(command, 'Fanfiction_txt', true, false);
+});
+
+bot.on('!fm', function (command){
+    userTweet(command, '_FloridaMan', false, true);
+});
+
+bot.on('!bear', function (command){
+    userTweet(command, 'a_single_bear', true, false);
 });
 
 bot.on('!bazoop', function (command){
-    userTweet(command, 'bazooper', false);
+    userTweet(command, 'bazooper', false, false);
 });
 
 bot.on('!tweet', function (command){
@@ -889,6 +905,22 @@ bot.on('!pax',function (command){
     bot.say(command.channel, "Tentatively, in "+timeTilPAX+", we will PAX.");
 });
 
+bot.on('!party',function (command){
+    var timeTilHP = hbombcount(null ,new Date(2015, 6, 18)).toString();
+    bot.say(command.channel, "in "+timeTilHP+", kanbo will make the worst mistake in his life.");
+});
+
+bot.on('!harvey',function (command){
+    var timeTilHP = hbombcount(null ,new Date(2015, 6, 18)).toString();
+    bot.say(command.channel, "in "+timeTilHP+", We will witness kanbo talk to a girl. Gross.");
+});
+
+bot.on('!hbobp',function (command){
+    var timeTilHBOBP = hbombcount(null ,new Date(2015, 5, 26)).toString();
+    bot.say(command.channel, "Approximately "+timeTilHBOBP+", HBOBP happened. And there's no taking it back now.");
+    bot.say(command.channel, "Albums: https://imgur.com/a/jW1gC , http://imgur.com/a/YO2e5 , http://imgur.com/a/oHjKG | Writeup: http://carnage.bungie.org/haloforum/halo.forum.pl?read=1206348 ");
+});
+
 bot.on('!dorj',function (command){
     bot.say(command.channel, "YA TA! http://i.imgur.com/z3E28VS.jpg");
 });
@@ -898,8 +930,9 @@ bot.on('!anime',function (command){
 });
 
 bot.on('!tweep', function (command){
-    userTweet(command, command.args.join(""), true);
-});        
+    userTweet(command, command.args.join(""), true, false);
+});
+
 bot.on('!tricked', function (command){
     try {
         var trickedRandomInt = getRandomInt(0,tricked.items.length-1);
