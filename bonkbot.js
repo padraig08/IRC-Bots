@@ -13,6 +13,7 @@ var countdown = botData.countdown,
 	av = botData.av,
 	rhymePos = botData.rhymePos,
 	word = botData.word,
+	sespider = botData.sespider,
 	tricked = botData.tricked;
 
 // Get the lib
@@ -95,6 +96,22 @@ function quothTheHyo(command){
             person = 'Hyokin';
         }
         bot.say(command.channel, '>' + hyoChosenFact.replace(/Hyokin/gi, person));
+}
+
+function quothTheSpider(command){
+        try {
+            var seRandomInt = getRandomInt(0,sespider.items.length-1);
+        } catch (err) {
+            logger.error(err);
+            return;
+        }
+        var seChosenFact = sespider.items[seRandomInt];
+        var person = command.args.join(" ");
+ 
+        if (_.isEmpty(person)) {
+            person = 'SESpider';
+        }
+        bot.say(command.channel, '>' + seChosenFact.replace(/SESpider/gi, person));
 }
 
 function detectThatShit(string, to, command){
@@ -685,6 +702,10 @@ bot.on('!battlebonk', function (command) {
 
 bot.on('!hyokin', function (command) {
     quothTheHyo(command);
+});
+
+bot.on('!se', function (command) {
+    quothTheSpider(command);
 });
 
 bot.on('!img', function (command) {
