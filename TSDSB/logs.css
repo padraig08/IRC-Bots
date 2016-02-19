@@ -1,0 +1,9 @@
+body{ background-color: #C0C0C0; font-family: "Calibri";}
+.user{ color: green;}
+.timestamp{color: black;}
+.message{color: #383838  }
+.alert{color: red;}
+.join{color: CadetBlue;}
+.part, .quit{color: PaleVioletRed;}
+.action {color: blue;}
+.channel_mode{color:red;}

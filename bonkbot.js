@@ -81,27 +81,6 @@ function translateText(string, to, from, command) {
 		from: from,
 		to: to
 	};
-	
-	transClient.initialize_token(function(keys) {
-		transClient.translate(params, function(err, data) {
-			if (!err || data !== null) {
-				if (to == "ja") {
-					data = romaji.fromKana(data);
-					console.log(data, to, from);
-					bot.say(command.channel, "Translation: " + latinize(data));
-				}
-				else {
-					console.log(data, to, from);
-					bot.say(command.channel, "Translation: " + latinize(data));
-				}
-			}
-			else {
-				logger.error(err);
-				bot.say(command.channel, "ERROR: Please use a supported language code.");
-			}
-		});
-	});
-}
 
 function detectRomaji(string, to, command) {
 	if (string.charAt(string.length - 1) == "~") {
@@ -169,7 +148,7 @@ function timeToBonk(command)
 
 }
 
-function userTweet(command, userString, authText) {
+function userTweet(command, userString, authText, replaceName) {
 	if (_.isEmpty(userString)) {
 		bot.say(command.channel, "No user provided. Come on man, you're better than this.");
 	}
@@ -195,33 +174,24 @@ function userTweet(command, userString, authText) {
 							default:
 								bot.say(command.channel, "You gotta give me something to look up, brah.");
 						}
-					}
-					else {
-						try {
-							var tweetRandomInt = getRandomInt(0, data.length - 1);
-							}
-						catch (err) {
-							logger.error(err);
-							return;
-						}
-						var arrTweet = data[tweetRandomInt].text.replace( /\n/g, "`" ).split( "`" );
-						//console.log(arrTweet);
-						console.log(authText);
 						if (authText == true) {
-							bot.say(command.channel, data[tweetRandomInt].user.screen_name + ": " + arrTweet);
+								bot.say(command.channel, data[tweetRandomInt].user.screen_name + ": " + arrTweet);
 						}
-						else if (authText == false) {
-							bot.say(command.channel, arrTweet);
+						else if(authText == false) {
+							if (replaceName == true) {
+								var person = command.args.join(" ");
+								if (_.isEmpty(person)) {
+									person = 'Florida Man';
+								}
+								bot.say(command.channel, '>' + arrTweet.join(" ").replace(/Florida Man/gi, person));
+							}
+							else {
+								bot.say(command.channel, arrTweet);
+							}
 						}
 					}
+					bot.say(command.channel,"ERROR: you chose an account with no tweets. Try again, doucher.");
 				}
-				else {
-					bot.say(command.channel, "ERROR: you chose an account with no tweets. Try again, doucher.");
-				}
-			}
-			else {
-				bot.say(command.channel, "ERROR: try again, you fucked this up somehow.");
-				console.log(err);
 			}
 		});
 	}
@@ -370,7 +340,7 @@ function randStatus (statusType) {
 	return status;
 }
 
-// Start bot //
+// Start bot
 
 var bot = irc.Client(network, {Logger: ircLogger});
 
@@ -379,7 +349,7 @@ bot.connect();
 var kind = "";
 
 var tsdtvCheck = (function () {
-	// periodically checks for updates in the page the TSDTV stream page pulls from and displays them
+	// periodically checks for updates in the page that the TSDTV stream page pulls from and displays them
 	
 	var timer;
 	var series = "";
@@ -387,9 +357,9 @@ var tsdtvCheck = (function () {
 	var episode = "";
 	var episodePrev = "";
 	
-	// use a closure to preserve information between calls without making global variables
+	// use a closure to preserve information between calls without using global variables
 	return {
-		count: function () {
+		proceed: function () {
 			request({
 				url: stream.url,
 				maxRedirects: 1,
@@ -426,22 +396,18 @@ var tsdtvCheck = (function () {
 							// output the final string-- if the series or episode is different from the last check
 							if (episode !== episodePrev || series !== seriesPrev) {
 								bot.say(stream.talkChannel, "Now playing: " + series + " - " + episode);
-								if (series !== seriesPrev) {
-									seriesPrev = series;
-								}
-								if (episode !== episodePrev) {
-									episodePrev = episode;
-								}
+								seriesPrev = series;
+								episodePrev = episode;
 							}
 						}
 					}
 				}
 			);
 			// call me back
-			timer = setTimeout(tsdtvCheck.count, stream.timer);
+			timer = setTimeout(tsdtvCheck.proceed, stream.timer);
 		},
 		stop: function () {
-			// clear the timeout for running tsdtvCheck.count again
+			// clear the timeout for running tsdtvCheck.proceed again
 			clearTimeout(timer);
 		}
 	};
@@ -514,7 +480,7 @@ bot.on("!tsdtv", function (command) {
 	var cmd = command.args.join("");
 	
 	if (cmd == "start") {
-		tsdtvCheck.count();
+		tsdtvCheck.proceed();
 	}
 	else if (cmd == "stop") {
 		tsdtvCheck.stop();

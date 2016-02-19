@@ -1,7 +1,7 @@
 {
 	"server": "irc.adelais.net",
 	"nickname": "StronkBot",
-	"username": "Bonk_Bot",
+	"username": "StronkBot",
 	"realname": "Bonkles",
 	"command-trigger": "!",
 	"channels": ["#moap", "#programming"],

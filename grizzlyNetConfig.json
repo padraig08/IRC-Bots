@@ -1,0 +1,9 @@
+{
+  "server":"grizzly.bearcopter.com",
+  "nickname":"StronkBot",
+  "username":"StronkBot",
+  "realname":"Bonkles",
+  "command-trigger":"!",
+  "channels":["#destiny"],
+  "plugins": ["howtobonk", "clonk"]
+}

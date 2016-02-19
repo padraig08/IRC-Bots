@@ -1,7 +1,7 @@
 {
 	"server": "irc.teamschoolyd.org",
 	"nickname": "StronkBot",
-	"username": "Bonk_Bot",
+	"username": "StronkBot",
 	"realname": "Bonkles",
 	"command-trigger": "!",
 	"channels": ["#bots", "#destiny", "#tsdtv"],
