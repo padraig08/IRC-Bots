@@ -378,17 +378,8 @@ bot.connect();
 
 var kind = "";
 
-bot.on("join", function(message) {
-	if (message.nickname == "StronkBot") {
-		//bot.say(message.channel, "StronkBot status: ON. Use !howtobonk for instructions on interacting with StronkBot.");
-	}
-	else {
-		//checkOP(message.nickname);
-	}
-});
-
 var tsdtvCheck = (function () {
-	//  periodically checks for updates in the page the TSDTV stream pulls from and displays them
+	// periodically checks for updates in the page the TSDTV stream page pulls from and displays them
 	
 	var timer;
 	var series = "";
@@ -455,6 +446,15 @@ var tsdtvCheck = (function () {
 		}
 	};
 } )();
+
+bot.on("join", function(message) {
+	if (message.nickname == "StronkBot") {
+		//bot.say(message.channel, "StronkBot status: ON. Use !howtobonk for instructions on interacting with StronkBot.");
+	}
+	else {
+		//checkOP(message.nickname);
+	}
+});
 
 /*bot.on("quit", function(message) {
 	//console.log(util.inspect(message));
@@ -549,7 +549,7 @@ bot.on("!calc", function (command) {
 	var current = 0;
 	// last operator detected, used in each calculation
 	var lastOp = "";
-	// was there just an operator? used to detect incalculable sequences and make parentheses work right
+	// tells if there an operator just now, used to detect incalculable sequences and make parentheses work right
 	var recentOp = false;
 	// distance past the decimal point, used in building numbers like 1.23
 	var pastDecimal = 0;
@@ -557,7 +557,7 @@ bot.on("!calc", function (command) {
 	var subResult = [];
 	// array used as a stack to hold the operation before a left parenthesis
 	var oldOps = [];
-	// used to keep track of how many parentheses there are
+	// used to keep track of how many left and right parentheses there are
 	var parenthCount = {left: 0, right: 0};
 	
 	// loop through the characters entered after the command and respond to each one
@@ -602,8 +602,8 @@ bot.on("!calc", function (command) {
 					calcErr = "Consecutive operators";
 				}
 				else if (recentOp && lastOp == ")") {
-					// replace ")" operator with the new one and don't calculate
-					// stuff inside and before the parentheses was already calculated
+					// replace ")" operator with the new one and don't calculate,
+					// because stuff inside and before the parentheses was already calculated
 					lastOp = curChar;
 				}
 				else {
@@ -782,7 +782,7 @@ bot.on("!mad", function (command) {
 	bot.say(command.channel, status);
 });
 
-bot.on("!dmx", function(command) {
+bot.on("!dmx", function (command) {
 	var status = randStatus(dmx);
 	
 	bot.say(command.channel, status);
