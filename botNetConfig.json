@@ -1,9 +1,0 @@
-{
-  "server":"grizzly.bearcopter.com",
-  "nickname":"Bonk-Bot-Test",
-  "username":"Bonk-Bot",
-  "realname":"Bonky",
-  "command-trigger":"#",
-  "channels":["#bonkbot"],
-  "plugins": ["howtobonk", "clonk"]
-}

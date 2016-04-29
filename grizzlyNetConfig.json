@@ -1,9 +1,9 @@
 {
   "server":"grizzly.bearcopter.com",
-  "nickname":"Bonk-Bot",
-  "username":"Bonk-Bot",
-  "realname":"Bonky",
-  "command-trigger":"#",
-  "channels":["#chat","#halo","#destiny","#starwars"],
+  "nickname":"StronkBot",
+  "username":"StronkBot",
+  "realname":"Bonkles",
+  "command-trigger":"!",
+  "channels":["#destiny"],
   "plugins": ["howtobonk", "clonk"]
 }

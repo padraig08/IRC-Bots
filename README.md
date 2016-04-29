@@ -1,4 +1,4 @@
 IRC-Bots
 ========
 
-IRC Bots in Node.js using the IRC Framework
+IRC Bot(s) in Node.js using the IRC Framework
